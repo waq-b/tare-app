@@ -37,6 +37,7 @@ exports[`generate > CSS matches snapshot 1`] = `
   --series-2: #D95926;
   --series-3: #199E70;
   --muscle-idle: #2A2D39;
+  --miniquest-tag: #8A7FB0;
   --scrim: rgba(4, 5, 8, 0.66);
   --shadow: rgba(0, 0, 0, 0.5);
   --accent-tint: color-mix(in srgb, var(--accent) 12%, transparent);
@@ -104,6 +105,7 @@ exports[`generate > CSS matches snapshot 1`] = `
   --series-2: #EB6834;
   --series-3: #1BAF7A;
   --muscle-idle: #DEDDD6;
+  --miniquest-tag: #6C6389;
   --scrim: rgba(20, 21, 27, 0.45);
   --shadow: rgba(20, 21, 27, 0.14);
   --accent-tint: color-mix(in srgb, var(--accent) 12%, transparent);
@@ -318,6 +320,7 @@ export declare const tokens: {
       readonly 'series-2': "#D95926",
       readonly 'series-3': "#199E70",
       readonly 'muscle-idle': "#2A2D39",
+      readonly 'miniquest-tag': "#8A7FB0",
       readonly 'scrim': "rgba(4, 5, 8, 0.66)",
       readonly 'shadow': "rgba(0, 0, 0, 0.5)"
     },
@@ -352,6 +355,7 @@ export declare const tokens: {
       readonly 'series-2': "#EB6834",
       readonly 'series-3': "#1BAF7A",
       readonly 'muscle-idle': "#DEDDD6",
+      readonly 'miniquest-tag': "#6C6389",
       readonly 'scrim': "rgba(20, 21, 27, 0.45)",
       readonly 'shadow': "rgba(20, 21, 27, 0.14)"
     }
@@ -567,7 +571,7 @@ export declare const tokens: {
 export type ThemeName = 'dark' | 'light';
 export declare const themes: readonly ThemeName[];
 export declare const defaultTheme: 'dark';
-export type ColorName = 'bg' | 'surface-1' | 'surface-2' | 'surface-3' | 'line' | 'line-strong' | 'text' | 'text-2' | 'text-3' | 'accent' | 'on-accent' | 'progress' | 'hold' | 'deload' | 'swap' | 'warning' | 'safety-stop' | 'accent-on-tint' | 'progress-on-tint' | 'hold-on-tint' | 'deload-on-tint' | 'swap-on-tint' | 'warning-on-tint' | 'safety-stop-on-tint' | 'safety-stop-solid' | 'on-safety-stop-solid' | 'series-1' | 'series-2' | 'series-3' | 'muscle-idle' | 'scrim' | 'shadow';
+export type ColorName = 'bg' | 'surface-1' | 'surface-2' | 'surface-3' | 'line' | 'line-strong' | 'text' | 'text-2' | 'text-3' | 'accent' | 'on-accent' | 'progress' | 'hold' | 'deload' | 'swap' | 'warning' | 'safety-stop' | 'accent-on-tint' | 'progress-on-tint' | 'hold-on-tint' | 'deload-on-tint' | 'swap-on-tint' | 'warning-on-tint' | 'safety-stop-on-tint' | 'safety-stop-solid' | 'on-safety-stop-solid' | 'series-1' | 'series-2' | 'series-3' | 'muscle-idle' | 'miniquest-tag' | 'scrim' | 'shadow';
 export type SemanticColor = 'progress' | 'hold' | 'deload' | 'swap' | 'warning' | 'safety-stop';
 export type SafetyAction = 'stop_now_call_999' | 'stop_and_contact_111' | 'stop_and_see_gp' | 'reduce_or_rest' | 'modify_exercise' | 'continue_with_caution';
 export type SafetyEmphasis = 'solid' | 'fill' | 'accent';
@@ -606,6 +610,7 @@ export type CssVarName =
   | 'series-2'
   | 'series-3'
   | 'muscle-idle'
+  | 'miniquest-tag'
   | 'scrim'
   | 'shadow'
   | 'accent-tint'

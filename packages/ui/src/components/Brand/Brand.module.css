@@ -1,0 +1,30 @@
+.pip {
+  display: block;
+  fill: var(--brand-miniquest-pip);
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-pixel);
+  font-size: var(--type-label-size);
+  color: var(--miniquest-tag);
+}
+.wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.16em;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: var(--text);
+}
+.badge {
+  font-size: 0.25em;
+  letter-spacing: 0;
+  padding: 0.25em 0.5em;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: var(--on-accent);
+}

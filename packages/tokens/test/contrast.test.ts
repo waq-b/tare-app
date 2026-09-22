@@ -47,6 +47,10 @@ describe.each(['dark', 'light'] as const)('%s', (theme) => {
 
   it('on-accent is readable on accent', () => check(theme, 'on-accent', 'accent', TEXT));
 
+  it('the miniquest tag is readable on the page and cards', () => {
+    for (const bg of ['bg', 'surface-1']) check(theme, 'miniquest-tag', bg, TEXT);
+  });
+
   it('white is readable on the 999 screen', () =>
     check(theme, 'on-safety-stop-solid', 'safety-stop-solid', TEXT));
 
