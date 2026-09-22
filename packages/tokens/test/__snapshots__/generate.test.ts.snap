@@ -78,7 +78,7 @@ exports[`generate > CSS matches snapshot 1`] = `
   --text-3: #63656F;
   --accent: #46650F;
   --on-accent: #FFFFFF;
-  --progress: #1D7F4A;
+  --progress: #1C7A47;
   --hold: #4E5F78;
   --deload: #6247C2;
   --swap: #0F6F8C;
@@ -312,7 +312,7 @@ export declare const tokens: {
       readonly 'text-3': "#63656F",
       readonly 'accent': "#46650F",
       readonly 'on-accent': "#FFFFFF",
-      readonly 'progress': "#1D7F4A",
+      readonly 'progress': "#1C7A47",
       readonly 'hold': "#4E5F78",
       readonly 'deload': "#6247C2",
       readonly 'swap': "#0F6F8C",

@@ -12,6 +12,12 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 - GitHub Actions CI: install → lint → typecheck → test
 - Housekeeping: project README replaces the stale dataset copy; app changelog moved here; `docs/plans/` created
 
+### Contrast decisions (2026-09-22, #18)
+
+- Light `progress` darkened from `#1D7F4A` to `#1C7A47` (4.47 → 4.77:1 on `bg`, 5.35:1 on `surface-1`). The Tokens-board test records it as a deliberate deviation
+- New contrast test: each semantic colour as text on its own tint, over `bg` and `surface-1`. Dark passes everywhere. Four light colours fail over `bg` (pass on cards), so they're listed as exceptions and opened as decision #24
+- DESIGN.md contrast table now records the decision for every exception
+
 ### vpt v0.1.2 upgrade routine (2026-09-22, #19)
 
 - Read the v0.1.2 changelog and data-issues status lines; the data wins where it differs

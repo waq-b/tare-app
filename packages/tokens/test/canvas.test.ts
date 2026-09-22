@@ -4,6 +4,15 @@ import { boardText, loadSource } from './helpers.ts';
 
 const src = loadSource();
 
+/** Deliberate departures from the board, `${theme}:${name}` → our value. Recorded in DESIGN.md. */
+const DEVIATIONS: Record<string, { board: string; ours: string; why: string }> = {
+  'light:progress': {
+    board: '#1D7F4A',
+    ours: '#1C7A47',
+    why: 'Canvas value is 4.47:1 on bg; darkened to pass 4.5:1 (#18)',
+  },
+};
+
 function swatches(text: string): Map<string, string> {
   const found = new Map<string, string>();
   for (const m of text.matchAll(/--([a-z0-9-]+) (?:\||·) (#[0-9A-Fa-f]{6})/g)) {
@@ -28,7 +37,14 @@ describe.each(['Tokens.dc.html', 'Charts.dc.html'])('%s', (board) => {
     const found = themes[theme];
     expect(found.size).toBeGreaterThanOrEqual(3);
     for (const [name, hex] of found) {
-      expect(src.color[theme][name]?.$value, `${theme} --${name}`).toBe(hex);
+      const deviation = DEVIATIONS[`${theme}:${name}`];
+      if (deviation) {
+        // The board still shows the original; ours is the recorded deviation.
+        expect(hex, `${theme} --${name} on the board`).toBe(deviation.board);
+        expect(src.color[theme][name]?.$value, `${theme} --${name}`).toBe(deviation.ours);
+      } else {
+        expect(src.color[theme][name]?.$value, `${theme} --${name}`).toBe(hex);
+      }
     }
   });
 });

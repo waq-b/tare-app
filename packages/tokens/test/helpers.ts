@@ -33,3 +33,16 @@ export function contrast(a: string, b: string): number {
   const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x) as [number, number];
   return (hi + 0.05) / (lo + 0.05);
 }
+
+/** `fg` at `alpha` over an opaque `bg`, as #RRGGBB (what color-mix(in srgb, fg a%, transparent) looks like on bg). */
+export function mix(fg: string, bg: string, alpha: number): string {
+  const ch = (hex: string, i: number) => parseInt(hex.slice(i, i + 2), 16);
+  return (
+    '#' +
+    [1, 3, 5]
+      .map((i) => Math.round(ch(fg, i) * alpha + ch(bg, i) * (1 - alpha)))
+      .map((n) => n.toString(16).padStart(2, '0'))
+      .join('')
+      .toUpperCase()
+  );
+}
