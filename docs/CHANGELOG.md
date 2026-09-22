@@ -12,6 +12,16 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 - GitHub Actions CI: install → lint → typecheck → test
 - Housekeeping: project README replaces the stale dataset copy; app changelog moved here; `docs/plans/` created
 
+### vpt v0.1.2 upgrade routine (2026-09-22, #19)
+
+- Read the v0.1.2 changelog and data-issues status lines; the data wins where it differs
+- `docs/DESIGN.md` updated to v0.1.2:
+  - Safety-Modify's level is now right (`pain_during_exercise` → `modify_exercise`, with its escalation ladder); the wording is still the rule's `user_message`
+  - data sources filled in for effort maps, warm-ups, e1RM (≤10 reps), swap start loads (70 kg bench → 24–25 kg DBs per hand), muscle groups (max, not sum), body areas, screening `result_messages` and `cleared_by_gp`, `services`, `display_name ?? name`, "per side" loads, push/pull as a nudge
+- Tests pass on v0.1.2 unchanged. Re-running `extract.ts` gives identical enums (all v0.1.2 changes are additive)
+- No loader yet, so there's no `MIN_VPT_VERSION` or `FALLBACK` markers to switch. The zod loader (`packages/data`) is proposed as the first D1 task
+- Still open: food targets (#20, P4)
+
 ### Task tracking (2026-09-22)
 
 - GitHub labels, milestones (S0–P4) and the "Tare" Project board, via `scripts/setup-github.sh`
