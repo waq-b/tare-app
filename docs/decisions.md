@@ -2,13 +2,17 @@
 
 Decisions Waqar has made. Newest first. When a `decision` issue is answered, add it here and close the issue. Each line gives the decision and why, briefly.
 
+## 2026-09-22 — D0 signed off
+
+- **D0 signed off** (#17): tokens, icons, DESIGN.md and gallery accepted. Before D1: run the vpt v0.1.2 upgrade routine (#19) and apply the contrast decisions (#18)
+
 ## 2026-09-22 — answers to the D0 outstanding questions
 
 Made in the planning chat, outside Claude Code. The numbers match Claude Code's question list at the end of D0.
 
-**Still open**
+**Still open** (at the time)
 
-- **D0 sign-off:** Waqar is reviewing the tokens, icons, DESIGN.md and gallery. Don't start D1 until he signs off
+- **D0 sign-off:** answered above (#17)
 
 **Onboarding and safety (P0; design fixes land in D1)**
 
