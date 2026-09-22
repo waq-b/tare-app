@@ -1,0 +1,16 @@
+{
+  "name": "@tare/data",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "The only loader for vpt/ data: zod-validated, version-checked, typed accessors.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "zod": "^4.6.5"
+  }
+}

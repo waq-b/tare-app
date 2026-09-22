@@ -12,6 +12,10 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 - GitHub Actions CI: install → lint → typecheck → test
 - Housekeeping: project README replaces the stale dataset copy; app changelog moved here; `docs/plans/` created
 
+### D1 — Storybook design library (in progress)
+
+- **T1 `@tare/data` (#25):** the only loader for `vpt/`. zod schemas for all six files, loose (unknown fields and enum values pass; missing fields fail), and `MIN_VPT_VERSION = 0.1.2`. A safety rule with `llm_can_override` not `false` refuses to load. A rule index resolves every ID in `rule_ids.json` to one shape for the "why" UI (label, evidence, sources); stall steps and screening questions inherit their parent's sources, and `tr.conflict.*` honestly has none. Accessors: `exercise`, `displayName` (fallback marked), `rule`, `safetyRule(s)`, `screening`, `services`, `source`, `goal` (inheritance and overrides resolved), `muscleGroupOf`, `exercisesLoading`
+
 ### Chip text on tints (2026-09-22, #24)
 
 - New tokens `--<c>-on-tint` for every tint colour (accent, progress, hold, deload, swap, warning, safety-stop), in both themes. Light progress, swap, warning and safety-stop are darker (same hue); the rest equal their base colour. Fills unchanged
