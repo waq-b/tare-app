@@ -1,11 +1,12 @@
 {
- "version": "0.1.1",
+ "version": "0.1.2",
  "notes": [
   "id_scheme: every rule has a permanent `id`. IDs never change or get reused between versions; a retired rule keeps its id with `retired: true`. Prefixes: tr.* = training_rules, pr.* = progression_rules, sf.* = screening (questions cited as sf.screening.<question id>); safety red-flag rules keep their bare snake_case ids from v0.1.0. AI suggestions must cite ids, e.g. 'pr.stall.step2'.",
   "ACSM 2026 (overview of 137 reviews) supersedes ACSM 2009. Its big shift: hypertrophy is load-agnostic from ~30-100% 1RM when sets are taken close to failure; rest and periodisation matter less than once thought.",
   "Rep ranges below are DEFAULTS for plan generation, not hard rules. The validator should allow anything inside `allowed_*` ranges.",
   "Fields marked engine_default:true are our synthesis where sources give no exact figure.",
-  "Weekly set counts use fractional counting: direct sets = 1.0, sets where the muscle is secondary = 0.5 (Pelland 2026)."
+  "Weekly set counts use fractional counting: direct sets = 1.0, sets where the muscle is secondary = 0.5 (Pelland 2026).",
+  "v0.1.2: stabilisers (exercises.json) are never counted in weekly volume; only primary (1.0) and secondary (0.5) are."
  ],
  "global": [
   {
@@ -109,6 +110,324 @@
     }
    ],
    "evidence_strength": "moderate",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "tr.global.effort_set_map",
+   "rule": "effort_set_map",
+   "value": {
+    "easy": {
+     "rpe": [
+      1,
+      6
+     ],
+     "rir": "4+"
+    },
+    "ok": {
+     "rpe": [
+      7,
+      8
+     ],
+     "rir": "2-3"
+    },
+    "hard": {
+     "rpe": [
+      9,
+      10
+     ],
+     "rir": "0-1"
+    }
+   },
+   "detail": "Sets are logged Easy / OK / Hard. Each maps to an RPE/RIR band on the Helms scale. Progression uses them like this: 'at or below target RPE' = Easy or OK; 'above target' = Hard (except the last set of an isolation exercise, where RPE 9-10 is the target); 'RPE >= 1 below target' (pr.rpe_autoregulation) = Easy. Novices misjudge RIR, so rep/load progression stays primary.",
+   "used_by": [
+    "pr.double_progression",
+    "pr.rpe_autoregulation",
+    "pr.two_for_two",
+    "tr.global.rpe_rir_map"
+   ],
+   "engine_default": true,
+   "sources": [
+    {
+     "title": "Application of the Repetitions in Reserve-Based Rating of Perceived Exertion Scale for Resistance Training",
+     "org": "Helms et al., Strength & Conditioning Journal",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4961270/",
+     "year": 2016
+    }
+   ],
+   "evidence_strength": "weak",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "tr.global.effort_session_map",
+   "rule": "effort_session_map",
+   "value": {
+    "easy": {
+     "srpe_cr10": [
+      1,
+      3
+     ]
+    },
+    "good": {
+     "srpe_cr10": [
+      4,
+      6
+     ]
+    },
+    "tough": {
+     "srpe_cr10": [
+      7,
+      8
+     ]
+    },
+    "wrecked": {
+     "srpe_cr10": [
+      9,
+      10
+     ]
+    }
+   },
+   "definitions": {
+    "hard_session": [
+     "tough",
+     "wrecked"
+    ],
+    "very_hard_session": [
+     "wrecked"
+    ]
+   },
+   "detail": "Session feel Easy / Good / Tough / Wrecked maps to the session-RPE (CR-10) scale, asked ~30 min after the session. A 'hard session' anywhere in these rules means Tough or Wrecked.",
+   "used_by": [
+    "pr.volume_progression",
+    "pr.deload"
+   ],
+   "engine_default": true,
+   "sources": [
+    {
+     "title": "A new approach to monitoring exercise training",
+     "org": "Foster et al., J Strength Cond Res",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/11708692/",
+     "year": 2001
+    },
+    {
+     "title": "Monitoring exercise intensity during resistance training using the session RPE scale",
+     "org": "Day, McGuigan, Brice, Foster, J Strength Cond Res",
+     "url": "http://formacion.ferugby.es/wp-content/uploads/2019/04/Monitoring-Exercise-Intensity-During-Resistance-Training_RPE.pdf",
+     "year": 2004
+    },
+    {
+     "title": "Session-RPE Method for Training Load Monitoring: Validity, Ecological Usefulness, and Influencing Factors",
+     "org": "Haddad et al., Frontiers in Neuroscience",
+     "url": "https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2017.00612/full",
+     "year": 2017
+    }
+   ],
+   "evidence_strength": "moderate",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "tr.global.warm_up",
+   "rule": "warm_up",
+   "value": {
+    "applies_to": "first exercise for each movement pattern in a session, when it's a compound lift with external load",
+    "ramp": [
+     {
+      "pct_working_load": 50,
+      "reps": 5
+     },
+     {
+      "pct_working_load": 75,
+      "reps": 3
+     },
+     {
+      "pct_working_load": 90,
+      "reps": 1,
+      "only_if": "working reps <= 6"
+     }
+    ],
+    "optional_first": {
+     "load": "empty bar or lightest option",
+     "reps": 10
+    },
+    "later_exercises": {
+     "pct_working_load": 50,
+     "reps": 8,
+     "sets": 1,
+     "optional": true
+    },
+    "rounding": "round down to the nearest available increment; skip a step if it rounds to the same load as the previous one",
+    "counts_for_progression": false,
+    "counts_for_volume": false
+   },
+   "detail": "Evidence says a specific warm-up with a heavier set (~80% of working load) beats light sets alone, but there's little agreement on the best ladder. The ramp here is our convention. Warm-up sets are never used for progression, e1RM or weekly volume.",
+   "engine_default": true,
+   "sources": [
+    {
+     "title": "The Role of Specific Warm-up during Bench Press and Squat Exercises: A Novel Approach",
+     "org": "Ribeiro, Neiva et al., Int J Environ Res Public Health",
+     "url": "https://www.mdpi.com/1660-4601/17/18/6882",
+     "year": 2020
+    },
+    {
+     "title": "Effect of different warm-up procedures on the performance of resistance training exercises",
+     "org": "Ribeiro, Romanzini, Schoenfeld et al., Perceptual and Motor Skills",
+     "url": "https://journals.sagepub.com/doi/10.2466/25.29.PMS.119c17z7",
+     "year": 2014
+    }
+   ],
+   "evidence_strength": "weak",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "tr.global.e1rm",
+   "rule": "e1rm",
+   "value": {
+    "formula": "epley",
+    "expression": "load * (1 + reps / 30)",
+    "max_reps": 10,
+    "only_sets": "working sets (not warm-ups), reps >= 1; reps == 1 returns the load",
+    "label": "estimated"
+   },
+   "detail": "Epley formula. Accuracy drops above ~10 reps (Reynolds 2006: use no more than 10 reps); the app asked for <=12, but the data caps it at 10. Prediction equations tend to underestimate squat and deadlift. Always shown as 'estimated'.",
+   "engine_default": true,
+   "sources": [
+    {
+     "title": "Poundage Chart. In: Boyd Epley Workout",
+     "org": "Epley B., Body Enterprises",
+     "url": "https://en.wikipedia.org/wiki/One-repetition_maximum",
+     "year": 1985
+    },
+    {
+     "title": "Prediction of one repetition maximum strength from multiple repetition maximum testing and anthropometry",
+     "org": "Reynolds, Gordon, Robergs, J Strength Cond Res",
+     "url": "https://www.unm.edu/~rrobergs/478RMStrengthPrediction.pdf",
+     "year": 2006
+    },
+    {
+     "title": "The accuracy of prediction equations for estimating 1-RM performance in the bench press, squat, and deadlift",
+     "org": "LeSuer et al., J Strength Cond Res",
+     "url": "https://journals.lww.com/nsca-jscr/abstract/1997/11000/the_accuracy_of_prediction_equations_for.1.aspx",
+     "year": 1997
+    }
+   ],
+   "evidence_strength": "moderate",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "tr.global.swap_starting_load",
+   "rule": "swap_starting_load",
+   "value": {
+    "method": "Convert via the old exercise's recent working load (or e1RM), apply the ratio, then the safety margin, then round DOWN.",
+    "safety_margin": 0.9,
+    "ratios": [
+     {
+      "from": "barbell",
+      "to": "dumbbell",
+      "ratio_per_hand": 0.41,
+      "patterns": [
+       "push_h",
+       "push_v"
+      ],
+      "basis": "DB 1RM (both hands) ~17% below barbell bench"
+     },
+     {
+      "from": "dumbbell",
+      "to": "barbell",
+      "ratio_from_per_hand": 2.0,
+      "note": "sum of both dumbbells; no uplift taken"
+     },
+     {
+      "from": "barbell",
+      "to": "smith_machine",
+      "ratio": 0.9,
+      "patterns": [
+       "push_h"
+      ],
+      "basis": "Smith bench 3-14% below free bench"
+     },
+     {
+      "from": "barbell",
+      "to": "smith_machine",
+      "ratio": 0.95,
+      "patterns": [
+       "squat"
+      ],
+      "basis": "Smith squat ~4% above free squat; kept conservative"
+     },
+     {
+      "from": "bilateral",
+      "to": "unilateral",
+      "ratio_per_side": 0.4
+     }
+    ],
+    "no_reliable_ratio": [
+     "machine <-> free weight (except Smith)",
+     "cable <-> anything",
+     "bodyweight <-> loaded",
+     "different movement pattern"
+    ],
+    "calibrate_instead": "Where no ratio applies: suggest a light first set (target RPE <= 6 / effort Easy), then adjust by one increment per set.",
+    "first_session_target": "effort OK or Easy on all sets (RPE <= 7)"
+   },
+   "detail": "Example: 70 kg barbell bench -> 70 x 0.41 x 0.9 = 25.8 -> 24 or 25 kg dumbbells per hand (round down to what the gym has). Ratios come from single studies; the margin and rounding keep it conservative.",
+   "engine_default": true,
+   "sources": [
+    {
+     "title": "A comparison of muscle activity and 1-RM strength of three chest-press exercises with different stability requirements",
+     "org": "Saeterbakken, van den Tillaar, Fimland, J Sports Sci",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/21225489/",
+     "year": 2011
+    },
+    {
+     "title": "Comparison of muscle force production using the Smith machine and free weights for bench press and squat exercises",
+     "org": "Cotterman, Darby, Skelly, J Strength Cond Res",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/15705030/",
+     "year": 2005
+    }
+   ],
+   "evidence_strength": "weak",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "tr.global.muscle_group_rollup",
+   "rule": "muscle_group_rollup",
+   "value": {
+    "map": "exercises.json -> muscle_groups",
+    "per_set_credit": "a set credits a group with the MAX of its member muscles' credit (1.0 primary / 0.5 secondary), not the sum",
+    "targets": "volume targets stay per muscle (tr.goal.* weekly_sets_per_muscle). Rolled-up numbers are for display only and are never compared to a target. If a group target is shown, use the member muscle with the lowest progress against its own target."
+   },
+   "detail": "Stops a lat pulldown counting 1.5 sets of 'Back' because lats (1.0) and middle back (0.5) are both in the group. Stabilisers never count.",
+   "engine_default": true,
+   "sources": [
+    {
+     "title": "The Resistance Training Dose Response: Meta-Regressions Exploring the Effects of Weekly Volume and Frequency on Muscle Hypertrophy and Strength Gains",
+     "org": "Pelland, Remmert, Robinson, Hinson, Zourdos, Sports Medicine",
+     "url": "https://link.springer.com/article/10.1007/s40279-025-02344-w",
+     "year": 2026
+    }
+   ],
+   "evidence_strength": "weak",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "tr.global.push_pull_balance",
+   "rule": "push_pull_balance",
+   "value": {
+    "kind": "nudge",
+    "hard_rule": false,
+    "check": "weekly working sets of pull_h + pull_v < weekly sets of push_h + push_v",
+    "suggestion": "Consider adding a row, face pull or rear-delt fly."
+   },
+   "detail": "No position stand gives a push:pull ratio; 1:1 or 2:1 is coaching convention. One cross-sectional study found fewer shoulder impingement signs in recreational lifters who trained external rotators. Show as a gentle suggestion, never as a target or warning.",
+   "engine_default": true,
+   "sources": [
+    {
+     "title": "Characteristics of shoulder impingement in the recreational weight-training population",
+     "org": "Kolber et al., J Strength Cond Res",
+     "url": "https://elementssystem.com/wp-content/uploads/2018/06/Kolber.pdf",
+     "year": 2014
+    }
+   ],
+   "evidence_strength": "weak",
    "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
   }
  ],

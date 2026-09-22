@@ -1,10 +1,11 @@
 {
- "version": "0.1.1",
+ "version": "0.1.2",
  "notes": [
   "id_scheme: every rule has a permanent `id`. IDs never change or get reused between versions; a retired rule keeps its id with `retired: true`. Prefixes: tr.* = training_rules, pr.* = progression_rules, sf.* = screening (questions cited as sf.screening.<question id>); safety red-flag rules keep their bare snake_case ids from v0.1.0. AI suggestions must cite ids, e.g. 'pr.stall.step2'.",
   "Actions (most to least urgent): stop_now_call_999 | stop_and_contact_111 | stop_and_see_gp | reduce_or_rest | modify_exercise | continue_with_caution.",
   "These rules run in code BEFORE and AFTER the LLM. The LLM can never downgrade an action.",
-  "Messages are ours (UK English, calm). Not medical advice; the app should say so once in onboarding."
+  "Messages are ours (UK English, calm). Not medical advice; the app should say so once in onboarding.",
+  "v0.1.2: `services` holds UK contacts; each rule lists the services to offer (by key). The app owns the label per action; user_message is the body, verbatim."
  ],
  "rules": [
   {
@@ -28,7 +29,10 @@
    ],
    "evidence_strength": "strong",
    "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
-   "llm_can_override": false
+   "llm_can_override": false,
+   "services": [
+    "emergency_999"
+   ]
   },
   {
    "id": "angina_not_easing",
@@ -45,7 +49,10 @@
    ],
    "evidence_strength": "strong",
    "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
-   "llm_can_override": false
+   "llm_can_override": false,
+   "services": [
+    "emergency_999"
+   ]
   },
   {
    "id": "symptoms_during_exercise",
@@ -65,7 +72,11 @@
    "llm_can_override": false,
    "escalate_to": "stop_now_call_999",
    "escalate_if": "not settling quickly, or any chest_pain_emergency feature present",
-   "gap": "No source gives a minute threshold; escalate on any doubt."
+   "gap": "No source gives a minute threshold; escalate on any doubt.",
+   "services": [
+    "gp_finder",
+    "nhs_111"
+   ]
   },
   {
    "id": "chest_pain_intermittent",
@@ -83,7 +94,11 @@
    "evidence_strength": "strong",
    "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
    "llm_can_override": false,
-   "block_intensity_above_rpe": 6
+   "block_intensity_above_rpe": 6,
+   "services": [
+    "gp_finder",
+    "nhs_111"
+   ]
   },
   {
    "id": "angina_worsening",
@@ -100,7 +115,11 @@
    ],
    "evidence_strength": "strong",
    "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
-   "llm_can_override": false
+   "llm_can_override": false,
+   "services": [
+    "nhs_111",
+    "emergency_999"
+   ]
   },
   {
    "id": "unsure_if_emergency",
@@ -117,7 +136,11 @@
    ],
    "evidence_strength": "strong",
    "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
-   "llm_can_override": false
+   "llm_can_override": false,
+   "services": [
+    "nhs_111",
+    "emergency_999"
+   ]
   },
   {
    "id": "injury_severe",
@@ -134,7 +157,10 @@
    ],
    "evidence_strength": "strong",
    "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
-   "llm_can_override": false
+   "llm_can_override": false,
+   "services": [
+    "emergency_999"
+   ]
   },
   {
    "id": "injury_cant_bear_weight",
@@ -151,7 +177,11 @@
    ],
    "evidence_strength": "strong",
    "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
-   "llm_can_override": false
+   "llm_can_override": false,
+   "services": [
+    "nhs_111",
+    "emergency_999"
+   ]
   },
   {
    "id": "suspected_sprain_strain",
@@ -175,7 +205,10 @@
    ],
    "avoid_strenuous_weeks_max": 8,
    "typical_recovery_weeks": 2,
-   "engine_action": "Exclude exercises loading the flagged body area; resume at 50% volume."
+   "engine_action": "Exclude exercises loading the flagged body area; resume at 50% volume.",
+   "services": [
+    "physio_self_referral"
+   ]
   },
   {
    "id": "calf_hot_swollen",
@@ -192,7 +225,10 @@
    ],
    "evidence_strength": "moderate",
    "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
-   "llm_can_override": false
+   "llm_can_override": false,
+   "services": [
+    "emergency_999"
+   ]
   },
   {
    "id": "pain_not_settling_6wk",
@@ -209,7 +245,65 @@
    ],
    "evidence_strength": "moderate",
    "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
-   "llm_can_override": false
+   "llm_can_override": false,
+   "services": [
+    "gp_finder",
+    "nhs_111",
+    "physio_self_referral"
+   ]
+  },
+  {
+   "id": "pain_during_exercise",
+   "red_flag": "Pain in a joint or area that comes on or gets worse during an exercise, feels sharp or catching, or goes above about 5 out of 10. No red-flag signs (see the 999/111 rules).",
+   "action": "modify_exercise",
+   "user_message": "Let's stop this exercise and leave that area alone for today. You can carry on with anything that feels comfortable. If it's still sore tomorrow, rest it. If it isn't getting better after a couple of weeks, or it's affecting everyday life, see your GP or a physio.",
+   "sources": [
+    {
+     "title": "Exercises for back pain",
+     "org": "NHS",
+     "url": "https://www.nhs.uk/live-well/exercise/exercises-for-back-pain/",
+     "year": 2026
+    },
+    {
+     "title": "Sprains and strains",
+     "org": "NHS",
+     "url": "https://www.nhs.uk/conditions/sprains-and-strains/",
+     "year": 2026
+    },
+    {
+     "title": "Continued sports activity, using a pain-monitoring model, during rehabilitation in patients with Achilles tendinopathy: a randomized controlled study",
+     "org": "Silbernagel, Thomee, Eriksson, Karlsson, Am J Sports Med",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/17307888/",
+     "year": 2007
+    }
+   ],
+   "evidence_strength": "moderate",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false,
+   "engine_action": "Stop the current exercise. Skip remaining exercises whose body_areas include the flagged area as primary (exercises.json -> body_area_map). Log a pain flag with area and side. Next session: exclude the same set; if the user reports it has settled, reintroduce at 50% of previous load.",
+   "escalate": [
+    {
+     "if": "can't bear weight, swelling getting worse, or signs of infection",
+     "to": "injury_cant_bear_weight"
+    },
+    {
+     "if": "crack sound, deformity, numbness or cold/blue skin",
+     "to": "injury_severe"
+    },
+    {
+     "if": "still painful the next day, or worse",
+     "to": "reduce_or_rest (area)"
+    },
+    {
+     "if": "not improving after ~2 weeks, or limits daily life",
+     "to": "pain_not_doms"
+    }
+   ],
+   "precedence": "Mid-session pain routes here first. Pain that persists after the session or lasts >7 days routes to pain_not_doms.",
+   "gap": "'Sharp' and the 5/10 threshold come from physiotherapy practice (pain-monitoring model, tendon RCT); NHS wording is 'stop if your pain gets worse'.",
+   "services": [
+    "physio_self_referral"
+   ]
   },
   {
    "id": "doms_normal",
@@ -227,7 +321,8 @@
    "evidence_strength": "moderate",
    "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
    "llm_can_override": false,
-   "engine_action": "Allow training; avoid hard sets on the sore muscle until soreness is mild."
+   "engine_action": "Allow training; avoid hard sets on the sore muscle until soreness is mild.",
+   "services": []
   },
   {
    "id": "pain_not_doms",
@@ -244,7 +339,12 @@
    ],
    "evidence_strength": "moderate",
    "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
-   "llm_can_override": false
+   "llm_can_override": false,
+   "services": [
+    "gp_finder",
+    "nhs_111",
+    "physio_self_referral"
+   ]
   },
   {
    "id": "dark_urine",
@@ -264,7 +364,11 @@
    "llm_can_override": false,
    "escalate_to": "stop_now_call_999",
    "escalate_if": "severe pain, weakness or very little urine",
-   "gap": "Escalation is our inference; no NHS page found."
+   "gap": "Escalation is our inference; no NHS page found.",
+   "services": [
+    "nhs_111",
+    "emergency_999"
+   ]
   },
   {
    "id": "illness_above_neck",
@@ -283,7 +387,8 @@
    "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
    "llm_can_override": false,
    "engine_action": "Cut volume and intensity by >=50%; low-impact only.",
-   "gap": "'Neck check' is a US rule of thumb, not NHS guidance; label as guidance."
+   "gap": "'Neck check' is a US rule of thumb, not NHS guidance; label as guidance.",
+   "services": []
   },
   {
    "id": "illness_below_neck",
@@ -302,7 +407,8 @@
    "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
    "llm_can_override": false,
    "engine_action": "No training until symptom-free; then 1 week at maintenance dose.",
-   "return_protocol": "tr.dose.maintenance_younger"
+   "return_protocol": "tr.dose.maintenance_younger",
+   "services": []
   },
   {
    "id": "missed_periods",
@@ -326,7 +432,11 @@
    "evidence_strength": "strong",
    "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
    "llm_can_override": false,
-   "engine_action": "Reduce volume 30-50% until reviewed."
+   "engine_action": "Reduce volume 30-50% until reviewed.",
+   "services": [
+    "gp_finder",
+    "nhs_111"
+   ]
   },
   {
    "id": "low_energy_availability",
@@ -344,7 +454,11 @@
    "evidence_strength": "moderate",
    "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
    "llm_can_override": false,
-   "engine_action": "Reduce volume; disable calorie-deficit suggestions; no 'push harder' messaging."
+   "engine_action": "Reduce volume; disable calorie-deficit suggestions; no 'push harder' messaging.",
+   "services": [
+    "gp_finder",
+    "nhs_111"
+   ]
   },
   {
    "id": "new_or_long_term_condition",
@@ -362,7 +476,8 @@
    "evidence_strength": "strong",
    "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
    "llm_can_override": false,
-   "engine_action": "Apply new_user_ramp."
+   "engine_action": "Apply new_user_ramp.",
+   "services": []
   },
   {
    "id": "frailty_falls",
@@ -380,7 +495,8 @@
    "evidence_strength": "strong",
    "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
    "llm_can_override": false,
-   "engine_action": "Don't generate a plan without supervision acknowledgement."
+   "engine_action": "Don't generate a plan without supervision acknowledgement.",
+   "services": []
   }
  ],
  "screening": {
@@ -433,25 +549,30 @@
    },
    "currently_active=no,known_disease=no": {
     "result": "start_light_to_moderate",
-    "max_rpe": 7
+    "max_rpe": 7,
+    "message": "Good to go. We'll start gently and build up over the first few weeks, which is the safest way to begin."
    },
    "currently_active=no,known_disease=yes": {
-    "result": "medical_clearance_first"
+    "result": "medical_clearance_first",
+    "message": "Because of your condition, please check with your GP before you start. Once they're happy, you can carry on setting up."
    },
    "currently_active=yes,known_disease=no": {
-    "result": "continue_progress_as_tolerated"
+    "result": "continue_progress_as_tolerated",
+    "message": "You're all set. We'll build from where you are now and progress as you're ready."
    },
    "currently_active=yes,known_disease=yes": {
     "result": "continue_moderate",
     "max_rpe": 7,
-    "note": "GP clearance before vigorous work."
+    "note": "GP clearance before vigorous work.",
+    "message": "Keep going at a moderate level. Before you move on to very hard sessions, have a quick chat with your GP."
    },
    "msk_issue=yes": {
     "result": "modify",
-    "engine_action": "Flag area; exclude/modify exercises loading it; suggest physio."
+    "engine_action": "Flag area; exclude/modify exercises loading it; suggest physio.",
+    "message": "Thanks for telling us. We'll plan around that area, and a physio can help if it's bothering you. You can refer yourself in many areas."
    }
   },
-  "recheck": "Ask the symptoms question again if the user logs any pain/dizziness flag, and every 6 months.",
+  "recheck": "Ask the symptoms question again if the user logs any pain/dizziness flag, and every 6 months. Clearance is recorded with a date; it does not skip the recheck.",
   "parq_licence": {
    "status": "do_not_reproduce",
    "detail": "PAR-Q+ 2025 terms: materials must remain unaltered and may not be incorporated into electronic surveys or derivative materials without written consent. Options: request consent via https://eparmedx.com/contact-us/, or link out to the official PDF and record only the result.",
@@ -463,6 +584,96 @@
      "year": 2025
     }
    ]
+  },
+  "result_messages": {
+   "medical_clearance_first": "Please have a chat with your GP before you start. When they're happy for you to exercise, come back and tell us, and you can carry on.",
+   "start_light_to_moderate": "Good to go. We'll start gently and build up over the first few weeks, which is the safest way to begin.",
+   "continue_progress_as_tolerated": "You're all set. We'll build from where you are now and progress as you're ready.",
+   "continue_moderate": "Keep going at a moderate level. Before you move on to very hard sessions, have a quick chat with your GP.",
+   "modify": "Thanks for telling us. We'll plan around that area, and a physio can help if it's bothering you. You can refer yourself in many areas."
+  },
+  "cleared_by_gp": {
+   "applies_to": "medical_clearance_first",
+   "question": {
+    "id": "cleared_by_gp",
+    "text": "Have you spoken to your GP (or doctor) and been told it's OK for you to exercise?",
+    "type": "yes_no"
+   },
+   "if_yes": {
+    "result": "start_light_to_moderate",
+    "max_rpe": 7,
+    "record": [
+     "date_confirmed"
+    ],
+    "optional_note": "Anything your GP asked you to avoid? (free text, shown on your plan)",
+    "message": "Great, thanks. We'll start gently. If your GP gave you any limits, add them and we'll keep to them."
+   },
+   "if_no": {
+    "result": "medical_clearance_first",
+    "setup_blocked": true,
+    "dead_end": false,
+    "offer": [
+     "gp_finder",
+     "nhs_111",
+     "save_progress_and_remind"
+    ],
+    "message": "No problem. Your answers are saved, so you can pick up where you left off once you've spoken to them."
+   },
+   "still_applies": "In-session safety rules and the symptoms recheck still apply after clearance. If symptoms were the reason, clearance lifts setup only; any new symptom routes to the safety rules.",
+   "evidence_strength": "strong",
+   "sources": [
+    {
+     "title": "Updating ACSM's Recommendations for Exercise Preparticipation Health Screening",
+     "org": "Riebe et al., Medicine & Science in Sports & Exercise",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/26473759/",
+     "year": 2015
+    }
+   ],
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  }
+ },
+ "services": {
+  "emergency_999": {
+   "label": "Call 999",
+   "tel": "999",
+   "url": "https://www.nhs.uk/nhs-services/urgent-and-emergency-care-services/when-to-call-999/",
+   "regions": [
+    "england",
+    "wales",
+    "scotland",
+    "northern_ireland"
+   ],
+   "note": "Life-threatening emergencies."
+  },
+  "nhs_111": {
+   "label": "NHS 111",
+   "tel": "111",
+   "online": {
+    "england": "https://111.nhs.uk/",
+    "wales": "https://111.wales.nhs.uk/",
+    "scotland": "https://www.nhs24.scot/"
+   },
+   "northern_ireland": {
+    "tel": null,
+    "use": "GP out of hours service (numbers vary by area)",
+    "url": "https://www.nidirect.gov.uk/articles/gp-out-hours-service"
+   },
+   "note": "Urgent but not life-threatening, or not sure. Free from landlines and mobiles in England, Wales and Scotland (NHS 24 in Scotland). No 111 in Northern Ireland."
+  },
+  "gp_finder": {
+   "label": "Find a GP",
+   "url": "https://www.nhs.uk/service-search/find-a-gp",
+   "note": "England. Most people contact their own GP practice directly."
+  },
+  "physio_self_referral": {
+   "label": "Refer yourself to physio",
+   "url": "https://www.nhs.uk/nhs-services/get-nhs-help-for-back-joint-problems/",
+   "info_url": "https://www.nhs.uk/conditions/physiotherapy/accessing/",
+   "note": "In many areas of England you can refer yourself to NHS musculoskeletal (MSK) services, including physiotherapy, without seeing a GP. Not for urgent problems."
+  },
+  "private_physio": {
+   "label": "Find a private physio",
+   "url": "https://www.csp.org.uk/public-patient/find-physiotherapist/physio2u"
   }
  }
 }

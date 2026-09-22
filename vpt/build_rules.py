@@ -315,6 +315,198 @@ safety = {
  },
 }
 
+# ================================================================ v0.1.2 additions
+SRC.update({
+ "silbernagel2007": {"title": "Continued sports activity, using a pain-monitoring model, during rehabilitation in patients with Achilles tendinopathy: a randomized controlled study",
+                     "org": "Silbernagel, Thomee, Eriksson, Karlsson, Am J Sports Med", "url": "https://pubmed.ncbi.nlm.nih.gov/17307888/", "year": 2007},
+ "nhs_back_ex": {"title": "Exercises for back pain", "org": "NHS", "url": "https://www.nhs.uk/live-well/exercise/exercises-for-back-pain/", "year": 2026},
+ "nhs_physio": {"title": "Physiotherapy: how to access it", "org": "NHS", "url": "https://www.nhs.uk/conditions/physiotherapy/accessing/", "year": 2026},
+ "nhs_msk": {"title": "Get NHS help for back, muscle and joint problems (MSK self-referral)", "org": "NHS",
+             "url": "https://www.nhs.uk/nhs-services/get-nhs-help-for-back-joint-problems/", "year": 2026},
+ "nhs_gp": {"title": "Find a GP", "org": "NHS", "url": "https://www.nhs.uk/service-search/find-a-gp", "year": 2026},
+ "nhs_111": {"title": "NHS 111 online", "org": "NHS England", "url": "https://111.nhs.uk/", "year": 2026},
+ "nhs_111_wales": {"title": "NHS 111 Wales", "org": "NHS Wales", "url": "https://111.wales.nhs.uk/", "year": 2026},
+ "nhs24": {"title": "NHS 24", "org": "NHS Scotland", "url": "https://www.nhs24.scot/", "year": 2026},
+ "ni_ooh": {"title": "GP out of hours service", "org": "nidirect (Northern Ireland)", "url": "https://www.nidirect.gov.uk/articles/gp-out-hours-service", "year": 2026},
+ "csp_find": {"title": "Find a physiotherapist (Physio2u)", "org": "Chartered Society of Physiotherapy",
+              "url": "https://www.csp.org.uk/public-patient/find-physiotherapist/physio2u", "year": 2026},
+ "epley1985": {"title": "Poundage Chart. In: Boyd Epley Workout", "org": "Epley B., Body Enterprises", "url": "https://en.wikipedia.org/wiki/One-repetition_maximum", "year": 1985},
+ "reynolds2006": {"title": "Prediction of one repetition maximum strength from multiple repetition maximum testing and anthropometry",
+                  "org": "Reynolds, Gordon, Robergs, J Strength Cond Res", "url": "https://www.unm.edu/~rrobergs/478RMStrengthPrediction.pdf", "year": 2006},
+ "lesuer1997": {"title": "The accuracy of prediction equations for estimating 1-RM performance in the bench press, squat, and deadlift",
+                "org": "LeSuer et al., J Strength Cond Res", "url": "https://journals.lww.com/nsca-jscr/abstract/1997/11000/the_accuracy_of_prediction_equations_for.1.aspx", "year": 1997},
+ "saeterbakken2011": {"title": "A comparison of muscle activity and 1-RM strength of three chest-press exercises with different stability requirements",
+                      "org": "Saeterbakken, van den Tillaar, Fimland, J Sports Sci", "url": "https://pubmed.ncbi.nlm.nih.gov/21225489/", "year": 2011},
+ "cotterman2005": {"title": "Comparison of muscle force production using the Smith machine and free weights for bench press and squat exercises",
+                   "org": "Cotterman, Darby, Skelly, J Strength Cond Res", "url": "https://pubmed.ncbi.nlm.nih.gov/15705030/", "year": 2005},
+ "kolber2014": {"title": "Characteristics of shoulder impingement in the recreational weight-training population",
+                "org": "Kolber et al., J Strength Cond Res", "url": "https://elementssystem.com/wp-content/uploads/2018/06/Kolber.pdf", "year": 2014},
+ "ribeiro2014": {"title": "Effect of different warm-up procedures on the performance of resistance training exercises",
+                 "org": "Ribeiro, Romanzini, Schoenfeld et al., Perceptual and Motor Skills", "url": "https://journals.sagepub.com/doi/10.2466/25.29.PMS.119c17z7", "year": 2014},
+ "ribeiro2020": {"title": "The Role of Specific Warm-up during Bench Press and Squat Exercises: A Novel Approach",
+                 "org": "Ribeiro, Neiva et al., Int J Environ Res Public Health", "url": "https://www.mdpi.com/1660-4601/17/18/6882", "year": 2020},
+ "foster2001": {"title": "A new approach to monitoring exercise training", "org": "Foster et al., J Strength Cond Res",
+                "url": "https://pubmed.ncbi.nlm.nih.gov/11708692/", "year": 2001},
+ "day2004": {"title": "Monitoring exercise intensity during resistance training using the session RPE scale",
+             "org": "Day, McGuigan, Brice, Foster, J Strength Cond Res", "url": "http://formacion.ferugby.es/wp-content/uploads/2019/04/Monitoring-Exercise-Intensity-During-Resistance-Training_RPE.pdf", "year": 2004},
+ "haddad2017": {"title": "Session-RPE Method for Training Load Monitoring: Validity, Ecological Usefulness, and Influencing Factors",
+                "org": "Haddad et al., Frontiers in Neuroscience", "url": "https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2017.00612/full", "year": 2017},
+ "martinfuentes2020": {"title": "Electromyographic activity in deadlift exercise and its variants. A systematic review",
+                       "org": "Martin-Fuentes, Oliva-Lozano, Muyor, PLoS One", "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0229507", "year": 2020},
+})
+
+SET_EFFORT = {"easy": {"rpe": [1, 6], "rir": "4+"}, "ok": {"rpe": [7, 8], "rir": "2-3"}, "hard": {"rpe": [9, 10], "rir": "0-1"}}
+SESSION_FEEL = {"easy": {"srpe_cr10": [1, 3]}, "good": {"srpe_cr10": [4, 6]}, "tough": {"srpe_cr10": [7, 8]}, "wrecked": {"srpe_cr10": [9, 10]}}
+
+NEW_GLOBAL = [
+ {"rule": "effort_set_map", "value": SET_EFFORT,
+  "detail": "Sets are logged Easy / OK / Hard. Each maps to an RPE/RIR band on the Helms scale. Progression uses them like this: "
+            "'at or below target RPE' = Easy or OK; 'above target' = Hard (except the last set of an isolation exercise, where RPE 9-10 is the target); "
+            "'RPE >= 1 below target' (pr.rpe_autoregulation) = Easy. Novices misjudge RIR, so rep/load progression stays primary.",
+  "used_by": ["pr.double_progression", "pr.rpe_autoregulation", "pr.two_for_two", "tr.global.rpe_rir_map"],
+  "engine_default": True, "sources": s("helms2016"), "evidence_strength": "weak", "licence": LIC},
+ {"rule": "effort_session_map", "value": SESSION_FEEL,
+  "definitions": {"hard_session": ["tough", "wrecked"], "very_hard_session": ["wrecked"]},
+  "detail": "Session feel Easy / Good / Tough / Wrecked maps to the session-RPE (CR-10) scale, asked ~30 min after the session. "
+            "A 'hard session' anywhere in these rules means Tough or Wrecked.",
+  "used_by": ["pr.volume_progression", "pr.deload"],
+  "engine_default": True, "sources": s("foster2001", "day2004", "haddad2017"), "evidence_strength": "moderate", "licence": LIC},
+ {"rule": "warm_up", "value": {
+   "applies_to": "first exercise for each movement pattern in a session, when it's a compound lift with external load",
+   "ramp": [{"pct_working_load": 50, "reps": 5}, {"pct_working_load": 75, "reps": 3}, {"pct_working_load": 90, "reps": 1,
+             "only_if": "working reps <= 6"}],
+   "optional_first": {"load": "empty bar or lightest option", "reps": 10},
+   "later_exercises": {"pct_working_load": 50, "reps": 8, "sets": 1, "optional": True},
+   "rounding": "round down to the nearest available increment; skip a step if it rounds to the same load as the previous one",
+   "counts_for_progression": False, "counts_for_volume": False},
+  "detail": "Evidence says a specific warm-up with a heavier set (~80% of working load) beats light sets alone, but there's little agreement on the best ladder. "
+            "The ramp here is our convention. Warm-up sets are never used for progression, e1RM or weekly volume.",
+  "engine_default": True, "sources": s("ribeiro2020", "ribeiro2014"), "evidence_strength": "weak", "licence": LIC},
+ {"rule": "e1rm", "value": {"formula": "epley", "expression": "load * (1 + reps / 30)", "max_reps": 10,
+   "only_sets": "working sets (not warm-ups), reps >= 1; reps == 1 returns the load", "label": "estimated"},
+  "detail": "Epley formula. Accuracy drops above ~10 reps (Reynolds 2006: use no more than 10 reps); the app asked for <=12, but the data caps it at 10. "
+            "Prediction equations tend to underestimate squat and deadlift. Always shown as 'estimated'.",
+  "engine_default": True, "sources": s("epley1985", "reynolds2006", "lesuer1997"), "evidence_strength": "moderate", "licence": LIC},
+ {"rule": "swap_starting_load", "value": {
+   "method": "Convert via the old exercise's recent working load (or e1RM), apply the ratio, then the safety margin, then round DOWN.",
+   "safety_margin": 0.9,
+   "ratios": [
+    {"from": "barbell", "to": "dumbbell", "ratio_per_hand": 0.41, "patterns": ["push_h", "push_v"], "basis": "DB 1RM (both hands) ~17% below barbell bench"},
+    {"from": "dumbbell", "to": "barbell", "ratio_from_per_hand": 2.0, "note": "sum of both dumbbells; no uplift taken"},
+    {"from": "barbell", "to": "smith_machine", "ratio": 0.9, "patterns": ["push_h"], "basis": "Smith bench 3-14% below free bench"},
+    {"from": "barbell", "to": "smith_machine", "ratio": 0.95, "patterns": ["squat"], "basis": "Smith squat ~4% above free squat; kept conservative"},
+    {"from": "bilateral", "to": "unilateral", "ratio_per_side": 0.4},
+   ],
+   "no_reliable_ratio": ["machine <-> free weight (except Smith)", "cable <-> anything", "bodyweight <-> loaded", "different movement pattern"],
+   "calibrate_instead": "Where no ratio applies: suggest a light first set (target RPE <= 6 / effort Easy), then adjust by one increment per set.",
+   "first_session_target": "effort OK or Easy on all sets (RPE <= 7)"},
+  "detail": "Example: 70 kg barbell bench -> 70 x 0.41 x 0.9 = 25.8 -> 24 or 25 kg dumbbells per hand (round down to what the gym has). "
+            "Ratios come from single studies; the margin and rounding keep it conservative.",
+  "engine_default": True, "sources": s("saeterbakken2011", "cotterman2005"), "evidence_strength": "weak", "licence": LIC},
+ {"rule": "muscle_group_rollup", "value": {"map": "exercises.json -> muscle_groups",
+   "per_set_credit": "a set credits a group with the MAX of its member muscles' credit (1.0 primary / 0.5 secondary), not the sum",
+   "targets": "volume targets stay per muscle (tr.goal.* weekly_sets_per_muscle). Rolled-up numbers are for display only and are never compared to a target. "
+              "If a group target is shown, use the member muscle with the lowest progress against its own target."},
+  "detail": "Stops a lat pulldown counting 1.5 sets of 'Back' because lats (1.0) and middle back (0.5) are both in the group. Stabilisers never count.",
+  "engine_default": True, "sources": s("pelland2026"), "evidence_strength": "weak", "licence": LIC},
+ {"rule": "push_pull_balance", "value": {"kind": "nudge", "hard_rule": False,
+   "check": "weekly working sets of pull_h + pull_v < weekly sets of push_h + push_v",
+   "suggestion": "Consider adding a row, face pull or rear-delt fly."},
+  "detail": "No position stand gives a push:pull ratio; 1:1 or 2:1 is coaching convention. One cross-sectional study found fewer shoulder impingement signs in "
+            "recreational lifters who trained external rotators. Show as a gentle suggestion, never as a target or warning.",
+  "engine_default": True, "sources": s("kolber2014"), "evidence_strength": "weak", "licence": LIC},
+]
+NEW_GLOBAL_IDS = {r["rule"]: f"tr.global.{r['rule']}" for r in NEW_GLOBAL}
+training["global"] += NEW_GLOBAL
+training["notes"].append("v0.1.2: stabilisers (exercises.json) are never counted in weekly volume; only primary (1.0) and secondary (0.5) are.")
+
+# hard-session definitions wired into progression (text kept, structured fields added)
+progression["volume_progression"]["requires"] = ["no pain flags", "session feel not 'hard' (Tough or Wrecked) on >1/3 of sessions",
+                                                 "performance stable or rising"]
+progression["volume_progression"]["requires_structured"] = {
+  "pain_flags_in_block": 0, "hard_session_share_max": 0.33, "wrecked_sessions_last_14_days_max": 0,
+  "performance": "e1RM or reps at same load stable or rising on most lifts",
+  "definitions": "tr.global.effort_session_map"}
+progression["deload"]["triggers"]["autoregulated"] = [
+  "2+ lifts stalled in the same week",
+  "session feel 'hard' (Tough or Wrecked) or set effort above target on most sessions for 2 weeks",
+  "user reports persistent fatigue, poor sleep or low motivation", "returning from illness"]
+progression["deload"]["triggers"]["autoregulated_structured"] = {
+  "stalled_lifts_same_week_min": 2, "hard_session_share_2wk_min": 0.5, "wrecked_sessions_14_days_min": 2,
+  "definitions": "tr.global.effort_session_map"}
+progression["deload"]["deload_sets"] = {"counts_for_progression": False, "counts_for_volume": True}
+
+# ---- safety: services, per-rule service links, mid-session pain rule, screening copy + GP path
+SERVICES = {
+ "emergency_999": {"label": "Call 999", "tel": "999", "url": SRC["nhs_999"]["url"], "regions": ["england", "wales", "scotland", "northern_ireland"],
+                   "note": "Life-threatening emergencies."},
+ "nhs_111": {"label": "NHS 111", "tel": "111",
+             "online": {"england": SRC["nhs_111"]["url"], "wales": SRC["nhs_111_wales"]["url"], "scotland": SRC["nhs24"]["url"]},
+             "northern_ireland": {"tel": None, "use": "GP out of hours service (numbers vary by area)", "url": SRC["ni_ooh"]["url"]},
+             "note": "Urgent but not life-threatening, or not sure. Free from landlines and mobiles in England, Wales and Scotland (NHS 24 in Scotland). No 111 in Northern Ireland."},
+ "gp_finder": {"label": "Find a GP", "url": SRC["nhs_gp"]["url"], "note": "England. Most people contact their own GP practice directly."},
+ "physio_self_referral": {"label": "Refer yourself to physio", "url": SRC["nhs_msk"]["url"], "info_url": SRC["nhs_physio"]["url"],
+                          "note": "In many areas of England you can refer yourself to NHS musculoskeletal (MSK) services, including physiotherapy, without seeing a GP. Not for urgent problems."},
+ "private_physio": {"label": "Find a private physio", "url": SRC["csp_find"]["url"]},
+}
+ACTION_SERVICES = {"stop_now_call_999": ["emergency_999"], "stop_and_contact_111": ["nhs_111", "emergency_999"],
+                   "stop_and_see_gp": ["gp_finder", "nhs_111"], "reduce_or_rest": [], "modify_exercise": [], "continue_with_caution": []}
+MSK_RULES = {"pain_not_settling_6wk", "pain_not_doms", "suspected_sprain_strain", "pain_during_exercise"}
+
+safety["rules"].insert(safety["rules"].index(next(r for r in safety["rules"] if r["id"] == "doms_normal")), r(
+  "pain_during_exercise",
+  "Pain in a joint or area that comes on or gets worse during an exercise, feels sharp or catching, or goes above about 5 out of 10. "
+  "No red-flag signs (see the 999/111 rules).",
+  "modify_exercise",
+  "Let's stop this exercise and leave that area alone for today. You can carry on with anything that feels comfortable. "
+  "If it's still sore tomorrow, rest it. If it isn't getting better after a couple of weeks, or it's affecting everyday life, see your GP or a physio.",
+  ["nhs_back_ex", "nhs_sprain", "silbernagel2007"], "moderate",
+  engine_action="Stop the current exercise. Skip remaining exercises whose body_areas include the flagged area as primary "
+                "(exercises.json -> body_area_map). Log a pain flag with area and side. Next session: exclude the same set; "
+                "if the user reports it has settled, reintroduce at 50% of previous load.",
+  escalate=[{"if": "can't bear weight, swelling getting worse, or signs of infection", "to": "injury_cant_bear_weight"},
+            {"if": "crack sound, deformity, numbness or cold/blue skin", "to": "injury_severe"},
+            {"if": "still painful the next day, or worse", "to": "reduce_or_rest (area)"},
+            {"if": "not improving after ~2 weeks, or limits daily life", "to": "pain_not_doms"}],
+  precedence="Mid-session pain routes here first. Pain that persists after the session or lasts >7 days routes to pain_not_doms.",
+  gap="'Sharp' and the 5/10 threshold come from physiotherapy practice (pain-monitoring model, tendon RCT); NHS wording is 'stop if your pain gets worse'."))
+
+for rule in safety["rules"]:
+    svc = list(ACTION_SERVICES[rule["action"]])
+    if rule["id"] in MSK_RULES: svc += ["physio_self_referral"]
+    rule["services"] = svc
+safety["services"] = SERVICES
+safety["notes"].append("v0.1.2: `services` holds UK contacts; each rule lists the services to offer (by key). The app owns the label per action; user_message is the body, verbatim.")
+
+MATRIX_MSG = {
+ "currently_active=no,known_disease=no": "Good to go. We'll start gently and build up over the first few weeks, which is the safest way to begin.",
+ "currently_active=no,known_disease=yes": "Because of your condition, please check with your GP before you start. Once they're happy, you can carry on setting up.",
+ "currently_active=yes,known_disease=no": "You're all set. We'll build from where you are now and progress as you're ready.",
+ "currently_active=yes,known_disease=yes": "Keep going at a moderate level. Before you move on to very hard sessions, have a quick chat with your GP.",
+ "msk_issue=yes": "Thanks for telling us. We'll plan around that area, and a physio can help if it's bothering you. You can refer yourself in many areas.",
+}
+for k, msg in MATRIX_MSG.items():
+    safety["screening"]["matrix"][k].setdefault("message", msg)
+safety["screening"]["result_messages"] = {
+ "medical_clearance_first": "Please have a chat with your GP before you start. When they're happy for you to exercise, come back and tell us, and you can carry on.",
+ "start_light_to_moderate": MATRIX_MSG["currently_active=no,known_disease=no"],
+ "continue_progress_as_tolerated": MATRIX_MSG["currently_active=yes,known_disease=no"],
+ "continue_moderate": MATRIX_MSG["currently_active=yes,known_disease=yes"],
+ "modify": MATRIX_MSG["msk_issue=yes"],
+}
+safety["screening"]["cleared_by_gp"] = {
+ "applies_to": "medical_clearance_first",
+ "question": {"id": "cleared_by_gp", "text": "Have you spoken to your GP (or doctor) and been told it's OK for you to exercise?", "type": "yes_no"},
+ "if_yes": {"result": "start_light_to_moderate", "max_rpe": 7, "record": ["date_confirmed"],
+            "optional_note": "Anything your GP asked you to avoid? (free text, shown on your plan)",
+            "message": "Great, thanks. We'll start gently. If your GP gave you any limits, add them and we'll keep to them."},
+ "if_no": {"result": "medical_clearance_first", "setup_blocked": True, "dead_end": False,
+           "offer": ["gp_finder", "nhs_111", "save_progress_and_remind"],
+           "message": "No problem. Your answers are saved, so you can pick up where you left off once you've spoken to them."},
+ "still_applies": "In-session safety rules and the symptoms recheck still apply after clearance. If symptoms were the reason, clearance lifts setup only; any new symptom routes to the safety rules.",
+ "evidence_strength": "strong", "sources": s("riebe2015"), "licence": LIC}
+safety["screening"]["recheck"] = safety["screening"]["recheck"] + " Clearance is recorded with a date; it does not skip the recheck."
+
 # ---------------------------------------------------------------- stable ids (v0.1.1)
 def with_id(d, id_):
     assert "id" not in d or d["id"] == id_
@@ -322,7 +514,7 @@ def with_id(d, id_):
 
 GLOBAL_IDS = {"min_frequency_per_muscle_per_week": "tr.global.min_frequency", "set_counting": "tr.global.set_counting",
               "exercise_order": "tr.global.exercise_order", "full_range_of_motion": "tr.global.full_rom",
-              "rpe_rir_map": "tr.global.rpe_rir_map"}
+              "rpe_rir_map": "tr.global.rpe_rir_map", **NEW_GLOBAL_IDS}
 training["global"] = [with_id(r, GLOBAL_IDS[r["rule"]]) for r in training["global"]]
 training["goals"] = [with_id(g, f"tr.goal.{g['goal']}") for g in training["goals"]]
 for g in training["goals"]:
@@ -343,28 +535,37 @@ ID_SCHEME = ("id_scheme: every rule has a permanent `id`. IDs never change or ge
              "(questions cited as sf.screening.<question id>); "
              "safety red-flag rules keep their bare snake_case ids from v0.1.0. AI suggestions must cite ids, e.g. 'pr.stall.step2'.")
 for f in (training, progression, safety):
-    f["version"] = "0.1.1"
+    f["version"] = "0.1.2"
     f["notes"].insert(0, ID_SCHEME)
 
 ALL_IDS = ([r["id"] for r in training["global"] + training["goals"] + training["minimum_doses"] + training["conflicts"]]
            + [m["id"] for m in progression["methods"]]
            + [progression[k]["id"] for k in ("volume_progression", "stall", "deload", "new_user_ramp")]
            + [st["id"] for st in progression["stall"]["steps"]]
-           + [r["id"] for r in safety["rules"]] + [safety["screening"]["id"]] + [f"sf.screening.{q['id']}" for q in safety["screening"]["questions"]])
+           + [r["id"] for r in safety["rules"]] + [safety["screening"]["id"]] + [f"sf.screening.{q['id']}" for q in safety["screening"]["questions"]] + ["sf.screening.cleared_by_gp"])
 assert len(ALL_IDS) == len(set(ALL_IDS))
 json.dump(sorted(ALL_IDS), open("data/rule_ids.json", "w"), indent=1)
+# v0.1.2 asserts
+assert all("message" in v for v in safety["screening"]["matrix"].values()), "screening result without message"
+assert set(safety["screening"]["result_messages"]) >= {v["result"] for v in safety["screening"]["matrix"].values()}
+assert all(set(r["services"]) <= set(SERVICES) for r in safety["rules"])
+for rr in training["global"] + training["goals"] + training["minimum_doses"] + progression["methods"] + safety["rules"] + \
+          [progression[k] for k in ("volume_progression", "stall", "deload", "new_user_ramp")]:
+    assert rr["id"] and rr["sources"] and rr["evidence_strength"] and rr["licence"], rr.get("id")
 print("rule ids:", len(ALL_IDS))
 
 VERIFY = {  # how each source was checked during research (v0.1.1)
  "full_text": ["acsm2026", "acsm2009", "grgic2018", "helms2016", "singer2024", "pelland2026", "bell2023", "schoenfeld2021",
                "who2020", "cmo2019", "hprc", "nhs_chest", "nhs_angina", "nhs_999", "nhs_sprain", "nhs_periods", "bhf_safe",
-               "cddft", "cc_doms", "cc_sick", "parq"],
- "abstract_only": ["coleman2024", "spiering2021"],
- "secondary_only": ["nsca", "schoenfeld2017", "robinson2024", "refalo2024", "ak2020", "bell2024", "ioc_reds", "riebe2015"],
+               "cddft", "cc_doms", "cc_sick", "parq",
+               "nhs_back_ex", "nhs_physio", "nhs_msk", "nhs_gp", "nhs_111", "nhs_111_wales", "nhs24", "ni_ooh", "reynolds2006",
+               "cotterman2005", "kolber2014", "ribeiro2020", "day2004", "haddad2017", "martinfuentes2020"],
+ "abstract_only": ["coleman2024", "spiering2021", "lesuer1997", "saeterbakken2011", "ribeiro2014"],
+ "secondary_only": ["nsca", "schoenfeld2017", "robinson2024", "refalo2024", "ak2020", "bell2024", "ioc_reds", "riebe2015", "silbernagel2007", "epley1985", "foster2001", "csp_find"],
 }
 assert sorted(sum(VERIFY.values(), [])) == sorted(SRC), set(SRC) ^ set(sum(VERIFY.values(), []))
 SRC_OUT = {k: {**v, "verification": next(st for st, ks in VERIFY.items() if k in ks)} for k, v in SRC.items()}
-registry = {"version": "0.1.1",
+registry = {"version": "0.1.2",
             "notes": ["verification: full_text = figures checked against the paper/page; abstract_only = abstract or publisher summary; "
                       "secondary_only = figures from reviews/summaries citing it (paywall or rate-limited). Spot-check secondary_only before launch."],
             "sources": SRC_OUT}

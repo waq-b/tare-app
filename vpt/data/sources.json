@@ -1,5 +1,5 @@
 {
- "version": "0.1.1",
+ "version": "0.1.2",
  "notes": [
   "verification: full_text = figures checked against the paper/page; abstract_only = abstract or publisher summary; secondary_only = figures from reviews/summaries citing it (paywall or rate-limited). Spot-check secondary_only before launch."
  ],
@@ -219,6 +219,160 @@
    "org": "PAR-Q+ Collaboration",
    "url": "https://eparmedx.com/?page_id=79",
    "year": 2025,
+   "verification": "full_text"
+  },
+  "silbernagel2007": {
+   "title": "Continued sports activity, using a pain-monitoring model, during rehabilitation in patients with Achilles tendinopathy: a randomized controlled study",
+   "org": "Silbernagel, Thomee, Eriksson, Karlsson, Am J Sports Med",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/17307888/",
+   "year": 2007,
+   "verification": "secondary_only"
+  },
+  "nhs_back_ex": {
+   "title": "Exercises for back pain",
+   "org": "NHS",
+   "url": "https://www.nhs.uk/live-well/exercise/exercises-for-back-pain/",
+   "year": 2026,
+   "verification": "full_text"
+  },
+  "nhs_physio": {
+   "title": "Physiotherapy: how to access it",
+   "org": "NHS",
+   "url": "https://www.nhs.uk/conditions/physiotherapy/accessing/",
+   "year": 2026,
+   "verification": "full_text"
+  },
+  "nhs_msk": {
+   "title": "Get NHS help for back, muscle and joint problems (MSK self-referral)",
+   "org": "NHS",
+   "url": "https://www.nhs.uk/nhs-services/get-nhs-help-for-back-joint-problems/",
+   "year": 2026,
+   "verification": "full_text"
+  },
+  "nhs_gp": {
+   "title": "Find a GP",
+   "org": "NHS",
+   "url": "https://www.nhs.uk/service-search/find-a-gp",
+   "year": 2026,
+   "verification": "full_text"
+  },
+  "nhs_111": {
+   "title": "NHS 111 online",
+   "org": "NHS England",
+   "url": "https://111.nhs.uk/",
+   "year": 2026,
+   "verification": "full_text"
+  },
+  "nhs_111_wales": {
+   "title": "NHS 111 Wales",
+   "org": "NHS Wales",
+   "url": "https://111.wales.nhs.uk/",
+   "year": 2026,
+   "verification": "full_text"
+  },
+  "nhs24": {
+   "title": "NHS 24",
+   "org": "NHS Scotland",
+   "url": "https://www.nhs24.scot/",
+   "year": 2026,
+   "verification": "full_text"
+  },
+  "ni_ooh": {
+   "title": "GP out of hours service",
+   "org": "nidirect (Northern Ireland)",
+   "url": "https://www.nidirect.gov.uk/articles/gp-out-hours-service",
+   "year": 2026,
+   "verification": "full_text"
+  },
+  "csp_find": {
+   "title": "Find a physiotherapist (Physio2u)",
+   "org": "Chartered Society of Physiotherapy",
+   "url": "https://www.csp.org.uk/public-patient/find-physiotherapist/physio2u",
+   "year": 2026,
+   "verification": "secondary_only"
+  },
+  "epley1985": {
+   "title": "Poundage Chart. In: Boyd Epley Workout",
+   "org": "Epley B., Body Enterprises",
+   "url": "https://en.wikipedia.org/wiki/One-repetition_maximum",
+   "year": 1985,
+   "verification": "secondary_only"
+  },
+  "reynolds2006": {
+   "title": "Prediction of one repetition maximum strength from multiple repetition maximum testing and anthropometry",
+   "org": "Reynolds, Gordon, Robergs, J Strength Cond Res",
+   "url": "https://www.unm.edu/~rrobergs/478RMStrengthPrediction.pdf",
+   "year": 2006,
+   "verification": "full_text"
+  },
+  "lesuer1997": {
+   "title": "The accuracy of prediction equations for estimating 1-RM performance in the bench press, squat, and deadlift",
+   "org": "LeSuer et al., J Strength Cond Res",
+   "url": "https://journals.lww.com/nsca-jscr/abstract/1997/11000/the_accuracy_of_prediction_equations_for.1.aspx",
+   "year": 1997,
+   "verification": "abstract_only"
+  },
+  "saeterbakken2011": {
+   "title": "A comparison of muscle activity and 1-RM strength of three chest-press exercises with different stability requirements",
+   "org": "Saeterbakken, van den Tillaar, Fimland, J Sports Sci",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/21225489/",
+   "year": 2011,
+   "verification": "abstract_only"
+  },
+  "cotterman2005": {
+   "title": "Comparison of muscle force production using the Smith machine and free weights for bench press and squat exercises",
+   "org": "Cotterman, Darby, Skelly, J Strength Cond Res",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/15705030/",
+   "year": 2005,
+   "verification": "full_text"
+  },
+  "kolber2014": {
+   "title": "Characteristics of shoulder impingement in the recreational weight-training population",
+   "org": "Kolber et al., J Strength Cond Res",
+   "url": "https://elementssystem.com/wp-content/uploads/2018/06/Kolber.pdf",
+   "year": 2014,
+   "verification": "full_text"
+  },
+  "ribeiro2014": {
+   "title": "Effect of different warm-up procedures on the performance of resistance training exercises",
+   "org": "Ribeiro, Romanzini, Schoenfeld et al., Perceptual and Motor Skills",
+   "url": "https://journals.sagepub.com/doi/10.2466/25.29.PMS.119c17z7",
+   "year": 2014,
+   "verification": "abstract_only"
+  },
+  "ribeiro2020": {
+   "title": "The Role of Specific Warm-up during Bench Press and Squat Exercises: A Novel Approach",
+   "org": "Ribeiro, Neiva et al., Int J Environ Res Public Health",
+   "url": "https://www.mdpi.com/1660-4601/17/18/6882",
+   "year": 2020,
+   "verification": "full_text"
+  },
+  "foster2001": {
+   "title": "A new approach to monitoring exercise training",
+   "org": "Foster et al., J Strength Cond Res",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/11708692/",
+   "year": 2001,
+   "verification": "secondary_only"
+  },
+  "day2004": {
+   "title": "Monitoring exercise intensity during resistance training using the session RPE scale",
+   "org": "Day, McGuigan, Brice, Foster, J Strength Cond Res",
+   "url": "http://formacion.ferugby.es/wp-content/uploads/2019/04/Monitoring-Exercise-Intensity-During-Resistance-Training_RPE.pdf",
+   "year": 2004,
+   "verification": "full_text"
+  },
+  "haddad2017": {
+   "title": "Session-RPE Method for Training Load Monitoring: Validity, Ecological Usefulness, and Influencing Factors",
+   "org": "Haddad et al., Frontiers in Neuroscience",
+   "url": "https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2017.00612/full",
+   "year": 2017,
+   "verification": "full_text"
+  },
+  "martinfuentes2020": {
+   "title": "Electromyographic activity in deadlift exercise and its variants. A systematic review",
+   "org": "Martin-Fuentes, Oliva-Lozano, Muyor, PLoS One",
+   "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0229507",
+   "year": 2020,
    "verification": "full_text"
   }
  }

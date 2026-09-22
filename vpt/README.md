@@ -1,4 +1,4 @@
-# Virtual PT: P1 dataset (v0.1.1)
+# Virtual PT: P1 dataset (v0.1.2)
 
 Evidence-based data for the workout app's rules engine and weekly AI call. It covers training, progression, safety and the exercise library. Cardio, nutrition and fasting are out of scope for now.
 
@@ -6,11 +6,11 @@ Evidence-based data for the workout app's rules engine and weekly AI call. It co
 
 | File | What |
 |---|---|
-| `data/exercises.json` | 876 exercises plus an `enums` block. 111 `staple`s have hand-picked swaps and cues |
+| `data/exercises.json` | 876 exercises, plus `enums`, `muscle_groups` and `body_area_map`. The 111 `staple`s have hand-picked swaps, cues, display names, body areas, kit detail and skill tags |
 | `data/training_rules.json` | Per-goal parameters (`tr.goal.*`), global rules, minimum/maintenance doses, source conflicts |
 | `data/progression_rules.json` | Progression methods, volume progression, stall steps, deload, new-user ramp (`pr.*`) |
-| `data/safety_rules.json` | 20 red-flag rules and onboarding screening (`sf.screening`) |
-| `data/rule_ids.json` | Every rule ID (56), for validating AI citations |
+| `data/safety_rules.json` | 21 red-flag rules, UK `services` contacts, and onboarding screening (`sf.screening`), including the `cleared_by_gp` path |
+| `data/rule_ids.json` | Every rule ID (65), for validating AI citations |
 | `data/sources.json` | Source registry, with a `verification` level per source |
 | `build_exercises.py`, `build_rules.py`, `staples.py` | Rebuild everything. `staples.py` holds the hand-curated swaps and cues. `raw/` holds the upstream dataset |
 
@@ -37,6 +37,9 @@ These are also published inside `exercises.json` → `enums`, and the build asse
 - **level:** beginner, intermediate, advanced
 - **swap reason:** same_pattern_diff_kit, easier_regression, harder_progression, same_muscle
 - **increment_class:** `upper` or `lower`. Maps to the increments in `pr.*`. Lower means squat, hinge or lunge patterns, or leg muscles as primary.
+- **body_areas (10):** neck, shoulder, elbow, wrist, upper_back, lower_back, hip, knee, ankle, calf. Sided areas (`body_area_sided`) are shoulder, elbow, wrist, hip, knee, ankle and calf. Side values: left, right, both.
+- **equipment_detail (49):** fine-grained kit, e.g. flat_bench, adjustable_bench, power_rack, smith_machine, leg_press, lat_pulldown, cable_stack, rope_attachment, dip_station and pull_up_bar. The full list is in `enums.equipment_detail`. The coarse `equipment` field is unchanged. Max dumbbell weight is a user setting, not an exercise tag.
+- **skill_tags (13):** pull_up, chin_up, dip, push_up, pistol_squat, box_jump, jump, muscle_up, handstand, dead_hang, ab_rollout, olympic_lift, nordic_curl. For "can't do yet" filtering.
 - **load_convention:**
 
   | Value | Meaning |
@@ -50,6 +53,24 @@ These are also published inside `exercises.json` → `enums`, and the build asse
 
   Band exercises are marked `total`, but bands have no meaningful kg value. The app should log band level for these.
 
+## New exercise fields (v0.1.2)
+
+| Field | What | Coverage |
+|---|---|---|
+| `display_name` | Short gym name ("Bench press", "RDL", "OHP") | Staples only. `null` elsewhere, so fall back to `name` |
+| `aliases` | Other common names | Staples. Empty elsewhere |
+| `body_areas` | `[{area, load}]`, where load is `primary` (takes real load) or `secondary` (grip, stabilising, involved) | All exercises. Hand-checked on staples; heuristic elsewhere (`derived.body_areas`) |
+| `equipment_detail` | Specific kit needed. **All** tags are required | All. Hand-checked on staples |
+| `skill_tags` | Skills needed before the move is possible | All. Hand-checked on staples |
+| `stabilisers` | Muscles that hold position but aren't counted in volume | Trimmed on 38 staples (`derived.muscles: false`); empty elsewhere |
+
+**`body_area_map`** (top level) maps each area to `{primary: [ids], secondary: [ids]}`. After a pain flag, exclude exercises where the area is `primary`. Exclusion is side-agnostic. Mobility moves are only ever `secondary`.
+
+**`muscle_groups`** (top level) is a display roll-up: chest, back, shoulders, arms, core, quads, hamstrings, glutes, calves, hips, neck. Every muscle sits in exactly one group. **Counting:**
+- Each set credits a group with the **max** of its member muscles' credit, not the sum.
+- Targets stay per muscle; group totals are display only.
+- The full rule is `tr.global.muscle_group_rollup`.
+
 ## Swaps
 
 - `swaps` is an ordered array of `{ id, reason }`, best swap first.
@@ -60,6 +81,33 @@ These are also published inside `exercises.json` → `enums`, and the build asse
 ## Cues
 
 The 111 staples have 2–4 short cues each, in our own wording. **The other 765 exercises have empty `cues`**, though every exercise still has the upstream `instructions`.
+
+## New rules (v0.1.2)
+
+| ID | What | Evidence |
+|---|---|---|
+| `tr.global.effort_set_map` | Set effort maps to RPE: Easy is ≤6, OK is 7–8, Hard is 9–10. Also says how progression triggers read it | weak, engine_default |
+| `tr.global.effort_session_map` | Session feel maps to sRPE: Easy 1–3, Good 4–6, Tough 7–8, Wrecked 9–10. **A hard session means Tough or Wrecked** | moderate, engine_default |
+| `tr.global.warm_up` | Ramp of 50%×5, 75%×3, then 90%×1 (only if working reps are ≤6). Excluded from progression, e1RM and volume | weak, engine_default |
+| `tr.global.e1rm` | Epley formula, **only from sets of ≤10 reps**, labelled "estimated" | moderate, engine_default |
+| `tr.global.swap_starting_load` | Ratio, then ×0.9, then round down. Barbell→DB is 0.41 per hand. Where there's no ratio, calibrate from an Easy first set | weak, engine_default |
+| `tr.global.muscle_group_rollup` | Group credit is the max of member credits, not the sum. Targets stay per muscle | weak, engine_default |
+| `tr.global.push_pull_balance` | A **nudge only**, not a ratio. No position stand gives a push:pull ratio | weak, engine_default |
+| `pain_during_exercise` | Mid-session pain → `modify_exercise`: stop that exercise, skip moves where the area is primary, and escalate if it persists | moderate |
+| `sf.screening.cleared_by_gp` | "Spoken to your GP?" Yes unlocks setup at light-to-moderate intensity. No saves progress, so it's not a dead end | strong (ACSM logic) |
+
+`pr.volume_progression` has gained `requires_structured`, and `pr.deload.triggers` has gained `autoregulated_structured`. Both now define "hard" via `tr.global.effort_session_map`.
+
+## Safety services
+
+`safety_rules.json → services` lists:
+- 999
+- NHS 111, with online links for England, Wales and Scotland (NHS 24). Northern Ireland has no 111, so it points to GP out of hours instead.
+- GP finder
+- NHS MSK/physio self-referral
+- CSP private physio finder
+
+Every rule has a `services` list of keys to offer. The app owns the label per action, and `user_message` is shown verbatim.
 
 ## Key evidence calls
 
@@ -74,7 +122,7 @@ The 111 staples have 2–4 short cues each, in our own wording. **The other 765 
 
 ## Verification
 
-`sources.json` marks each source as `full_text` (21), `abstract_only` (2) or `secondary_only` (8).
+`sources.json` marks each source as `full_text` (36), `abstract_only` (5) or `secondary_only` (12). v0.1.2 added 22 sources.
 
 In v0.1.1 these were re-checked against the primary source:
 
@@ -92,5 +140,6 @@ In v0.1.1 these were re-checked against the primary source:
 
 ## Known limits
 
-- Movement patterns for non-staples come from keyword heuristics, so the long tail can be misfiled (e.g. some shoulder complexes sit under `isolation`).
+- Movement patterns for non-staples come from keyword heuristics, so the long tail can be misfiled (e.g. some shoulder complexes sit under `isolation`). v0.1.2 fixed a matching bug that sent 19 machine/Smith exercises to `pull_v`.
+- Non-staples keep the upstream secondaries, which can be bloated (e.g. `Deficit_Deadlift`). Only the staples were trimmed.
 - Cleveland Clinic (US) is the source for the DOMS thresholds and the illness "neck check". Both are labelled as such.
