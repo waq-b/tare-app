@@ -14,6 +14,7 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### D1 — Storybook design library (in progress)
 
+- **T10 food and notifications (#34):** `MealRow` ("Not logged yet" instead of a guess), `NotificationItem` (category tiles: safety, plan, coach, sync, deload; unread dot), `ResponseButtons` (≥48px), `PushNotification` + `AppMark` (an OS mock for reviewing push copy), and `QuietHoursCard` (safety follow-ups still come through). Stories only; wired in P2/P4
 - **T9 charts (#33):** hand-rolled SVG on a small, tested scale module (bars and meters are always zero-based).
   - `LineChart`: compact or full, crosshair and tooltip, pointer and arrow-key scrubbing, Enter opens a point.
   - `TrendChart`: raw dots with the average as the line.

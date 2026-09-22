@@ -27,6 +27,8 @@ export * from './components/InlineNote/InlineNote';
 export * from './components/LastTimeStrip/LastTimeStrip';
 export * from './components/Legend/Legend';
 export * from './components/ListRow/ListRow';
+export * from './components/MealRow/MealRow';
+export * from './components/Notifications/Notifications';
 export * from './components/NumberStepper/NumberStepper';
 export * from './components/PainFlagCard/PainFlagCard';
 export * from './components/PlaceholderAction/PlaceholderAction';

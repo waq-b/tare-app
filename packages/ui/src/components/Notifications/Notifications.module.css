@@ -1,0 +1,119 @@
+.item {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--line);
+}
+.body {
+  display: grid;
+  flex-grow: 1;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.title {
+  flex-grow: 1;
+  margin: 0;
+  font-size: var(--type-body-size);
+  font-weight: 600;
+}
+.time {
+  font-size: var(--type-caption-size);
+  color: var(--text-3);
+}
+.unread {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+}
+.text {
+  margin: 0;
+  font-size: var(--type-body-s-size);
+  color: var(--text-2);
+}
+.responses {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+}
+.mark {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+  font-weight: 600;
+}
+.push {
+  margin: 0;
+  border-radius: 22px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.pushHead {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3) 14px;
+}
+.pushText {
+  flex-grow: 1;
+  min-width: 0;
+}
+.pushApp {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  font-size: var(--type-caption-size);
+  color: var(--text-3);
+}
+.pushTitle {
+  margin: 2px 0 0;
+  font-weight: 600;
+}
+.pushBody {
+  margin: 2px 0 0;
+  font-size: var(--type-body-s-size);
+  color: var(--text-2);
+}
+.pushActions {
+  display: grid;
+  border-top: 1px solid var(--line-strong);
+}
+.pushActions > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-min);
+  font-weight: 600;
+}
+.pushActions > span + span {
+  border-left: 1px solid var(--line-strong);
+}
+.quiet {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background: var(--surface-1);
+}
+.quietHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.quietRange {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--type-num-m-size);
+}
