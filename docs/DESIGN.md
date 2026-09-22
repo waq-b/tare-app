@@ -370,7 +370,15 @@ Canvas copy that has a real data source. D1 fixtures and the app read the data; 
 | Health-Overview, Notif-Centre, Notif-Push | "Pressing is paused until you mark it clear"                             | the matched rule's `user_message`                                                                                                                                                                            |
 | Health-Flags result labels                | Modify / See GP / Caution by the canvas mapping                          | from the flag's matched `action`                                                                                                                                                                             |
 
-**Proposal for the SafetyScreen layout (needs sign-off):** eyebrow + headline are a fixed UI label per `action` (e.g. "See your GP"), the body is `user_message` verbatim, then `SourceLink`s from the rule's `sources`, then the lock note. No other safety copy.
+**SafetyScreen layout (decided 2026-09-22):**
+
+1. Eyebrow + headline: a fixed UI label per `action`, owned by the app (e.g. "See your GP"). One label per action, never per rule, and no AI input
+2. Body: the matched rule's `user_message`, verbatim
+3. `SourceLink`s from the rule's `sources`
+4. The action buttons for that level (e.g. `tel:999`, `tel:111`)
+5. `SafetyLockNote`
+
+There's no other safety copy. The canvas's per-scenario headlines, bodies, steps and load changes ("Continue at 60 kg", "about 15%") are dropped. Load or exercise changes come only from the rule's engine action.
 
 ### 5.4 Other
 
@@ -401,10 +409,11 @@ Logged for the data session in [`docs/data-issues.md`](data-issues.md).
 
 ## 7. Decisions log
 
-| Date                  | Decision                                                                                                          |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| 2026-09-22            | Dark is the default theme; light fully supported via `data-theme="light"`. Following the OS waits for P0 Settings |
-| 2026-09-22            | Icons live in `packages/icons`                                                                                    |
-| 2026-09-22            | Safety levels: 111 and GP amber fill; Caution amber accent only; tints via `color-mix()`                          |
-| 2026-09-22 (D0 build) | Added `type.caption` (13) and `type.button` (17/600); off-scale sizes map to the nearest style ([§2 Type](#type)) |
-| 2026-09-22 (D0 build) | Tints normalised to two steps (12% fill, 40% edge)                                                                |
+| Date                  | Decision                                                                                                                                                     |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 2026-09-22            | Dark is the default theme; light fully supported via `data-theme="light"`. Following the OS waits for P0 Settings                                            |
+| 2026-09-22            | Icons live in `packages/icons`                                                                                                                               |
+| 2026-09-22            | Safety levels: 111 and GP amber fill; Caution amber accent only; tints via `color-mix()`                                                                     |
+| 2026-09-22 (D0 build) | Added `type.caption` (13) and `type.button` (17/600); off-scale sizes map to the nearest style ([§2 Type](#type))                                            |
+| 2026-09-22 (D0 build) | Tints normalised to two steps (12% fill, 40% edge)                                                                                                           |
+| 2026-09-22            | SafetyScreen: fixed label per `action` + `user_message` verbatim + sources + lock note; no other safety copy ([§5.3](#53-safety-wording-none-of-it-is-real)) |
