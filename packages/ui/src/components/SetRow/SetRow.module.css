@@ -1,0 +1,116 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 68px;
+  padding: 0 var(--space-2) 0 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  transition: background-color var(--motion-set-done-duration) var(--motion-set-done-easing);
+}
+.warmup {
+  min-height: 60px;
+  border-style: dashed;
+}
+.current {
+  border: 1.5px solid var(--accent);
+  background: var(--surface-2);
+}
+.index {
+  width: 26px;
+  font-family: var(--font-mono);
+  font-size: var(--type-num-m-size);
+  font-weight: 600;
+  color: var(--text-3);
+}
+.current .index {
+  color: var(--accent);
+}
+.figures {
+  display: flex;
+  flex-grow: 1;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+.load {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+}
+.num {
+  font-family: var(--font-mono);
+  font-size: var(--type-num-l-size);
+  font-weight: var(--type-num-l-weight);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--type-num-l-tracking);
+  line-height: 1;
+  color: var(--text-2);
+}
+.warmup .num {
+  font-size: var(--type-num-m-size);
+}
+.current .num {
+  color: var(--text);
+}
+.unit {
+  font-size: var(--type-caption-size);
+  color: var(--text-3);
+}
+.times {
+  font-size: 15px;
+  color: var(--text-3);
+}
+.spacer {
+  flex-grow: 1;
+}
+.last {
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+  color: var(--text-3);
+}
+.check {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--on-accent);
+  cursor: pointer;
+  transition:
+    transform var(--motion-press-duration) var(--motion-press-easing),
+    background-color var(--motion-set-done-duration) var(--motion-set-done-easing);
+}
+.check:active {
+  transform: scale(var(--motion-press-scale));
+}
+.checkDone {
+  border: 0;
+  background: var(--accent);
+}
+.checkDone svg {
+  animation: stamp var(--motion-set-done-duration) var(--motion-set-done-easing);
+}
+.checkCurrent {
+  width: 56px;
+  height: 56px;
+  border: 2px solid var(--accent);
+  background: var(--accent-tint);
+  color: var(--accent-on-tint);
+}
+@keyframes stamp {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .checkDone svg {
+    animation-name: none;
+  }
+}

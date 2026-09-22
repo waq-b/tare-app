@@ -1,0 +1,86 @@
+.full {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+.ring {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+.ringTrack {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 10;
+}
+.ringFill {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dashoffset var(--motion-state-duration) linear;
+}
+.centre {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+}
+.clock {
+  font-family: var(--font-mono);
+  font-size: var(--type-num-xl-size);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.of {
+  font-size: var(--type-caption-size);
+  color: var(--text-3);
+}
+.next {
+  margin: 0;
+  font-size: 15px;
+  color: var(--text-2);
+}
+.actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  width: 100%;
+}
+.docked {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--touch-min);
+  padding: 0 var(--space-1) 0 var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+}
+.dockLabel {
+  font-size: var(--type-caption-size);
+  color: var(--text-2);
+}
+.dockClock {
+  font-family: var(--font-mono);
+  font-size: var(--type-num-m-size);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.track {
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-tint);
+  overflow: hidden;
+}
+.fill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}

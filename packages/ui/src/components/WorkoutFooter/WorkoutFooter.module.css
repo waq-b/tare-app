@@ -1,0 +1,19 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+  padding: var(--space-3) var(--space-4) calc(env(safe-area-inset-bottom) + var(--space-6));
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+}
+.next {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  font-size: var(--type-caption-size);
+  color: var(--text-3);
+}
+.rx {
+  font-family: var(--font-mono);
+}

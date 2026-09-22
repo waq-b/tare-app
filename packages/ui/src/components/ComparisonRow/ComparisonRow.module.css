@@ -1,0 +1,22 @@
+.row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  min-height: 52px;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--line);
+}
+.name {
+  flex-grow: 1;
+}
+.figs {
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+  color: var(--text-2);
+}
+.delta {
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+  font-weight: 600;
+  color: var(--progress);
+}

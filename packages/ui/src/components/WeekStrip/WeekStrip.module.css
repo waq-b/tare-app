@@ -1,0 +1,55 @@
+.strip {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.letter {
+  font-size: var(--type-caption-size);
+  font-weight: 600;
+  color: var(--text-3);
+}
+.todayLetter {
+  color: var(--text);
+}
+.marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-pill);
+  color: var(--text-2);
+}
+.planned {
+  border: 1.5px solid var(--line-strong);
+}
+.deload {
+  border: 1.5px dashed var(--deload);
+}
+.done {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.today {
+  border: 2px solid var(--accent);
+}
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-pill);
+  background: var(--line-strong);
+}
+.date {
+  font-family: var(--font-mono);
+  font-size: var(--type-label-size);
+  color: var(--text-3);
+}

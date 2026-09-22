@@ -1,0 +1,29 @@
+.rx {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: var(--type-num-m-size);
+  font-weight: var(--type-num-m-weight);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+.from {
+  color: var(--text-3);
+}
+.to {
+  font-weight: 600;
+}
+.progress {
+  color: var(--progress);
+}
+.deload {
+  color: var(--deload);
+}
+.swap {
+  color: var(--swap);
+}
+.hold {
+  color: var(--hold);
+}

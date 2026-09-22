@@ -1,0 +1,20 @@
+.chips {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: var(--space-2);
+}
+.chip {
+  min-height: var(--touch-min);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-2);
+  font-family: var(--font-mono);
+  font-size: var(--type-body-s-size);
+  font-weight: 600;
+  cursor: pointer;
+}
+.chip:active {
+  transform: scale(var(--motion-press-scale));
+}

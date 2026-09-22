@@ -1,0 +1,19 @@
+.list {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.item {
+  display: flex;
+  gap: var(--space-3);
+  line-height: var(--type-body-line);
+}
+.n {
+  flex-shrink: 0;
+  width: 22px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-3);
+}
