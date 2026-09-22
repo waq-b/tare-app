@@ -6,4 +6,4 @@ Exported from the Claude Design canvas "Tare v1" on 22 Sep 2026. 60 boards plus 
 - Pages: Brand + system (Names, Tokens, Components, Icons, Charts) · Active workout · Screens · Body, food + alerts · Prototype (Flow)
 - Chosen workout direction: **Ledger** (`Workout-A*`)
 - The live canvas is in Waqar's Claude artifacts ("Tare v1"). If the design changes, re-export and overwrite this folder
-- Known placeholder copy: see CLAUDE.md §7
+- Known placeholder copy: see CLAUDE.md §8

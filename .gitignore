@@ -9,3 +9,6 @@ coverage/
 design/*.tgz
 packages/icons/gallery/
 .claude/*.lock
+
+# Session briefs for other Claude sessions (local only)
+prompts/
