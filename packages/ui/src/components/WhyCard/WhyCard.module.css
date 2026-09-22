@@ -1,0 +1,13 @@
+.card {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background: var(--surface-1);
+}
+.body {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-2);
+}

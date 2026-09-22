@@ -1,0 +1,45 @@
+.chip {
+  --t: var(--progress-tint);
+  --ink: var(--progress-on-tint);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  border-radius: 10px;
+  background: var(--t);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.hold {
+  --t: var(--hold-tint);
+  --ink: var(--hold-on-tint);
+}
+.swap {
+  --t: var(--swap-tint);
+  --ink: var(--swap-on-tint);
+}
+.deload {
+  --t: var(--deload-tint);
+  --ink: var(--deload-on-tint);
+}
+.large {
+  min-height: 36px;
+  padding: 0 var(--space-3);
+  font-size: var(--type-num-m-size);
+  font-weight: 500;
+}
+.compact {
+  gap: 2px;
+  min-height: 22px;
+  padding: 0 6px;
+  border-radius: var(--radius-pill);
+  font-size: var(--type-caption-size);
+  font-weight: 600;
+}
+.from {
+  color: var(--text-2);
+}
+.to {
+  font-weight: 700;
+}

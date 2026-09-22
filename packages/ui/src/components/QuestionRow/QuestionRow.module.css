@@ -1,0 +1,24 @@
+.row {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--line);
+}
+.q {
+  display: flex;
+  gap: var(--space-3);
+}
+.n {
+  flex-shrink: 0;
+  width: 18px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-3);
+}
+.text {
+  margin: 0;
+  line-height: var(--type-body-line);
+}
+.follow {
+  padding-left: calc(18px + var(--space-3));
+}
