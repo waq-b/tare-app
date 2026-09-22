@@ -12,6 +12,12 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 - GitHub Actions CI: install → lint → typecheck → test
 - Housekeeping: project README replaces the stale dataset copy; app changelog moved here; `docs/plans/` created
 
+### Task tracking (2026-09-22)
+
+- GitHub labels, milestones (S0–P4) and the "Tare" Project board, via `scripts/setup-github.sh`
+- Back-filled S0 (#1–#5) and D0 (#8–#16) as closed issues with their commits; open: D0 sign-off (#17), contrast follow-up (#18), vpt v0.1.2 upgrade routine (#19), food targets (#20, waiting on data), board workflows (#7), and three `later` ideas (#21–#23)
+- vpt v0.1.2 committed on its own (`data: vpt v0.1.2`); `prompts/` is now local only
+
 ### D0 — Tokens + DESIGN.md (2026-09-22, awaiting sign-off)
 
 - `@tare/tokens`: `tokens.json` is the single source (colour for dark + light, tints, safety levels, brand, fonts, type, space, radius, touch, elevation, motion). `npm run build` generates `dist/tokens.css` (dark on `:root`, `[data-theme="light"]` override, reduced-motion block) and typed `dist/index.js` + `index.d.ts` (`tokens`, `cssVar()`, `CssVarName`, `SafetyAction`…)
