@@ -1,0 +1,23 @@
+/* Storybook chrome only: never imported by components. */
+html,
+body {
+  background: var(--bg);
+}
+.sb-root {
+  background: var(--bg);
+  color: var(--text);
+  padding: var(--space-4);
+}
+.sb-root.sb-full {
+  padding: 0;
+  width: 390px;
+  min-height: 844px;
+}
+.sb-both {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+.sb-both > .sb-root {
+  flex: 1 1 390px;
+}

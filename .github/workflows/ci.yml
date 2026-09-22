@@ -14,8 +14,16 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - name: Playwright browser cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - run: npx playwright install --with-deps chromium
       - run: npm run build
       - run: npm run lint
       - run: npm run format:check
       - run: npm run typecheck
+      # Unit tests plus every Storybook story as a browser test (render, play, axe in both themes).
       - run: npm test
+      - run: npm run build-storybook -w @tare/ui

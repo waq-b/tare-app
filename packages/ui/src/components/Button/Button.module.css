@@ -1,0 +1,101 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: var(--touch-min);
+  padding: 0 var(--space-5);
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  font-family: var(--type-button-family);
+  font-size: var(--type-button-size);
+  font-weight: var(--type-button-weight);
+  line-height: var(--type-button-line);
+  cursor: pointer;
+  transition:
+    transform var(--motion-press-duration) var(--motion-press-easing),
+    background-color var(--motion-state-duration) var(--motion-state-easing),
+    border-color var(--motion-state-duration) var(--motion-state-easing);
+}
+.button:active:not(:disabled) {
+  transform: scale(var(--motion-press-scale));
+}
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.s64 {
+  min-height: var(--touch-primary-lg);
+}
+.s60 {
+  min-height: var(--touch-button);
+}
+.s52 {
+  min-height: var(--touch-button-compact);
+}
+/* Inline buttons still meet the 48px target. */
+.s44 {
+  min-height: var(--touch-min);
+  padding: 0 var(--space-4);
+  font-size: var(--type-body-s-size);
+}
+.full {
+  display: flex;
+  width: 100%;
+}
+
+.primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.secondary {
+  background: var(--surface-2);
+  border-color: var(--line-strong);
+  color: var(--text);
+}
+.secondary-outline {
+  background: transparent;
+  border-color: var(--line-strong);
+  color: var(--text);
+}
+.ghost {
+  background: transparent;
+  color: var(--text-2);
+}
+/* Tone fills: text is the page colour, which contrasts in both themes. */
+.hold,
+.swap,
+.deload,
+.warning {
+  color: var(--bg);
+}
+.hold {
+  background: var(--hold);
+}
+.swap {
+  background: var(--swap);
+}
+.deload {
+  background: var(--deload);
+}
+.warning {
+  background: var(--warning);
+}
+.emergency {
+  min-height: 76px;
+  background: var(--on-safety-stop-solid);
+  color: var(--safety-stop-solid);
+  font-size: var(--type-title-size);
+}
+
+.icon {
+  display: inline-flex;
+}
+.sep {
+  opacity: 0.6;
+}
+.value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
