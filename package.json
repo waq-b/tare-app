@@ -16,8 +16,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc -p tsconfig.json && npm run typecheck --workspaces --if-present",
-    "test": "vitest run",
-    "build": "npm run build --workspaces --if-present"
+    "test": "vitest run && node scripts/check-design-md.ts",
+    "build": "npm run build --workspaces --if-present",
+    "check:design": "node scripts/check-design-md.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

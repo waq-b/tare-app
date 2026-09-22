@@ -8,3 +8,4 @@ coverage/
 .DS_Store
 design/*.tgz
 packages/icons/gallery/
+.claude/*.lock

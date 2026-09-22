@@ -190,6 +190,13 @@ exports[`generate > CSS matches snapshot 1`] = `
   --type-body-tracking: 0;
   --type-body-numeric: normal;
   --type-body-transform: none;
+  --type-button-family: var(--font-sans);
+  --type-button-size: 17px;
+  --type-button-weight: 600;
+  --type-button-line: 1.2;
+  --type-button-tracking: 0;
+  --type-button-numeric: normal;
+  --type-button-transform: none;
   --type-body-s-family: var(--font-sans);
   --type-body-s-size: 14px;
   --type-body-s-weight: 400;
@@ -432,6 +439,15 @@ export declare const tokens: {
       readonly 'numeric': false,
       readonly 'uppercase': false
     },
+    readonly 'button': {
+      readonly 'family': "sans",
+      readonly 'size': 17,
+      readonly 'weight': 600,
+      readonly 'line': 1.2,
+      readonly 'tracking': "0",
+      readonly 'numeric': false,
+      readonly 'uppercase': false
+    },
     readonly 'body-s': {
       readonly 'family': "sans",
       readonly 'size': 14,
@@ -528,7 +544,7 @@ export type SemanticColor = 'progress' | 'hold' | 'deload' | 'swap' | 'warning' 
 export type SafetyAction = 'stop_now_call_999' | 'stop_and_contact_111' | 'stop_and_see_gp' | 'reduce_or_rest' | 'modify_exercise' | 'continue_with_caution';
 export type SafetyEmphasis = 'solid' | 'fill' | 'accent';
 export declare const safetyActions: readonly SafetyAction[];
-export type TypeStyleName = 'num-hero' | 'num-xl' | 'num-l' | 'num-m' | 'display' | 'title' | 'heading' | 'body' | 'body-s' | 'caption' | 'label';
+export type TypeStyleName = 'num-hero' | 'num-xl' | 'num-l' | 'num-m' | 'display' | 'title' | 'heading' | 'body' | 'button' | 'body-s' | 'caption' | 'label';
 export type SpaceStep = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8';
 export type RadiusName = 'sm' | 'md' | 'lg' | 'xl' | 'sheet' | 'pill';
 export type CssVarName =
@@ -652,6 +668,13 @@ export type CssVarName =
   | 'type-body-tracking'
   | 'type-body-numeric'
   | 'type-body-transform'
+  | 'type-button-family'
+  | 'type-button-size'
+  | 'type-button-weight'
+  | 'type-button-line'
+  | 'type-button-tracking'
+  | 'type-button-numeric'
+  | 'type-button-transform'
   | 'type-body-s-family'
   | 'type-body-s-size'
   | 'type-body-s-weight'
