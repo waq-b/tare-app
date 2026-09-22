@@ -37,3 +37,28 @@ export const movementPatterns = [
   "mobility"
 ] as const;
 export type MovementPattern = (typeof movementPatterns)[number];
+
+export const bodyAreas = [
+  "neck",
+  "shoulder",
+  "elbow",
+  "wrist",
+  "upper_back",
+  "lower_back",
+  "hip",
+  "knee",
+  "ankle",
+  "calf"
+] as const;
+export type BodyArea = (typeof bodyAreas)[number];
+
+/** Areas with a left and a right. */
+export const bodyAreasSided = [
+  "shoulder",
+  "elbow",
+  "wrist",
+  "hip",
+  "knee",
+  "ankle",
+  "calf"
+] as const;

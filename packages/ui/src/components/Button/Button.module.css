@@ -1,5 +1,6 @@
 .button {
   display: inline-flex;
+  text-decoration: none;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
@@ -98,4 +99,11 @@
 .value {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
+}
+
+/* Secondary actions on the red emergency screen. */
+.emergency-outline {
+  background: transparent;
+  border-color: var(--on-safety-stop-solid);
+  color: var(--on-safety-stop-solid);
 }

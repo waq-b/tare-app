@@ -1,0 +1,43 @@
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--type-caption-size);
+  color: var(--text-2);
+}
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.mark {
+  display: inline-block;
+  flex-shrink: 0;
+}
+.box {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: var(--c);
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--c);
+}
+.line {
+  width: 16px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--c);
+}
+.dashed {
+  width: 14px;
+  height: 12px;
+  border: 1.5px dashed var(--c);
+  border-radius: 3px;
+}

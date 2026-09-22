@@ -1,0 +1,97 @@
+.es {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: var(--touch-primary);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--safety-stop-edge);
+  border-radius: var(--radius-md);
+  background: var(--safety-stop-tint);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.es > svg {
+  color: var(--safety-stop-on-tint);
+}
+.esLabel {
+  flex-grow: 1;
+  font-size: var(--type-body-s-size);
+  font-weight: 600;
+}
+.es999 {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--safety-stop-on-tint);
+}
+.iconList {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.iconList li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  line-height: var(--type-body-line);
+}
+.iconList li > svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--text-2);
+}
+.onEmergency,
+.onEmergency li > svg {
+  color: var(--on-safety-stop-solid);
+}
+.removed ul {
+  display: grid;
+  gap: 6px;
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.removed li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  font-size: 15px;
+}
+.removedLabel {
+  margin: 0;
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  letter-spacing: var(--type-label-tracking);
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.disclaimer {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xl);
+  background: var(--surface-1);
+}
+.disclaimer > svg {
+  flex-shrink: 0;
+  color: var(--accent);
+}
+.disclaimerTitle {
+  margin: 0 0 var(--space-1);
+  font-weight: 600;
+}
+.disclaimerBody {
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+  color: var(--text-2);
+}

@@ -12,4 +12,21 @@ export {
   type MuscleMapView,
   type MuscleState,
 } from './MuscleMap.tsx';
-export { muscles, movementPatterns, type Muscle, type MovementPattern } from './generated/enums.ts';
+export {
+  BodyMap,
+  bodyMarkers,
+  sidedAreas,
+  type BodyFlag,
+  type BodyFlagState,
+  type BodyMapProps,
+  type BodySide,
+} from './BodyMap.tsx';
+export {
+  bodyAreas,
+  bodyAreasSided,
+  muscles,
+  movementPatterns,
+  type BodyArea,
+  type Muscle,
+  type MovementPattern,
+} from './generated/enums.ts';

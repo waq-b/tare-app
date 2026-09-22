@@ -1,0 +1,33 @@
+.wrap {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.link {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 6px;
+  min-height: var(--touch-min);
+  padding: var(--space-3) 0;
+  color: inherit;
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+}
+.link > svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.text {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+.org {
+  font-weight: 600;
+}
+.more {
+  font-size: var(--type-caption-size);
+  opacity: 0.8;
+}

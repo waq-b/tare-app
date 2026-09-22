@@ -10,7 +10,8 @@ export type ButtonVariant =
   | 'swap'
   | 'deload'
   | 'warning'
-  | 'emergency';
+  | 'emergency'
+  | 'emergency-outline';
 
 /** 64 = screen CTA, 60 = default, 52 = compact, 44 = inline. */
 export type ButtonSize = 64 | 60 | 52 | 44;
@@ -27,6 +28,10 @@ export interface ButtonProps extends Omit<
   /** Trailing numbers in mono, e.g. "70 × 8" in "Done · 70 × 8". */
   value?: ReactNode;
   fullWidth?: boolean;
+  /** Render as a link (e.g. `tel:999`, an NHS page). */
+  href?: string;
+  /** For links that leave the app. Opens a new tab and says so to screen readers. */
+  external?: boolean;
 }
 
 export function Button({
@@ -38,6 +43,8 @@ export function Button({
   fullWidth = false,
   type = 'button',
   className,
+  href,
+  external = false,
   ...rest
 }: ButtonProps) {
   const cls = [
@@ -49,8 +56,8 @@ export function Button({
   ]
     .filter(Boolean)
     .join(' ');
-  return (
-    <button type={type} className={cls} {...rest}>
+  const inner = (
+    <>
       {icon ? <span className={styles['icon']}>{icon}</span> : null}
       <span>{children}</span>
       {value != null ? (
@@ -61,6 +68,24 @@ export function Button({
           <span className={styles['value']}>{value}</span>
         </>
       ) : null}
+      {external ? <span className="sr-only"> (opens outside Tare)</span> : null}
+    </>
+  );
+  if (href) {
+    return (
+      <a
+        href={href}
+        className={cls}
+        aria-label={rest['aria-label']}
+        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      >
+        {inner}
+      </a>
+    );
+  }
+  return (
+    <button type={type} className={cls} {...rest}>
+      {inner}
     </button>
   );
 }

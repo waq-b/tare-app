@@ -1,0 +1,40 @@
+.card {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--c);
+  border-radius: var(--radius-xl);
+  background: var(--surface-1);
+}
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.head > svg {
+  color: var(--c-ink);
+}
+.area {
+  flex-grow: 1;
+  margin: 0;
+  font-size: var(--type-body-size);
+  font-weight: 600;
+}
+.when {
+  margin: 0;
+  font-size: var(--type-caption-size);
+  color: var(--text-3);
+}
+.message {
+  margin: 0;
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+  color: var(--text-2);
+}
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+}

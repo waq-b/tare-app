@@ -128,6 +128,8 @@ const region = (n: Node, i: number, map: (string | null)[]) => {
 const enums = JSON.parse(readFileSync(join(repo, 'vpt/data/exercises.json'), 'utf8')).enums as {
   muscles: string[];
   movement_pattern: string[];
+  body_areas: string[];
+  body_area_sided: string[];
 };
 
 const header =
@@ -157,6 +159,12 @@ export type Muscle = (typeof muscles)[number];
 
 export const movementPatterns = ${lit(enums.movement_pattern)} as const;
 export type MovementPattern = (typeof movementPatterns)[number];
+
+export const bodyAreas = ${lit(enums.body_areas)} as const;
+export type BodyArea = (typeof bodyAreas)[number];
+
+/** Areas with a left and a right. */
+export const bodyAreasSided = ${lit(enums.body_area_sided)} as const;
 `,
 );
 
