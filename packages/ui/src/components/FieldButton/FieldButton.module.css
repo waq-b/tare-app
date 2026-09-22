@@ -1,0 +1,33 @@
+.field {
+  display: grid;
+  gap: var(--space-2);
+}
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: var(--touch-button-compact);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+.btn > svg {
+  color: var(--text-3);
+}
+.value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.empty {
+  border-style: dashed;
+  background: transparent;
+  color: var(--text-2);
+}
+.empty .value {
+  font-family: var(--font-sans);
+}

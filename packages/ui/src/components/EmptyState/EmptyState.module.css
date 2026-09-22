@@ -1,0 +1,36 @@
+.empty {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.centred {
+  align-items: center;
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+}
+.left {
+  align-items: stretch;
+}
+.left > :first-child {
+  align-self: flex-start;
+}
+.text {
+  display: grid;
+  gap: var(--space-2);
+}
+.title {
+  margin: 0;
+  font-size: var(--type-title-size);
+  font-weight: var(--type-title-weight);
+  line-height: var(--type-title-line);
+}
+.body {
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+  color: var(--text-2);
+}
+.actions {
+  display: grid;
+  gap: var(--space-2);
+  width: 100%;
+}

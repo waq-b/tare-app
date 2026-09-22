@@ -1,0 +1,64 @@
+.banner {
+  --fill: var(--surface-2);
+  --edge: var(--line-strong);
+  --ink: var(--text-2);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: 14px;
+  border: 1px solid var(--edge);
+  border-radius: var(--radius-lg);
+  background: var(--fill);
+}
+.unsynced {
+  --fill: var(--warning-tint);
+  --edge: var(--warning-edge);
+  --ink: var(--warning-on-tint);
+}
+.deload {
+  --fill: var(--deload-tint);
+  --edge: var(--deload-edge);
+  --ink: var(--deload-on-tint);
+}
+.success {
+  --fill: var(--progress-tint);
+  --edge: var(--progress-edge);
+  --ink: var(--progress-on-tint);
+}
+.pr {
+  --fill: var(--accent-tint);
+  --edge: var(--accent-edge);
+  --ink: var(--accent-on-tint);
+}
+.safety {
+  --fill: var(--safety-stop-tint);
+  --edge: var(--safety-stop-edge);
+  --ink: var(--safety-stop-on-tint);
+}
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--ink);
+}
+.body {
+  display: grid;
+  flex-grow: 1;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+.text {
+  font-size: var(--type-body-s-size);
+  line-height: var(--type-body-s-line);
+  color: var(--text-2);
+}
+.action {
+  flex-shrink: 0;
+  align-self: center;
+}

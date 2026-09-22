@@ -1,0 +1,44 @@
+.group {
+  display: grid;
+  gap: 6px;
+}
+.seg {
+  min-height: var(--touch-min);
+  padding: 0 var(--space-1);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-2);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--motion-state-duration) var(--motion-state-easing);
+}
+.on-accent {
+  border-color: var(--accent);
+  background: var(--accent-tint);
+  color: var(--text);
+}
+.on-neutral {
+  border-color: var(--text);
+  background: var(--surface-3);
+  color: var(--text);
+}
+.compact {
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border-radius: var(--radius-lg);
+  background: var(--surface-1);
+}
+.compact .seg {
+  border-color: transparent;
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+}
+.compact .on-accent,
+.compact .on-neutral {
+  border-color: var(--line-strong);
+  background: var(--surface-3);
+  color: var(--text);
+}

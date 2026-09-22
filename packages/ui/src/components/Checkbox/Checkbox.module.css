@@ -1,0 +1,30 @@
+.box {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--touch-min);
+  font-size: var(--type-body-size);
+  cursor: pointer;
+}
+.input {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+.tile {
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  font-size: var(--type-body-s-size);
+  font-weight: 600;
+}
+.tile.checked {
+  border-color: var(--accent-edge);
+  background: var(--surface-1);
+}
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

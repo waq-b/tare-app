@@ -1,0 +1,48 @@
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.center {
+  align-items: center;
+  text-align: center;
+}
+.eyebrow {
+  margin: var(--space-2) 0 0;
+  font-size: var(--type-caption-size);
+  font-weight: 600;
+  letter-spacing: var(--type-label-tracking);
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+.e-warning {
+  color: var(--warning);
+}
+.e-deload {
+  color: var(--deload);
+}
+.e-swap {
+  color: var(--swap);
+}
+.e-hold {
+  color: var(--hold);
+}
+.e-safety {
+  color: var(--safety-stop);
+}
+.e-accent {
+  color: var(--accent);
+}
+.title {
+  margin: 0;
+  font-size: var(--type-display-size);
+  font-weight: var(--type-display-weight);
+  line-height: var(--type-display-line);
+  letter-spacing: var(--type-display-tracking);
+}
+.body {
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+  color: var(--text-2);
+}

@@ -1,0 +1,76 @@
+.switch {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+  cursor: pointer;
+}
+.input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+.track {
+  position: relative;
+  display: block;
+  width: 52px;
+  height: 32px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-3);
+  transition: background-color var(--motion-state-duration) var(--motion-state-easing);
+}
+.knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-pill);
+  background: var(--text-2);
+  color: var(--accent);
+  transition:
+    left var(--motion-state-duration) var(--motion-state-easing),
+    background-color var(--motion-state-duration) var(--motion-state-easing);
+}
+.input:checked + * + .track {
+  background: var(--accent);
+}
+.input:checked + * + .track .knob {
+  left: 23px;
+  background: var(--on-accent);
+}
+.input:focus-visible + * + .track {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.off {
+  cursor: not-allowed;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 64px;
+  border-bottom: 1px solid var(--line);
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 2px;
+}
+.title {
+  font-size: var(--type-body-size);
+}
+.desc {
+  font-size: var(--type-caption-size);
+  color: var(--text-3);
+}

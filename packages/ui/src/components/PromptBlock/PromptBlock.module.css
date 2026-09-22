@@ -1,0 +1,15 @@
+.block {
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-1);
+}
+.pre {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+  line-height: 1.6;
+  color: var(--text-2);
+  white-space: pre-wrap;
+}
