@@ -386,7 +386,7 @@ There's no other safety copy. The canvas's per-scenario headlines, bodies, steps
 - Exercise-Detail cues and steps differ from `exercises.json` `cues` / `instructions`; swaps show 3 of 6, and "Cable fly" (Swap-Sheet) isn't a bench swap. Swap reasons come from `swap_reason`, not the canvas sentences
 - Rest "2:00" is hard-coded; it's `tr.goal.*.rest_seconds`
 - Dumbbell loads must follow `load_convention` everywhere (Session-Detail and Lifts-Table show "22 × 10" without "per hand")
-- Weigh-ins: Health-Weighin says daily + 7-day average; Progress says "optional · weekly"; CLAUDE.md §9 says weekly. Decide in P0
+- Weigh-ins: Health-Weighin says daily + 7-day average; Progress says "optional · weekly"; CLAUDE.md §10 says weekly. Decide in P0
 
 ## 6. Design gaps and data issues
 
