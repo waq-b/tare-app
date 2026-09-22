@@ -65,7 +65,7 @@ export default tseslint.config(
   },
   {
     // Stories and tests index fixture data that's known to exist.
-    files: ['**/*.stories.tsx', '**/test/**/*.{ts,tsx}'],
+    files: ['**/*.stories.tsx', '**/stories/**/*.{ts,tsx}', '**/test/**/*.{ts,tsx}'],
     rules: { '@typescript-eslint/no-non-null-assertion': 'off' },
   },
   prettier,

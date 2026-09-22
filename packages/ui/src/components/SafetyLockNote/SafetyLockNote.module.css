@@ -5,7 +5,6 @@
   margin: 0;
   font-size: var(--type-caption-size);
   line-height: var(--type-caption-line);
-  opacity: 0.85;
 }
 .note > svg {
   flex-shrink: 0;

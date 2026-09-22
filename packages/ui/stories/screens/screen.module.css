@@ -1,0 +1,62 @@
+.frame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 390px;
+  height: 844px;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+}
+.body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-height: 0;
+  padding: 0 var(--space-5) var(--space-6);
+  overflow-y: auto;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+.grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+.lede {
+  margin: 0;
+  color: var(--text-2);
+  line-height: var(--type-body-line);
+}
+.h1 {
+  margin: 0;
+  font-size: var(--type-display-size);
+  font-weight: var(--type-display-weight);
+  line-height: var(--type-display-line);
+  letter-spacing: var(--type-display-tracking);
+}
+.h2 {
+  margin: 0;
+  font-size: var(--type-title-size);
+  font-weight: var(--type-title-weight);
+}
+.stack {
+  display: grid;
+  gap: var(--space-2);
+}
+.ghostRow {
+  display: flex;
+  gap: 0;
+  margin: 0 calc(var(--space-3) * -1);
+}
+.ghostRow > :last-child {
+  margin-left: auto;
+}

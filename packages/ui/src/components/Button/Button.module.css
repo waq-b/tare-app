@@ -12,6 +12,7 @@
   font-size: var(--type-button-size);
   font-weight: var(--type-button-weight);
   line-height: var(--type-button-line);
+  white-space: nowrap;
   cursor: pointer;
   transition:
     transform var(--motion-press-duration) var(--motion-press-easing),

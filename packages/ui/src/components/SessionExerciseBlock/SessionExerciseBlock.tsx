@@ -29,6 +29,8 @@ export interface SessionExerciseBlockProps {
   /** Hardest effort tapped, e.g. "Hard". */
   effort?: string;
   pr?: boolean;
+  /** Heading level for the exercise name (h2 directly under a screen title). */
+  as?: 'h2' | 'h3';
 }
 
 /** An exercise in a past session: name, PR tag, effort, and its working sets. */
@@ -38,12 +40,13 @@ export function SessionExerciseBlock({
   loadConvention,
   effort,
   pr = false,
+  as: H = 'h3',
 }: SessionExerciseBlockProps) {
   const suffix = conventionSuffix(loadConvention);
   return (
     <section className={styles['block']}>
       <div className={styles['head']}>
-        <h3 className={styles['name']}>{name}</h3>
+        <H className={styles['name']}>{name}</H>
         {pr ? <Tag tone="accent">PR</Tag> : null}
         {effort ? <span className={styles['effort']}>{effort}</span> : null}
       </div>

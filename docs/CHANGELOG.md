@@ -14,6 +14,25 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### D1 — Storybook design library (in progress)
 
+- **T11 screens: workout, today, plan (#35):** 18 boards as screen stories, composed from components with fixtures (`stories/screens`).
+  - Workout: Ledger (interactive), Ledger (light), Edit set, Rest timer, Swap sheet, Offline.
+  - Today: Default, Default (light), Rest day, Deload week, Sync failed, Loading.
+  - Finish: Default, Default (light), Sync failed.
+  - Plan/Week, History/Session, Exercise/Detail.
+
+  Everything shown is derived rather than copied from the canvas:
+  - today's prescriptions include the accepted bench change;
+  - warm-ups come from `tr.global.warm_up`;
+  - swap options are filtered by kit and can't-do, with starting loads from `tr.global.swap_starting_load` (22 kg per hand, 50 kg Smith, otherwise "Easy first set");
+  - the deload banner's numbers and caveat come from `pr.deload`;
+  - Finish shows a PR only when the e1RM really beats the previous best;
+  - the plan footer shows the vpt version and the next deload.
+
+  Fixes found along the way:
+  - light-theme contrast on a dimmed "+N more" link;
+  - a skipped heading level on Session-Detail;
+  - label wrapping in the last-time strip and the ghost buttons.
+
 - **T10 food and notifications (#34):** `MealRow` ("Not logged yet" instead of a guess), `NotificationItem` (category tiles: safety, plan, coach, sync, deload; unread dot), `ResponseButtons` (≥48px), `PushNotification` + `AppMark` (an OS mock for reviewing push copy), and `QuietHoursCard` (safety follow-ups still come through). Stories only; wired in P2/P4
 - **T9 charts (#33):** hand-rolled SVG on a small, tested scale module (bars and meters are always zero-based).
   - `LineChart`: compact or full, crosshair and tooltip, pointer and arrow-key scrubbing, Enter opens a point.

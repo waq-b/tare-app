@@ -9,6 +9,8 @@
   background: var(--surface-1);
 }
 .label {
+  flex-shrink: 0;
+  white-space: nowrap;
   font-size: var(--type-label-size);
   font-weight: var(--type-label-weight);
   letter-spacing: var(--type-label-tracking);
@@ -16,6 +18,10 @@
   color: var(--text-3);
 }
 .sets {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   font-family: var(--font-mono);
   font-size: var(--type-num-m-size);
   font-variant-numeric: tabular-nums;
