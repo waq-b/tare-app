@@ -14,6 +14,15 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### D1 — Storybook design library (in progress)
 
+- **T9 charts (#33):** hand-rolled SVG on a small, tested scale module (bars and meters are always zero-based).
+  - `LineChart`: compact or full, crosshair and tooltip, pointer and arrow-key scrubbing, Enter opens a point.
+  - `TrendChart`: raw dots with the average as the line.
+  - `TargetBars`: dashed no-data days and a target band. `TargetBandBar`: status in words (Below / In range / Above) instead of the canvas's warning colour.
+  - `MacroBar` (direct-labelled series), `Meter` (native `<meter>`), `Heatmap`, `DayDots`, `StatTile`, `HeroNumber` (with an "estimated" / "imported" qualifier), `Sparkline`, `ChartTooltip`.
+  - `DataTable`: sortable, with `aria-sort`, row headers and a caption.
+  - `ChartFrame`: the chart/table toggle, so every chart has its table one tap away.
+  - Every chart has a text summary for screen readers. Stories use fixture data; the Foundations/Charts page shows them all live.
+  - The purity rule now also blocks bare `fixtures` imports in components (tested).
 - **T8 coach and onboarding (#32):**
   - `ChangeCard` has three kinds and three states. Also `AcceptReject`, `DecisionStatus` (with Undo) and `ReasonPicker` (including a selected state).
   - `DiffChip` (large and compact), `EvidenceBadge` (strong, moderate or weak; "No evidence rating" when the data gives none).

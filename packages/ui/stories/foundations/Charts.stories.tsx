@@ -1,6 +1,20 @@
-// Board: Charts.dc.html. The chart rules and series colours; the charts themselves arrive in T9.
+// Board: Charts.dc.html. The chart rules, series colours, and every chart with fixture data.
 import { cssVar } from '@tare/tokens';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { FIXTURE_FOOD_TARGETS, FIXTURE_MACROS_TODAY } from '../../fixtures';
+import {
+  benchE1rm,
+  heatWeeks,
+  liftRows,
+  setBand,
+  setsWeek8,
+  weighInAvg,
+  weighInRaw,
+} from '../../fixtures/charts';
+import { Heatmap, MacroBar, Meter, TargetBandBar } from '../../src/components/Charts/Bars';
+import { LineChart, Sparkline, TrendChart } from '../../src/components/Charts/LineChart';
+import { HeroNumber, StatTile } from '../../src/components/Charts/Stats';
+import { ChartFrame, DataTable } from '../../src/components/Charts/Table';
 import s from './foundations.module.css';
 
 const meta = { title: 'Foundations/Charts' } satisfies Meta;
@@ -24,6 +38,80 @@ export const Charts: StoryObj = {
             <li key={r}>{r}</li>
           ))}
         </ol>
+      </section>
+      <ChartFrame
+        title="LineChart"
+        note="Bench press e1RM, estimated from sets of 10 reps or fewer"
+        chart={<LineChart points={benchE1rm} label="Bench press e1RM, kg (estimated)" unit="kg" />}
+        table={
+          <DataTable
+            caption="Bench press e1RM, kg"
+            columns={[
+              { key: 'x', label: 'Session', rowHeader: true },
+              { key: 'y', label: 'e1RM', numeric: true },
+            ]}
+            rows={benchE1rm}
+          />
+        }
+      />
+      <section>
+        <h2 className={s['h2']}>TrendChart · HeroNumber · StatTile</h2>
+        <HeroNumber
+          label="Bodyweight"
+          value={String(weighInAvg.at(-1)?.y)}
+          unit="kg"
+          delta="7-day average"
+        />
+        <TrendChart raw={weighInRaw} average={weighInAvg} label="Bodyweight, kg" unit="kg" />
+        <div
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginTop: 12 }}
+        >
+          <StatTile label="Time" value="54" unit="min" />
+          <StatTile label="Volume" value="7,960" unit="kg" />
+          <StatTile label="Sets" value="16" />
+        </div>
+      </section>
+      <section>
+        <h2 className={s['h2']}>TargetBandBar: weekly sets, target from tr.goal.fat_loss</h2>
+        {setsWeek8.slice(0, 6).map((m) => (
+          <TargetBandBar
+            key={m.label}
+            label={m.label}
+            value={m.value}
+            band={setBand}
+            scaleMax={16}
+          />
+        ))}
+      </section>
+      <section>
+        <h2 className={s['h2']}>MacroBar · Meter (fixture food targets)</h2>
+        <MacroBar
+          segments={[
+            { label: 'Protein', grams: FIXTURE_MACROS_TODAY.proteinG },
+            { label: 'Carbs', grams: FIXTURE_MACROS_TODAY.carbsG },
+            { label: 'Fat', grams: FIXTURE_MACROS_TODAY.fatG },
+          ]}
+        />
+        <div style={{ marginTop: 12 }}>
+          <Meter label="Protein" value={108} target={FIXTURE_FOOD_TARGETS.proteinG} unit="g" />
+        </div>
+      </section>
+      <section>
+        <h2 className={s['h2']}>Heatmap</h2>
+        <Heatmap weeks={heatWeeks} label="Consistency" />
+      </section>
+      <section>
+        <h2 className={s['h2']}>DataTable with sparklines</h2>
+        <DataTable
+          caption="All lifts"
+          columns={[
+            { key: 'lift', label: 'Lift', rowHeader: true },
+            { key: 'top', label: 'Top set', numeric: true },
+            { key: 'e1rm', label: 'e1RM', numeric: true },
+            { key: 'trend', label: 'Trend', render: (r) => <Sparkline values={r.trend} /> },
+          ]}
+          rows={liftRows}
+        />
       </section>
       <section>
         <h2 className={s['h2']}>

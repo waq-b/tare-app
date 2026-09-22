@@ -43,7 +43,7 @@ export default tseslint.config(
               message: 'Components are pure: pass data in as props (hard line 5).',
             },
             { group: ['**/vpt/**'], message: 'Only @tare/data reads vpt/ (CLAUDE.md §9).' },
-            { group: ['**/fixtures/**'], message: 'Fixtures are for stories only.' },
+            { group: ['**/fixtures', '**/fixtures/**'], message: 'Fixtures are for stories only.' },
           ],
         },
       ],

@@ -44,6 +44,15 @@ describe('purity lint rule', () => {
     );
   });
 
+  it('rejects fixture imports inside components', async () => {
+    expect(
+      await lint("import { plan } from '../../../fixtures';\nexport const x = plan;\n"),
+    ).toContain('no-restricted-imports');
+    expect(
+      await lint("import { plan } from '../../../fixtures/plan';\nexport const x = plan;\n"),
+    ).toContain('no-restricted-imports');
+  });
+
   it('rejects network and storage inside components', async () => {
     expect(await lint('export const x = () => fetch("/x");\n')).toContain('no-restricted-globals');
     expect(await lint('export const x = () => localStorage.getItem("k");\n')).toContain(
