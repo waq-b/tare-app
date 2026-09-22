@@ -1,0 +1,468 @@
+{
+ "version": "0.1.1",
+ "notes": [
+  "id_scheme: every rule has a permanent `id`. IDs never change or get reused between versions; a retired rule keeps its id with `retired: true`. Prefixes: tr.* = training_rules, pr.* = progression_rules, sf.* = screening (questions cited as sf.screening.<question id>); safety red-flag rules keep their bare snake_case ids from v0.1.0. AI suggestions must cite ids, e.g. 'pr.stall.step2'.",
+  "Actions (most to least urgent): stop_now_call_999 | stop_and_contact_111 | stop_and_see_gp | reduce_or_rest | modify_exercise | continue_with_caution.",
+  "These rules run in code BEFORE and AFTER the LLM. The LLM can never downgrade an action.",
+  "Messages are ours (UK English, calm). Not medical advice; the app should say so once in onboarding."
+ ],
+ "rules": [
+  {
+   "id": "chest_pain_emergency",
+   "red_flag": "Sudden chest pain/discomfort that doesn't go away; OR pain spreading to arm, neck, jaw, stomach or back; OR chest pain with sweating, feeling sick, light-headedness or breathlessness.",
+   "action": "stop_now_call_999",
+   "user_message": "Please stop now and call 999. Chest pain like this needs checking straight away. Stay still and don't drive yourself.",
+   "sources": [
+    {
+     "title": "Chest pain",
+     "org": "NHS",
+     "url": "https://www.nhs.uk/symptoms/chest-pain/",
+     "year": 2026
+    },
+    {
+     "title": "When to call 999",
+     "org": "NHS",
+     "url": "https://www.nhs.uk/nhs-services/urgent-and-emergency-care-services/when-to-call-999/",
+     "year": 2026
+    }
+   ],
+   "evidence_strength": "strong",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false
+  },
+  {
+   "id": "angina_not_easing",
+   "red_flag": "Known angina: symptoms still there 5 minutes after the second GTN dose.",
+   "action": "stop_now_call_999",
+   "user_message": "If your angina hasn't eased 5 minutes after your second spray, call 999 now.",
+   "sources": [
+    {
+     "title": "Angina",
+     "org": "NHS",
+     "url": "https://www.nhs.uk/conditions/angina/",
+     "year": 2026
+    }
+   ],
+   "evidence_strength": "strong",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false
+  },
+  {
+   "id": "symptoms_during_exercise",
+   "red_flag": "Chest pain, palpitations, dizziness or light-headedness DURING exercise.",
+   "action": "stop_and_see_gp",
+   "user_message": "Let's stop here and rest. If it doesn't settle quickly, call 999. If it settles, please see your GP before training again.",
+   "sources": [
+    {
+     "title": "Exercising with a heart condition: finding a safe level",
+     "org": "British Heart Foundation",
+     "url": "https://www.bhf.org.uk/informationsupport/heart-matters-magazine/activity/finding-safe-exercise-limits",
+     "year": 2024
+    }
+   ],
+   "evidence_strength": "strong",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false,
+   "escalate_to": "stop_now_call_999",
+   "escalate_if": "not settling quickly, or any chest_pain_emergency feature present",
+   "gap": "No source gives a minute threshold; escalate on any doubt."
+  },
+  {
+   "id": "chest_pain_intermittent",
+   "red_flag": "Chest pain that comes and goes, or passed quickly but the user is still worried.",
+   "action": "stop_and_see_gp",
+   "user_message": "Chest pain that comes and goes is worth a GP visit. Let's keep things light until you've been seen.",
+   "sources": [
+    {
+     "title": "Chest pain",
+     "org": "NHS",
+     "url": "https://www.nhs.uk/symptoms/chest-pain/",
+     "year": 2026
+    }
+   ],
+   "evidence_strength": "strong",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false,
+   "block_intensity_above_rpe": 6
+  },
+  {
+   "id": "angina_worsening",
+   "red_flag": "Angina getting worse, more frequent, lasting longer, or happening at rest.",
+   "action": "stop_and_contact_111",
+   "user_message": "This change needs checking today. Please contact NHS 111.",
+   "sources": [
+    {
+     "title": "Angina",
+     "org": "NHS",
+     "url": "https://www.nhs.uk/conditions/angina/",
+     "year": 2026
+    }
+   ],
+   "evidence_strength": "strong",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false
+  },
+  {
+   "id": "unsure_if_emergency",
+   "red_flag": "User unsure whether a symptom is serious.",
+   "action": "stop_and_contact_111",
+   "user_message": "If you're not sure how serious it is, NHS 111 can check your symptoms and tell you what to do.",
+   "sources": [
+    {
+     "title": "When to call 999",
+     "org": "NHS",
+     "url": "https://www.nhs.uk/nhs-services/urgent-and-emergency-care-services/when-to-call-999/",
+     "year": 2026
+    }
+   ],
+   "evidence_strength": "strong",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false
+  },
+  {
+   "id": "injury_severe",
+   "red_flag": "Injury with a crack sound, deformity/odd angle, numbness or pins and needles, or skin blue/grey/cold.",
+   "action": "stop_now_call_999",
+   "user_message": "Please stop and go to A&E, or call 999. This may need an X-ray or urgent care.",
+   "sources": [
+    {
+     "title": "Sprains and strains",
+     "org": "NHS",
+     "url": "https://www.nhs.uk/conditions/sprains-and-strains/",
+     "year": 2026
+    }
+   ],
+   "evidence_strength": "strong",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false
+  },
+  {
+   "id": "injury_cant_bear_weight",
+   "red_flag": "Can't bear weight or walk more than a few steps; pain or swelling severe or worsening; signs of infection (high temperature, hot/shivery).",
+   "action": "stop_and_contact_111",
+   "user_message": "Let's rest that area. Please contact NHS 111 today.",
+   "sources": [
+    {
+     "title": "Sprains and strains",
+     "org": "NHS",
+     "url": "https://www.nhs.uk/conditions/sprains-and-strains/",
+     "year": 2026
+    }
+   ],
+   "evidence_strength": "strong",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false
+  },
+  {
+   "id": "suspected_sprain_strain",
+   "red_flag": "Suspected sprain or strain (pain, swelling, bruising after a twist or overstretch).",
+   "action": "reduce_or_rest",
+   "user_message": "Protect it, rest, ice, compress and elevate for 2-3 days. We'll ease back in gradually and work around it.",
+   "sources": [
+    {
+     "title": "Sprains and strains",
+     "org": "NHS",
+     "url": "https://www.nhs.uk/conditions/sprains-and-strains/",
+     "year": 2026
+    }
+   ],
+   "evidence_strength": "strong",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false,
+   "rest_days": [
+    2,
+    3
+   ],
+   "avoid_strenuous_weeks_max": 8,
+   "typical_recovery_weeks": 2,
+   "engine_action": "Exclude exercises loading the flagged body area; resume at 50% volume."
+  },
+  {
+   "id": "calf_hot_swollen",
+   "red_flag": "Calf that is hot, swollen, tender and tense to touch.",
+   "action": "stop_now_call_999",
+   "user_message": "Please stop and get medical help now. A hot, swollen, tender calf needs checking today.",
+   "sources": [
+    {
+     "title": "Injuries, aches and pains",
+     "org": "County Durham & Darlington NHS FT (physiotherapy)",
+     "url": "https://www.cddft.nhs.uk/services/physiotherapy/patient-advice-and-information/injuries-aches-and-pains",
+     "year": 2025
+    }
+   ],
+   "evidence_strength": "moderate",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false
+  },
+  {
+   "id": "pain_not_settling_6wk",
+   "red_flag": "Localised ache or injury not settling within 6 weeks.",
+   "action": "stop_and_see_gp",
+   "user_message": "This has gone on longer than usual. A GP or physio should take a look.",
+   "sources": [
+    {
+     "title": "Injuries, aches and pains",
+     "org": "County Durham & Darlington NHS FT (physiotherapy)",
+     "url": "https://www.cddft.nhs.uk/services/physiotherapy/patient-advice-and-information/injuries-aches-and-pains",
+     "year": 2025
+    }
+   ],
+   "evidence_strength": "moderate",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false
+  },
+  {
+   "id": "doms_normal",
+   "red_flag": "Dull, general muscle soreness starting 1-3 days after a hard or new session, easing within ~5 days.",
+   "action": "continue_with_caution",
+   "user_message": "That sounds like normal soreness after a harder session. Light movement helps and it should ease in a few days.",
+   "sources": [
+    {
+     "title": "Delayed Onset Muscle Soreness (DOMS)",
+     "org": "Cleveland Clinic (US)",
+     "url": "https://my.clevelandclinic.org/health/diseases/delayed-onset-muscle-soreness",
+     "year": 2024
+    }
+   ],
+   "evidence_strength": "moderate",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false,
+   "engine_action": "Allow training; avoid hard sets on the sore muscle until soreness is mild."
+  },
+  {
+   "id": "pain_not_doms",
+   "red_flag": "Soreness lasting more than 7 days; sharp or constant pain; severe swelling around a muscle; pain in a joint rather than muscle.",
+   "action": "stop_and_see_gp",
+   "user_message": "This doesn't sound like normal soreness. Please rest that area and see your GP.",
+   "sources": [
+    {
+     "title": "Delayed Onset Muscle Soreness (DOMS)",
+     "org": "Cleveland Clinic (US)",
+     "url": "https://my.clevelandclinic.org/health/diseases/delayed-onset-muscle-soreness",
+     "year": 2024
+    }
+   ],
+   "evidence_strength": "moderate",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false
+  },
+  {
+   "id": "dark_urine",
+   "red_flag": "Dark or blood-tinged (cola-coloured) urine after exercise, especially with severe muscle pain or weakness.",
+   "action": "stop_and_contact_111",
+   "user_message": "Dark urine after a hard session needs checking today. Please contact NHS 111 and drink water.",
+   "sources": [
+    {
+     "title": "Delayed Onset Muscle Soreness (DOMS)",
+     "org": "Cleveland Clinic (US)",
+     "url": "https://my.clevelandclinic.org/health/diseases/delayed-onset-muscle-soreness",
+     "year": 2024
+    }
+   ],
+   "evidence_strength": "moderate",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false,
+   "escalate_to": "stop_now_call_999",
+   "escalate_if": "severe pain, weakness or very little urine",
+   "gap": "Escalation is our inference; no NHS page found."
+  },
+  {
+   "id": "illness_above_neck",
+   "red_flag": "Illness with symptoms above the neck only (runny nose, congestion, mild sore throat).",
+   "action": "modify_exercise",
+   "user_message": "Light movement is usually fine with a head cold. Let's halve today's effort.",
+   "sources": [
+    {
+     "title": "Should you exercise when you're sick?",
+     "org": "Cleveland Clinic (US)",
+     "url": "https://health.clevelandclinic.org/should-i-still-work-out-if-im-sick-or-skip-it",
+     "year": 2024
+    }
+   ],
+   "evidence_strength": "weak",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false,
+   "engine_action": "Cut volume and intensity by >=50%; low-impact only.",
+   "gap": "'Neck check' is a US rule of thumb, not NHS guidance; label as guidance."
+  },
+  {
+   "id": "illness_below_neck",
+   "red_flag": "Fever, chest tightness, difficulty breathing, vomiting, diarrhoea, body aches or whole-body fatigue.",
+   "action": "reduce_or_rest",
+   "user_message": "Your body needs rest to recover. A few days off won't undo your progress.",
+   "sources": [
+    {
+     "title": "Should you exercise when you're sick?",
+     "org": "Cleveland Clinic (US)",
+     "url": "https://health.clevelandclinic.org/should-i-still-work-out-if-im-sick-or-skip-it",
+     "year": 2024
+    }
+   ],
+   "evidence_strength": "moderate",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false,
+   "engine_action": "No training until symptom-free; then 1 week at maintenance dose.",
+   "return_protocol": "tr.dose.maintenance_younger"
+  },
+  {
+   "id": "missed_periods",
+   "red_flag": "Missed 3 periods in a row, or cycle has become irregular, alongside heavy training or weight loss.",
+   "action": "stop_and_see_gp",
+   "user_message": "Missed periods can be a sign your body isn't getting enough energy for your training. Please see your GP. We'll ease the load in the meantime.",
+   "sources": [
+    {
+     "title": "Stopped or missed periods",
+     "org": "NHS",
+     "url": "https://www.nhs.uk/conditions/stopped-or-missed-periods/",
+     "year": 2026
+    },
+    {
+     "title": "2023 International Olympic Committee's consensus statement on Relative Energy Deficiency in Sport (REDs)",
+     "org": "IOC / British Journal of Sports Medicine",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/37752011/",
+     "year": 2023
+    }
+   ],
+   "evidence_strength": "strong",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false,
+   "engine_action": "Reduce volume 30-50% until reviewed."
+  },
+  {
+   "id": "low_energy_availability",
+   "red_flag": "Ongoing fatigue and poor recovery, bone stress injury, falling libido, low mood, rapid weight loss, or feeling compelled to exercise. Any sex, any level.",
+   "action": "stop_and_see_gp",
+   "user_message": "Some of what you've described can happen when training outpaces fuel. It's worth a GP check. Let's lighten the plan and look at recovery.",
+   "sources": [
+    {
+     "title": "2023 International Olympic Committee's consensus statement on Relative Energy Deficiency in Sport (REDs)",
+     "org": "IOC / British Journal of Sports Medicine",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/37752011/",
+     "year": 2023
+    }
+   ],
+   "evidence_strength": "moderate",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false,
+   "engine_action": "Reduce volume; disable calorie-deficit suggestions; no 'push harder' messaging."
+  },
+  {
+   "id": "new_or_long_term_condition",
+   "red_flag": "New to exercise, or has a long-term condition, with no symptoms.",
+   "action": "continue_with_caution",
+   "user_message": "Starting gently and building up is safe for almost everyone. The least active have the most to gain.",
+   "sources": [
+    {
+     "title": "UK Chief Medical Officers' Physical Activity Guidelines",
+     "org": "DHSC (UK)",
+     "url": "https://www.gov.uk/government/publications/physical-activity-guidelines-uk-chief-medical-officers-report/uk-chief-medical-officers-physical-activity-guidelines",
+     "year": 2019
+    }
+   ],
+   "evidence_strength": "strong",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false,
+   "engine_action": "Apply new_user_ramp."
+  },
+  {
+   "id": "frailty_falls",
+   "red_flag": "Frailty, moderate-to-severe dementia, vertebral fractures, or regular falls.",
+   "action": "modify_exercise",
+   "user_message": "For you, new exercises are best started with a physio or trainer first.",
+   "sources": [
+    {
+     "title": "UK Chief Medical Officers' Physical Activity Guidelines",
+     "org": "DHSC (UK)",
+     "url": "https://www.gov.uk/government/publications/physical-activity-guidelines-uk-chief-medical-officers-report/uk-chief-medical-officers-physical-activity-guidelines",
+     "year": 2019
+    }
+   ],
+   "evidence_strength": "strong",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced.",
+   "llm_can_override": false,
+   "engine_action": "Don't generate a plan without supervision acknowledgement."
+  }
+ ],
+ "screening": {
+  "id": "sf.screening",
+  "logic_source": [
+   {
+    "title": "Updating ACSM's Recommendations for Exercise Preparticipation Health Screening",
+    "org": "Riebe et al., Medicine & Science in Sports & Exercise",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/26473759/",
+    "year": 2015
+   }
+  ],
+  "evidence_strength": "strong",
+  "questions": [
+   {
+    "id": "currently_active",
+    "text": "In the last 3 months, have you done at least 30 minutes of planned moderate exercise on 3 or more days a week?",
+    "type": "yes_no"
+   },
+   {
+    "id": "known_disease",
+    "text": "Has a doctor ever told you that you have a heart, metabolic (e.g. diabetes) or kidney condition?",
+    "type": "yes_no"
+   },
+   {
+    "id": "symptoms",
+    "text": "Do you ever get any of these: chest, jaw or arm discomfort; breathlessness at rest or with light effort; dizziness or fainting; breathlessness lying flat; ankle swelling; a racing or fluttering heartbeat; calf pain when walking; a known heart murmur; or unusual tiredness with everyday activity?",
+    "type": "yes_no"
+   },
+   {
+    "id": "msk_issue",
+    "text": "Do you have a bone, joint or muscle problem that exercise could make worse?",
+    "type": "yes_no_with_area"
+   },
+   {
+    "id": "supervised_only",
+    "text": "Has a doctor told you to only exercise under medical supervision?",
+    "type": "yes_no"
+   }
+  ],
+  "questions_note": "Our own wording based on ACSM screening criteria. NOT PAR-Q+ (see parq_licence).",
+  "matrix": {
+   "symptoms=yes": {
+    "result": "medical_clearance_first",
+    "message": "Please check with your GP before starting. We'll be here when you're ready."
+   },
+   "supervised_only=yes": {
+    "result": "medical_clearance_first",
+    "message": "Your doctor has asked for supervised exercise, so please start with them first."
+   },
+   "currently_active=no,known_disease=no": {
+    "result": "start_light_to_moderate",
+    "max_rpe": 7
+   },
+   "currently_active=no,known_disease=yes": {
+    "result": "medical_clearance_first"
+   },
+   "currently_active=yes,known_disease=no": {
+    "result": "continue_progress_as_tolerated"
+   },
+   "currently_active=yes,known_disease=yes": {
+    "result": "continue_moderate",
+    "max_rpe": 7,
+    "note": "GP clearance before vigorous work."
+   },
+   "msk_issue=yes": {
+    "result": "modify",
+    "engine_action": "Flag area; exclude/modify exercises loading it; suggest physio."
+   }
+  },
+  "recheck": "Ask the symptoms question again if the user logs any pain/dizziness flag, and every 6 months.",
+  "parq_licence": {
+   "status": "do_not_reproduce",
+   "detail": "PAR-Q+ 2025 terms: materials must remain unaltered and may not be incorporated into electronic surveys or derivative materials without written consent. Options: request consent via https://eparmedx.com/contact-us/, or link out to the official PDF and record only the result.",
+   "sources": [
+    {
+     "title": "PAR-Q+ 2025 (terms of use)",
+     "org": "PAR-Q+ Collaboration",
+     "url": "https://eparmedx.com/?page_id=79",
+     "year": 2025
+    }
+   ]
+  }
+ }
+}

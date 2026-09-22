@@ -1,0 +1,630 @@
+{
+ "version": "0.1.1",
+ "notes": [
+  "id_scheme: every rule has a permanent `id`. IDs never change or get reused between versions; a retired rule keeps its id with `retired: true`. Prefixes: tr.* = training_rules, pr.* = progression_rules, sf.* = screening (questions cited as sf.screening.<question id>); safety red-flag rules keep their bare snake_case ids from v0.1.0. AI suggestions must cite ids, e.g. 'pr.stall.step2'.",
+  "ACSM 2026 (overview of 137 reviews) supersedes ACSM 2009. Its big shift: hypertrophy is load-agnostic from ~30-100% 1RM when sets are taken close to failure; rest and periodisation matter less than once thought.",
+  "Rep ranges below are DEFAULTS for plan generation, not hard rules. The validator should allow anything inside `allowed_*` ranges.",
+  "Fields marked engine_default:true are our synthesis where sources give no exact figure.",
+  "Weekly set counts use fractional counting: direct sets = 1.0, sets where the muscle is secondary = 0.5 (Pelland 2026)."
+ ],
+ "global": [
+  {
+   "id": "tr.global.min_frequency",
+   "rule": "min_frequency_per_muscle_per_week",
+   "value": 2,
+   "detail": "Train every major muscle group at least 2x/week.",
+   "sources": [
+    {
+     "title": "ACSM Position Stand: Resistance Training Prescription for Muscle Function, Hypertrophy, and Physical Performance in Healthy Adults — An Overview of Reviews",
+     "org": "American College of Sports Medicine (Phillips et al., MSSE)",
+     "url": "https://acsm.org/resistance-training-guidelines-update-2026/",
+     "year": 2026
+    },
+    {
+     "title": "WHO Guidelines on Physical Activity and Sedentary Behaviour",
+     "org": "World Health Organization",
+     "url": "https://www.ncbi.nlm.nih.gov/books/NBK566046/",
+     "year": 2020
+    },
+    {
+     "title": "UK Chief Medical Officers' Physical Activity Guidelines",
+     "org": "DHSC (UK)",
+     "url": "https://www.gov.uk/government/publications/physical-activity-guidelines-uk-chief-medical-officers-report/uk-chief-medical-officers-physical-activity-guidelines",
+     "year": 2019
+    }
+   ],
+   "evidence_strength": "strong",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "tr.global.set_counting",
+   "rule": "set_counting",
+   "value": {
+    "primary": 1.0,
+    "secondary": 0.5
+   },
+   "detail": "Fractional set counting fits the dose-response data best.",
+   "sources": [
+    {
+     "title": "The Resistance Training Dose Response: Meta-Regressions Exploring the Effects of Weekly Volume and Frequency on Muscle Hypertrophy and Strength Gains",
+     "org": "Pelland, Remmert, Robinson, Hinson, Zourdos, Sports Medicine",
+     "url": "https://link.springer.com/article/10.1007/s40279-025-02344-w",
+     "year": 2026
+    }
+   ],
+   "evidence_strength": "strong",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "tr.global.exercise_order",
+   "rule": "exercise_order",
+   "value": "compound_before_isolation",
+   "detail": "Main multi-joint lifts first in the session.",
+   "sources": [
+    {
+     "title": "ACSM Position Stand: Resistance Training Prescription for Muscle Function, Hypertrophy, and Physical Performance in Healthy Adults — An Overview of Reviews",
+     "org": "American College of Sports Medicine (Phillips et al., MSSE)",
+     "url": "https://acsm.org/resistance-training-guidelines-update-2026/",
+     "year": 2026
+    }
+   ],
+   "evidence_strength": "moderate",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "tr.global.full_rom",
+   "rule": "full_range_of_motion",
+   "value": true,
+   "sources": [
+    {
+     "title": "ACSM Position Stand: Resistance Training Prescription for Muscle Function, Hypertrophy, and Physical Performance in Healthy Adults — An Overview of Reviews",
+     "org": "American College of Sports Medicine (Phillips et al., MSSE)",
+     "url": "https://acsm.org/resistance-training-guidelines-update-2026/",
+     "year": 2026
+    }
+   ],
+   "evidence_strength": "moderate",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "tr.global.rpe_rir_map",
+   "rule": "rpe_rir_map",
+   "value": {
+    "10": 0,
+    "9.5": "0-1",
+    "9": 1,
+    "8.5": "1-2",
+    "8": 2,
+    "7.5": "2-3",
+    "7": 3,
+    "6": "4+"
+   },
+   "detail": "RIR-based RPE scale (9.5 = no reps left but could add a little load). Novices gauge RIR less accurately; Helms advises they don't base progression on RIR alone yet, so bias beginner targets 1 RIR further from failure and lean on rep/load progression.",
+   "sources": [
+    {
+     "title": "Application of the Repetitions in Reserve-Based Rating of Perceived Exertion Scale for Resistance Training",
+     "org": "Helms et al., Strength & Conditioning Journal",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4961270/",
+     "year": 2016
+    }
+   ],
+   "evidence_strength": "moderate",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  }
+ ],
+ "goals": [
+  {
+   "id": "tr.goal.strength",
+   "goal": "strength",
+   "rep_range": [
+    3,
+    6
+   ],
+   "allowed_rep_range": [
+    1,
+    12
+   ],
+   "load_pct_1rm": [
+    80,
+    95
+   ],
+   "sets_per_exercise": [
+    2,
+    4
+   ],
+   "rest_seconds": [
+    120,
+    180
+   ],
+   "allowed_rest_seconds": [
+    90,
+    300
+   ],
+   "intensity_rpe": [
+    7,
+    9
+   ],
+   "weekly_sets_per_muscle": {
+    "beginner": {
+     "min": 4,
+     "optimal": 8,
+     "max": 12
+    },
+    "intermediate": {
+     "min": 6,
+     "optimal": 10,
+     "max": 15
+    }
+   },
+   "frequency_per_muscle_per_week": [
+    2,
+    3
+   ],
+   "beginner_override": {
+    "rep_range": [
+     6,
+     10
+    ],
+    "load_pct_1rm": [
+     60,
+     75
+    ],
+    "intensity_rpe": [
+     6,
+     8
+    ]
+   },
+   "detail": "ACSM 2026: >=80% 1RM, 2-3 sets/exercise, >=2 sessions/wk. Strength gains flatten at lower volumes than hypertrophy; proximity to failure matters little for strength. Higher frequency helps strength.",
+   "engine_default": [
+    "rep_range",
+    "weekly_sets_per_muscle",
+    "beginner_override"
+   ],
+   "sources": [
+    {
+     "title": "ACSM Position Stand: Resistance Training Prescription for Muscle Function, Hypertrophy, and Physical Performance in Healthy Adults — An Overview of Reviews",
+     "org": "American College of Sports Medicine (Phillips et al., MSSE)",
+     "url": "https://acsm.org/resistance-training-guidelines-update-2026/",
+     "year": 2026
+    },
+    {
+     "title": "Progression Models in Resistance Training for Healthy Adults (Position Stand)",
+     "org": "American College of Sports Medicine (MSSE)",
+     "url": "https://journals.lww.com/acsm-msse/fulltext/2009/03000/progression_models_in_resistance_training_for.26.aspx",
+     "year": 2009
+    },
+    {
+     "title": "The Resistance Training Dose Response: Meta-Regressions Exploring the Effects of Weekly Volume and Frequency on Muscle Hypertrophy and Strength Gains",
+     "org": "Pelland, Remmert, Robinson, Hinson, Zourdos, Sports Medicine",
+     "url": "https://link.springer.com/article/10.1007/s40279-025-02344-w",
+     "year": 2026
+    },
+    {
+     "title": "Exploring the Dose–Response Relationship Between Estimated Resistance Training Proximity to Failure, Strength Gain, and Muscle Hypertrophy",
+     "org": "Robinson, Pelland, Remmert, Refalo et al., Sports Medicine",
+     "url": "https://link.springer.com/article/10.1007/s40279-024-02069-2",
+     "year": 2024
+    },
+    {
+     "title": "Effects of Rest Interval Duration in Resistance Training on Measures of Muscular Strength: A Systematic Review",
+     "org": "Grgic, Schoenfeld et al., Sports Medicine",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/28933024/",
+     "year": 2018
+    }
+   ],
+   "evidence_strength": "strong",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "tr.goal.hypertrophy",
+   "goal": "hypertrophy",
+   "rep_range": [
+    6,
+    15
+   ],
+   "allowed_rep_range": [
+    5,
+    30
+   ],
+   "load_pct_1rm": [
+    30,
+    85
+   ],
+   "sets_per_exercise": [
+    2,
+    4
+   ],
+   "rest_seconds": [
+    90,
+    120
+   ],
+   "allowed_rest_seconds": [
+    60,
+    180
+   ],
+   "intensity_rpe": [
+    7,
+    9
+   ],
+   "last_set_isolation_rpe": [
+    9,
+    10
+   ],
+   "weekly_sets_per_muscle": {
+    "beginner": {
+     "min": 4,
+     "optimal": 10,
+     "max": 15
+    },
+    "intermediate": {
+     "min": 10,
+     "optimal": 14,
+     "max": 22
+    }
+   },
+   "frequency_per_muscle_per_week": [
+    2,
+    3
+   ],
+   "detail": "ACSM 2026: >=10 sets/muscle/week, more volume = more growth with diminishing returns; any load 30-100% 1RM works if sets end ~2-3 RIR. Frequency has no effect once weekly volume is matched, so 2x is a scheduling choice. Rest >60s slightly better, no benefit past ~90s.",
+   "engine_default": [
+    "rep_range",
+    "weekly_sets_per_muscle.max",
+    "frequency_per_muscle_per_week"
+   ],
+   "sources": [
+    {
+     "title": "ACSM Position Stand: Resistance Training Prescription for Muscle Function, Hypertrophy, and Physical Performance in Healthy Adults — An Overview of Reviews",
+     "org": "American College of Sports Medicine (Phillips et al., MSSE)",
+     "url": "https://acsm.org/resistance-training-guidelines-update-2026/",
+     "year": 2026
+    },
+    {
+     "title": "Loading Recommendations for Muscle Strength, Hypertrophy, and Local Endurance: A Re-Examination of the Repetition Continuum",
+     "org": "Schoenfeld et al., Sports",
+     "url": "https://www.mdpi.com/2075-4663/9/2/32",
+     "year": 2021
+    },
+    {
+     "title": "The Resistance Training Dose Response: Meta-Regressions Exploring the Effects of Weekly Volume and Frequency on Muscle Hypertrophy and Strength Gains",
+     "org": "Pelland, Remmert, Robinson, Hinson, Zourdos, Sports Medicine",
+     "url": "https://link.springer.com/article/10.1007/s40279-025-02344-w",
+     "year": 2026
+    },
+    {
+     "title": "Dose-response relationship between weekly resistance training volume and increases in muscle mass",
+     "org": "Schoenfeld, Ogborn, Krieger, J Sports Sci",
+     "url": "https://doi.org/10.1080/02640414.2016.1210197",
+     "year": 2017
+    },
+    {
+     "title": "Give it a rest: a systematic review with Bayesian meta-analysis on the effect of inter-set rest interval duration on muscle hypertrophy",
+     "org": "Singer et al., Frontiers in Sports and Active Living",
+     "url": "https://www.frontiersin.org/journals/sports-and-active-living/articles/10.3389/fspor.2024.1429789/full",
+     "year": 2024
+    },
+    {
+     "title": "Similar muscle hypertrophy following eight weeks of resistance training to momentary muscular failure or with repetitions-in-reserve in resistance-trained individuals",
+     "org": "Refalo et al., J Sports Sci",
+     "url": "https://www.tandfonline.com/doi/full/10.1080/02640414.2024.2321021",
+     "year": 2024
+    },
+    {
+     "title": "Exploring the Dose–Response Relationship Between Estimated Resistance Training Proximity to Failure, Strength Gain, and Muscle Hypertrophy",
+     "org": "Robinson, Pelland, Remmert, Refalo et al., Sports Medicine",
+     "url": "https://link.springer.com/article/10.1007/s40279-024-02069-2",
+     "year": 2024
+    }
+   ],
+   "evidence_strength": "strong",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "tr.goal.endurance",
+   "goal": "endurance",
+   "rep_range": [
+    15,
+    25
+   ],
+   "allowed_rep_range": [
+    12,
+    30
+   ],
+   "load_pct_1rm": [
+    30,
+    65
+   ],
+   "sets_per_exercise": [
+    2,
+    3
+   ],
+   "rest_seconds": [
+    45,
+    90
+   ],
+   "allowed_rest_seconds": [
+    20,
+    120
+   ],
+   "intensity_rpe": [
+    6,
+    8
+   ],
+   "weekly_sets_per_muscle": {
+    "beginner": {
+     "min": 4,
+     "optimal": 8,
+     "max": 12
+    },
+    "intermediate": {
+     "min": 6,
+     "optimal": 10,
+     "max": 16
+    }
+   },
+   "frequency_per_muscle_per_week": [
+    2,
+    3
+   ],
+   "detail": "ACSM 2026: RT improves muscular endurance but there isn't enough data for specific variables. Values are convention (ACSM 2009 / NSCA). ACSM 2009: <1 min rest for 10-15 rep sets, 1-2 min for 15-20+ rep sets. Tell the user this is lower-certainty.",
+   "engine_default": [
+    "rep_range",
+    "rest_seconds",
+    "weekly_sets_per_muscle"
+   ],
+   "sources": [
+    {
+     "title": "ACSM Position Stand: Resistance Training Prescription for Muscle Function, Hypertrophy, and Physical Performance in Healthy Adults — An Overview of Reviews",
+     "org": "American College of Sports Medicine (Phillips et al., MSSE)",
+     "url": "https://acsm.org/resistance-training-guidelines-update-2026/",
+     "year": 2026
+    },
+    {
+     "title": "Progression Models in Resistance Training for Healthy Adults (Position Stand)",
+     "org": "American College of Sports Medicine (MSSE)",
+     "url": "https://journals.lww.com/acsm-msse/fulltext/2009/03000/progression_models_in_resistance_training_for.26.aspx",
+     "year": 2009
+    },
+    {
+     "title": "Essentials of Strength Training and Conditioning, 4th ed., ch. 17 (textbook; 5th ed. now published, not checked)",
+     "org": "NSCA (Haff & Triplett)",
+     "url": "https://ro.ecu.edu.au/ecuworkspost2013/1882/",
+     "year": 2016
+    },
+    {
+     "title": "Loading Recommendations for Muscle Strength, Hypertrophy, and Local Endurance: A Re-Examination of the Repetition Continuum",
+     "org": "Schoenfeld et al., Sports",
+     "url": "https://www.mdpi.com/2075-4663/9/2/32",
+     "year": 2021
+    }
+   ],
+   "evidence_strength": "weak",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "tr.goal.fat_loss",
+   "goal": "fat_loss",
+   "inherits": "tr.goal.hypertrophy",
+   "overrides": {
+    "weekly_sets_per_muscle": {
+     "beginner": {
+      "min": 4,
+      "optimal": 8,
+      "max": 12
+     },
+     "intermediate": {
+      "min": 6,
+      "optimal": 10,
+      "max": 16
+     }
+    },
+    "intensity_rpe": [
+     7,
+     9
+    ]
+   },
+   "detail": "No fat-loss-specific rep scheme exists in the evidence. Resistance training's job in a deficit is to KEEP muscle: keep load/intensity, trim volume if recovery suffers. Fat loss itself is driven by diet (and cardio). Don't invent 'fat-burning' rep ranges.",
+   "engine_default": [
+    "overrides"
+   ],
+   "sources": [
+    {
+     "title": "ACSM Position Stand: Resistance Training Prescription for Muscle Function, Hypertrophy, and Physical Performance in Healthy Adults — An Overview of Reviews",
+     "org": "American College of Sports Medicine (Phillips et al., MSSE)",
+     "url": "https://acsm.org/resistance-training-guidelines-update-2026/",
+     "year": 2026
+    },
+    {
+     "title": "Maintaining Physical Performance: The Minimal Dose of Exercise Needed to Preserve Endurance and Strength Over Time",
+     "org": "Spiering et al., J Strength Cond Res",
+     "url": "https://doi.org/10.1519/jsc.0000000000003964",
+     "year": 2021
+    }
+   ],
+   "evidence_strength": "moderate",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "tr.goal.general",
+   "goal": "general",
+   "rep_range": [
+    8,
+    15
+   ],
+   "allowed_rep_range": [
+    5,
+    20
+   ],
+   "load_pct_1rm": [
+    40,
+    75
+   ],
+   "sets_per_exercise": [
+    1,
+    3
+   ],
+   "rest_seconds": [
+    60,
+    90
+   ],
+   "allowed_rest_seconds": [
+    30,
+    180
+   ],
+   "intensity_rpe": [
+    6,
+    8
+   ],
+   "weekly_sets_per_muscle": {
+    "beginner": {
+     "min": 2,
+     "optimal": 6,
+     "max": 10
+    },
+    "intermediate": {
+     "min": 4,
+     "optimal": 8,
+     "max": 12
+    }
+   },
+   "frequency_per_muscle_per_week": [
+    2,
+    2
+   ],
+   "detail": "WHO/UK CMO: muscle-strengthening at moderate+ intensity, all major muscle groups, >=2 days/week. 'Any strengthening is better than none.' Older adults: add balance work.",
+   "engine_default": [
+    "rep_range",
+    "sets_per_exercise",
+    "weekly_sets_per_muscle"
+   ],
+   "sources": [
+    {
+     "title": "WHO Guidelines on Physical Activity and Sedentary Behaviour",
+     "org": "World Health Organization",
+     "url": "https://www.ncbi.nlm.nih.gov/books/NBK566046/",
+     "year": 2020
+    },
+    {
+     "title": "UK Chief Medical Officers' Physical Activity Guidelines",
+     "org": "DHSC (UK)",
+     "url": "https://www.gov.uk/government/publications/physical-activity-guidelines-uk-chief-medical-officers-report/uk-chief-medical-officers-physical-activity-guidelines",
+     "year": 2019
+    },
+    {
+     "title": "ACSM Position Stand: Resistance Training Prescription for Muscle Function, Hypertrophy, and Physical Performance in Healthy Adults — An Overview of Reviews",
+     "org": "American College of Sports Medicine (Phillips et al., MSSE)",
+     "url": "https://acsm.org/resistance-training-guidelines-update-2026/",
+     "year": 2026
+    }
+   ],
+   "evidence_strength": "strong",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  }
+ ],
+ "minimum_doses": [
+  {
+   "id": "tr.dose.growth_minimum",
+   "rule": "growth_minimum",
+   "value": {
+    "sets_per_muscle_per_week": 4,
+    "rpe": [
+     8,
+     10
+    ]
+   },
+   "detail": "Smallest dose that still reliably builds strength: ~1 hard set of 6-12 reps, 2-3x/week.",
+   "engine_default": true,
+   "sources": [
+    {
+     "title": "The Minimum Effective Training Dose Required to Increase 1RM Strength in Resistance-Trained Men: A Systematic Review and Meta-Analysis",
+     "org": "Androulakis-Korakakis et al., Sports Medicine",
+     "url": "https://www.researchgate.net/publication/337716488",
+     "year": 2020
+    }
+   ],
+   "evidence_strength": "moderate",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "tr.dose.maintenance_younger",
+   "rule": "maintenance_younger",
+   "value": {
+    "sessions_per_week": 1,
+    "sets_per_exercise": 1,
+    "keep_load": true
+   },
+   "detail": "Younger adults kept strength and muscle size for up to 32 weeks on 1 session/week, 1 set/exercise, as long as relative load (intensity) stayed the same. Use for busy weeks, holidays, illness recovery. (Exact age band not confirmed from full text.)",
+   "sources": [
+    {
+     "title": "Maintaining Physical Performance: The Minimal Dose of Exercise Needed to Preserve Endurance and Strength Over Time",
+     "org": "Spiering et al., J Strength Cond Res",
+     "url": "https://doi.org/10.1519/jsc.0000000000003964",
+     "year": 2021
+    }
+   ],
+   "evidence_strength": "moderate",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "tr.dose.maintenance_older",
+   "rule": "maintenance_older",
+   "value": {
+    "sessions_per_week": 2,
+    "sets_per_exercise": [
+     2,
+     3
+    ],
+    "keep_load": true
+   },
+   "detail": "Older adults may need UP TO 2 sessions/week and 2-3 sets/exercise to keep muscle SIZE (strength may need less).",
+   "sources": [
+    {
+     "title": "Maintaining Physical Performance: The Minimal Dose of Exercise Needed to Preserve Endurance and Strength Over Time",
+     "org": "Spiering et al., J Strength Cond Res",
+     "url": "https://doi.org/10.1519/jsc.0000000000003964",
+     "year": 2021
+    }
+   ],
+   "evidence_strength": "moderate",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  }
+ ],
+ "conflicts": [
+  {
+   "id": "tr.conflict.rep_ranges",
+   "topic": "rep_ranges",
+   "summary": "NSCA/ACSM 2009 use fixed goal bands; ACSM 2026 and Schoenfeld 2021 say hypertrophy works across 30-100% 1RM.",
+   "resolution": "Defaults + wide allowed_rep_range."
+  },
+  {
+   "id": "tr.conflict.rest",
+   "topic": "rest",
+   "summary": "NSCA 30-90s for hypertrophy vs Singer 2024 (>60s slightly better, nothing past ~90s) vs ACSM 2026 (no consistent effect).",
+   "resolution": "Default 90-120s; let user shorten."
+  },
+  {
+   "id": "tr.conflict.effort",
+   "topic": "effort",
+   "summary": "Secondary write-ups quote ACSM 2026 as 1-2 RIR or 2-3 RIR; the paper text says 2-3.",
+   "resolution": "Target 2-3 RIR; allow 0-1 on last isolation set."
+  },
+  {
+   "id": "tr.conflict.frequency",
+   "topic": "frequency",
+   "summary": "Schoenfeld 2016 favoured >=2x; 2019 and Pelland 2026 find no hypertrophy effect once volume matched. Frequency does help strength.",
+   "resolution": "2x default; 3x for strength."
+  },
+  {
+   "id": "tr.conflict.endurance_rest",
+   "topic": "endurance_rest",
+   "summary": "NSCA <=30s vs ACSM 2009 1-2 min for 15-20+ rep sets.",
+   "resolution": "Default 45-90s, allow 20-120s."
+  },
+  {
+   "id": "tr.conflict.volume_ceiling",
+   "topic": "volume_ceiling",
+   "summary": "No agreed maximum; Pelland finds diminishing returns, not a plateau.",
+   "resolution": "Cap at max and require good recovery signals to add sets."
+  }
+ ]
+}

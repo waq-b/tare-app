@@ -1,0 +1,9 @@
+node_modules/
+dist/
+storybook-static/
+coverage/
+package-lock.json
+vpt/
+design/
+prompts/
+CLAUDE.md

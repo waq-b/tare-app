@@ -1,0 +1,757 @@
+{
+ "v": 3,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-09-22T18:50:50Z"
+ },
+ "title": "Tare v1",
+ "launch": {
+  "view": "canvas",
+  "page": "brand"
+ },
+ "pages": [
+  {
+   "id": "brand",
+   "name": "Brand + system"
+  },
+  {
+   "id": "workout",
+   "name": "Active workout"
+  },
+  {
+   "id": "screens",
+   "name": "Screens"
+  },
+  {
+   "id": "data",
+   "name": "Body, food + alerts"
+  },
+  {
+   "id": "flow",
+   "name": "Prototype"
+  }
+ ],
+ "boards": {
+  "Names.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 1440,
+   "h": 1000,
+   "title": "Names + wordmarks",
+   "page": "brand"
+  },
+  "Tokens.dc.html": {
+   "x": 1520,
+   "y": 0,
+   "w": 1440,
+   "h": 2240,
+   "title": "Tokens",
+   "page": "brand"
+  },
+  "Components.dc.html": {
+   "x": 3040,
+   "y": 0,
+   "w": 1440,
+   "h": 3180,
+   "title": "Components",
+   "page": "brand"
+  },
+  "Icons.dc.html": {
+   "x": 4560,
+   "y": 0,
+   "w": 1440,
+   "h": 1560,
+   "title": "Icons + muscle map",
+   "page": "brand"
+  },
+  "Charts.dc.html": {
+   "x": 6080,
+   "y": 0,
+   "w": 1440,
+   "h": 2360,
+   "title": "Charts + tables",
+   "page": "brand"
+  },
+  "Workout-A.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "Ledger (dark)",
+   "page": "workout",
+   "is_interactive": true
+  },
+  "Workout-A-Edit.dc.html": {
+   "x": 470,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "Ledger · edit a set",
+   "page": "workout",
+   "is_interactive": true
+  },
+  "Workout-A-Light.dc.html": {
+   "x": 940,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "Ledger (light)",
+   "page": "workout",
+   "is_interactive": true
+  },
+  "Workout-B.dc.html": {
+   "x": 0,
+   "y": 1244,
+   "w": 390,
+   "h": 844,
+   "title": "B · Focus (dark)",
+   "page": "workout",
+   "is_interactive": true
+  },
+  "Workout-C.dc.html": {
+   "x": 470,
+   "y": 1244,
+   "w": 390,
+   "h": 844,
+   "title": "C · Dial (dark)",
+   "page": "workout",
+   "is_interactive": true
+  },
+  "Workout-B-Light.dc.html": {
+   "x": 940,
+   "y": 1244,
+   "w": 390,
+   "h": 844,
+   "title": "B · Focus (light)",
+   "page": "workout",
+   "is_interactive": true
+  },
+  "Onb-Welcome.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "Welcome + not medical advice",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Onb-Health.dc.html": {
+   "x": 470,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "Health screen",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Onb-GP.dc.html": {
+   "x": 940,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "Result · check with GP",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Onb-Goals.dc.html": {
+   "x": 1410,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "Goals, days, length",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Onb-Kit.dc.html": {
+   "x": 1880,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "Kit, can’t-do, units",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Main.dc.html": {
+   "x": 0,
+   "y": 1244,
+   "w": 390,
+   "h": 844,
+   "title": "Today (dark)",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Today-Light.dc.html": {
+   "x": 470,
+   "y": 1244,
+   "w": 390,
+   "h": 844,
+   "title": "Today (light)",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Today-Rest.dc.html": {
+   "x": 940,
+   "y": 1244,
+   "w": 390,
+   "h": 844,
+   "title": "Today · rest day",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Rest-Timer.dc.html": {
+   "x": 1410,
+   "y": 1244,
+   "w": 390,
+   "h": 844,
+   "title": "Rest timer + effort",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Swap-Sheet.dc.html": {
+   "x": 1880,
+   "y": 1244,
+   "w": 390,
+   "h": 844,
+   "title": "Swap exercise sheet",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Finish.dc.html": {
+   "x": 2350,
+   "y": 1244,
+   "w": 390,
+   "h": 844,
+   "title": "Finish (dark)",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Finish-Light.dc.html": {
+   "x": 2820,
+   "y": 1244,
+   "w": 390,
+   "h": 844,
+   "title": "Finish (light)",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Plan-Week.dc.html": {
+   "x": 0,
+   "y": 2488,
+   "w": 390,
+   "h": 844,
+   "title": "Week plan",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Exercise-Detail.dc.html": {
+   "x": 470,
+   "y": 2488,
+   "w": 390,
+   "h": 1560,
+   "title": "Exercise detail",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Progress.dc.html": {
+   "x": 940,
+   "y": 2488,
+   "w": 390,
+   "h": 1640,
+   "title": "Progress",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Session-Detail.dc.html": {
+   "x": 1410,
+   "y": 2488,
+   "w": 390,
+   "h": 844,
+   "title": "Session detail",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Coach-Review.dc.html": {
+   "x": 0,
+   "y": 4528,
+   "w": 390,
+   "h": 1720,
+   "title": "Weekly review (dark)",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Coach-Review-Light.dc.html": {
+   "x": 470,
+   "y": 4528,
+   "w": 390,
+   "h": 1720,
+   "title": "Weekly review (light)",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Coach-Reject.dc.html": {
+   "x": 940,
+   "y": 4528,
+   "w": 390,
+   "h": 844,
+   "title": "Reject + reason",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Coach-Early.dc.html": {
+   "x": 1410,
+   "y": 4528,
+   "w": 390,
+   "h": 844,
+   "title": "Not enough data yet",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Coach-None.dc.html": {
+   "x": 1880,
+   "y": 4528,
+   "w": 390,
+   "h": 844,
+   "title": "No review this week",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Deload-Today.dc.html": {
+   "x": 2350,
+   "y": 4528,
+   "w": 390,
+   "h": 844,
+   "title": "Deload week · Today",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Pain-Flag.dc.html": {
+   "x": 0,
+   "y": 6648,
+   "w": 390,
+   "h": 844,
+   "title": "Pain flag sheet",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Safety-Caution.dc.html": {
+   "x": 470,
+   "y": 6648,
+   "w": 390,
+   "h": 844,
+   "title": "Continue with caution",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Safety-Modify.dc.html": {
+   "x": 940,
+   "y": 6648,
+   "w": 390,
+   "h": 844,
+   "title": "Modify",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Safety-Rest.dc.html": {
+   "x": 1410,
+   "y": 6648,
+   "w": 390,
+   "h": 844,
+   "title": "Rest",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Safety-GP.dc.html": {
+   "x": 1880,
+   "y": 6648,
+   "w": 390,
+   "h": 844,
+   "title": "See GP",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Safety-111.dc.html": {
+   "x": 2350,
+   "y": 6648,
+   "w": 390,
+   "h": 844,
+   "title": "NHS 111",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Safety-999.dc.html": {
+   "x": 2820,
+   "y": 6648,
+   "w": 390,
+   "h": 844,
+   "title": "Call 999",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Safety-111-Light.dc.html": {
+   "x": 3290,
+   "y": 6648,
+   "w": 390,
+   "h": 844,
+   "title": "NHS 111 (light)",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Settings.dc.html": {
+   "x": 0,
+   "y": 7892,
+   "w": 390,
+   "h": 1060,
+   "title": "Settings",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Connect-AI.dc.html": {
+   "x": 470,
+   "y": 7892,
+   "w": 390,
+   "h": 844,
+   "title": "Connect your AI",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Offline-Workout.dc.html": {
+   "x": 940,
+   "y": 7892,
+   "w": 390,
+   "h": 844,
+   "title": "Offline · logging works",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Sync-Failed.dc.html": {
+   "x": 1410,
+   "y": 7892,
+   "w": 390,
+   "h": 844,
+   "title": "Sync failed",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Finish-Sync-Failed.dc.html": {
+   "x": 1880,
+   "y": 7892,
+   "w": 390,
+   "h": 844,
+   "title": "Finish · sync failed",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Loading.dc.html": {
+   "x": 2350,
+   "y": 7892,
+   "w": 390,
+   "h": 844,
+   "title": "Loading",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Progress-Empty.dc.html": {
+   "x": 2820,
+   "y": 7892,
+   "w": 390,
+   "h": 844,
+   "title": "Empty first run",
+   "page": "screens",
+   "is_interactive": true
+  },
+  "Lifts-Table.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "All lifts · table view",
+   "page": "data",
+   "is_interactive": true
+  },
+  "Chart-Detail.dc.html": {
+   "x": 470,
+   "y": 0,
+   "w": 390,
+   "h": 1000,
+   "title": "Lift chart · scrub + table",
+   "page": "data",
+   "is_interactive": true
+  },
+  "Health-Overview.dc.html": {
+   "x": 0,
+   "y": 1400,
+   "w": 390,
+   "h": 1500,
+   "title": "Progress › Body",
+   "page": "data",
+   "is_interactive": true
+  },
+  "Health-Weighin.dc.html": {
+   "x": 470,
+   "y": 1400,
+   "w": 390,
+   "h": 844,
+   "title": "Log weigh-in",
+   "page": "data",
+   "is_interactive": true
+  },
+  "Health-Flags.dc.html": {
+   "x": 940,
+   "y": 1400,
+   "w": 390,
+   "h": 844,
+   "title": "Pain flag history",
+   "page": "data",
+   "is_interactive": true
+  },
+  "Nutrition-Today.dc.html": {
+   "x": 0,
+   "y": 3300,
+   "w": 390,
+   "h": 1200,
+   "title": "Progress › Food · today",
+   "page": "data",
+   "is_interactive": true
+  },
+  "Nutrition-Week.dc.html": {
+   "x": 470,
+   "y": 3300,
+   "w": 390,
+   "h": 1420,
+   "title": "Food · this week",
+   "page": "data",
+   "is_interactive": true
+  },
+  "Nutrition-Empty.dc.html": {
+   "x": 940,
+   "y": 3300,
+   "w": 390,
+   "h": 844,
+   "title": "Food · not connected",
+   "page": "data",
+   "is_interactive": true
+  },
+  "Notif-Push.dc.html": {
+   "x": 0,
+   "y": 5120,
+   "w": 390,
+   "h": 1300,
+   "title": "Push notifications",
+   "page": "data",
+   "is_interactive": true
+  },
+  "Notif-Centre.dc.html": {
+   "x": 470,
+   "y": 5120,
+   "w": 390,
+   "h": 844,
+   "title": "Notification centre",
+   "page": "data",
+   "is_interactive": true
+  },
+  "Notif-Settings.dc.html": {
+   "x": 940,
+   "y": 5120,
+   "w": 390,
+   "h": 844,
+   "title": "Notification settings",
+   "page": "data",
+   "is_interactive": true
+  },
+  "Flow.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "Clickable flow",
+   "page": "flow",
+   "is_interactive": true
+  }
+ },
+ "order": [
+  "Main.dc.html",
+  "Names.dc.html",
+  "Tokens.dc.html",
+  "Components.dc.html",
+  "Icons.dc.html",
+  "Charts.dc.html",
+  "Workout-A.dc.html",
+  "Workout-A-Edit.dc.html",
+  "Workout-A-Light.dc.html",
+  "Workout-B.dc.html",
+  "Workout-C.dc.html",
+  "Workout-B-Light.dc.html",
+  "Onb-Welcome.dc.html",
+  "Onb-Health.dc.html",
+  "Onb-GP.dc.html",
+  "Onb-Goals.dc.html",
+  "Onb-Kit.dc.html",
+  "Today-Light.dc.html",
+  "Today-Rest.dc.html",
+  "Rest-Timer.dc.html",
+  "Swap-Sheet.dc.html",
+  "Finish.dc.html",
+  "Finish-Light.dc.html",
+  "Plan-Week.dc.html",
+  "Exercise-Detail.dc.html",
+  "Progress.dc.html",
+  "Session-Detail.dc.html",
+  "Coach-Review.dc.html",
+  "Coach-Review-Light.dc.html",
+  "Coach-Reject.dc.html",
+  "Coach-Early.dc.html",
+  "Coach-None.dc.html",
+  "Deload-Today.dc.html",
+  "Pain-Flag.dc.html",
+  "Safety-Caution.dc.html",
+  "Safety-Modify.dc.html",
+  "Safety-Rest.dc.html",
+  "Safety-GP.dc.html",
+  "Safety-111.dc.html",
+  "Safety-999.dc.html",
+  "Safety-111-Light.dc.html",
+  "Settings.dc.html",
+  "Connect-AI.dc.html",
+  "Offline-Workout.dc.html",
+  "Sync-Failed.dc.html",
+  "Finish-Sync-Failed.dc.html",
+  "Loading.dc.html",
+  "Progress-Empty.dc.html",
+  "Lifts-Table.dc.html",
+  "Chart-Detail.dc.html",
+  "Health-Overview.dc.html",
+  "Health-Weighin.dc.html",
+  "Health-Flags.dc.html",
+  "Nutrition-Today.dc.html",
+  "Nutrition-Week.dc.html",
+  "Nutrition-Empty.dc.html",
+  "Notif-Push.dc.html",
+  "Notif-Centre.dc.html",
+  "Notif-Settings.dc.html",
+  "Flow.dc.html"
+ ],
+ "notes": {
+  "brandTitle": {
+   "x": 0,
+   "y": -280,
+   "text": "Brand + design system",
+   "kind": "title1",
+   "maxW": 7520,
+   "page": "brand"
+  },
+  "workout0": {
+   "x": 0,
+   "y": -280,
+   "text": "Active workout · Ledger (chosen)",
+   "kind": "title1",
+   "maxW": 1330,
+   "page": "workout"
+  },
+  "workout1": {
+   "x": 0,
+   "y": 964,
+   "text": "Not chosen · kept for reference",
+   "kind": "title1",
+   "maxW": 1330,
+   "page": "workout"
+  },
+  "screens0": {
+   "x": 0,
+   "y": -280,
+   "text": "Onboarding",
+   "kind": "title1",
+   "maxW": 2270,
+   "page": "screens"
+  },
+  "screens1": {
+   "x": 0,
+   "y": 964,
+   "text": "Core loop",
+   "kind": "title1",
+   "maxW": 3210,
+   "page": "screens"
+  },
+  "screens2": {
+   "x": 0,
+   "y": 2208,
+   "text": "Plan & progress",
+   "kind": "title1",
+   "maxW": 1800,
+   "page": "screens"
+  },
+  "screens3": {
+   "x": 0,
+   "y": 4248,
+   "text": "Coach",
+   "kind": "title1",
+   "maxW": 2740,
+   "page": "screens"
+  },
+  "screens4": {
+   "x": 0,
+   "y": 6368,
+   "text": "Safety",
+   "kind": "title1",
+   "maxW": 3680,
+   "page": "screens"
+  },
+  "screens5": {
+   "x": 0,
+   "y": 7612,
+   "text": "Settings & states",
+   "kind": "title1",
+   "maxW": 3210,
+   "page": "screens"
+  },
+  "data0": {
+   "x": 0,
+   "y": -280,
+   "text": "Charts & tables",
+   "kind": "title1",
+   "maxW": 860,
+   "page": "data"
+  },
+  "data1": {
+   "x": 0,
+   "y": 1120,
+   "text": "Body & health",
+   "kind": "title1",
+   "maxW": 1330,
+   "page": "data"
+  },
+  "data2": {
+   "x": 0,
+   "y": 3020,
+   "text": "Food",
+   "kind": "title1",
+   "maxW": 1330,
+   "page": "data"
+  },
+  "data3": {
+   "x": 0,
+   "y": 4840,
+   "text": "Notifications",
+   "kind": "title1",
+   "maxW": 1330,
+   "page": "data"
+  },
+  "flowTitle": {
+   "x": 0,
+   "y": -280,
+   "text": "Prototype",
+   "kind": "title1",
+   "maxW": 1100,
+   "page": "flow"
+  },
+  "flowHow": {
+   "x": 470,
+   "y": 0,
+   "w": 420,
+   "maxH": 420,
+   "page": "flow",
+   "fill": "gray",
+   "text": "Press Play. Start workout → tap the check or Done to log a set as planned → rest timer runs (Skip, ±15s, optional effort) → after 3 sets, Finish → pick a feel → jump to Sunday’s review → accept or keep each change → Back to Today."
+  }
+ },
+ "designSystems": []
+}

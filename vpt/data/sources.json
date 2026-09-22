@@ -1,0 +1,225 @@
+{
+ "version": "0.1.1",
+ "notes": [
+  "verification: full_text = figures checked against the paper/page; abstract_only = abstract or publisher summary; secondary_only = figures from reviews/summaries citing it (paywall or rate-limited). Spot-check secondary_only before launch."
+ ],
+ "sources": {
+  "acsm2026": {
+   "title": "ACSM Position Stand: Resistance Training Prescription for Muscle Function, Hypertrophy, and Physical Performance in Healthy Adults — An Overview of Reviews",
+   "org": "American College of Sports Medicine (Phillips et al., MSSE)",
+   "url": "https://acsm.org/resistance-training-guidelines-update-2026/",
+   "year": 2026,
+   "verification": "full_text"
+  },
+  "acsm2009": {
+   "title": "Progression Models in Resistance Training for Healthy Adults (Position Stand)",
+   "org": "American College of Sports Medicine (MSSE)",
+   "url": "https://journals.lww.com/acsm-msse/fulltext/2009/03000/progression_models_in_resistance_training_for.26.aspx",
+   "year": 2009,
+   "verification": "full_text"
+  },
+  "nsca": {
+   "title": "Essentials of Strength Training and Conditioning, 4th ed., ch. 17 (textbook; 5th ed. now published, not checked)",
+   "org": "NSCA (Haff & Triplett)",
+   "url": "https://ro.ecu.edu.au/ecuworkspost2013/1882/",
+   "year": 2016,
+   "verification": "secondary_only"
+  },
+  "schoenfeld2021": {
+   "title": "Loading Recommendations for Muscle Strength, Hypertrophy, and Local Endurance: A Re-Examination of the Repetition Continuum",
+   "org": "Schoenfeld et al., Sports",
+   "url": "https://www.mdpi.com/2075-4663/9/2/32",
+   "year": 2021,
+   "verification": "full_text"
+  },
+  "singer2024": {
+   "title": "Give it a rest: a systematic review with Bayesian meta-analysis on the effect of inter-set rest interval duration on muscle hypertrophy",
+   "org": "Singer et al., Frontiers in Sports and Active Living",
+   "url": "https://www.frontiersin.org/journals/sports-and-active-living/articles/10.3389/fspor.2024.1429789/full",
+   "year": 2024,
+   "verification": "full_text"
+  },
+  "grgic2018": {
+   "title": "Effects of Rest Interval Duration in Resistance Training on Measures of Muscular Strength: A Systematic Review",
+   "org": "Grgic, Schoenfeld et al., Sports Medicine",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/28933024/",
+   "year": 2018,
+   "verification": "full_text"
+  },
+  "pelland2026": {
+   "title": "The Resistance Training Dose Response: Meta-Regressions Exploring the Effects of Weekly Volume and Frequency on Muscle Hypertrophy and Strength Gains",
+   "org": "Pelland, Remmert, Robinson, Hinson, Zourdos, Sports Medicine",
+   "url": "https://link.springer.com/article/10.1007/s40279-025-02344-w",
+   "year": 2026,
+   "verification": "full_text"
+  },
+  "schoenfeld2017": {
+   "title": "Dose-response relationship between weekly resistance training volume and increases in muscle mass",
+   "org": "Schoenfeld, Ogborn, Krieger, J Sports Sci",
+   "url": "https://doi.org/10.1080/02640414.2016.1210197",
+   "year": 2017,
+   "verification": "secondary_only"
+  },
+  "robinson2024": {
+   "title": "Exploring the Dose–Response Relationship Between Estimated Resistance Training Proximity to Failure, Strength Gain, and Muscle Hypertrophy",
+   "org": "Robinson, Pelland, Remmert, Refalo et al., Sports Medicine",
+   "url": "https://link.springer.com/article/10.1007/s40279-024-02069-2",
+   "year": 2024,
+   "verification": "secondary_only"
+  },
+  "refalo2024": {
+   "title": "Similar muscle hypertrophy following eight weeks of resistance training to momentary muscular failure or with repetitions-in-reserve in resistance-trained individuals",
+   "org": "Refalo et al., J Sports Sci",
+   "url": "https://www.tandfonline.com/doi/full/10.1080/02640414.2024.2321021",
+   "year": 2024,
+   "verification": "secondary_only"
+  },
+  "hprc": {
+   "title": "Guidelines to progress your physical training over time (citing NSCA)",
+   "org": "Human Performance Resources by CHAMP (HPRC), US DoD",
+   "url": "https://www.hprc-online.org/physical-fitness/training-performance/guidelines-progress-your-physical-training-over-time",
+   "year": 2024,
+   "verification": "full_text"
+  },
+  "helms2016": {
+   "title": "Application of the Repetitions in Reserve-Based Rating of Perceived Exertion Scale for Resistance Training",
+   "org": "Helms et al., Strength & Conditioning Journal",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4961270/",
+   "year": 2016,
+   "verification": "full_text"
+  },
+  "who2020": {
+   "title": "WHO Guidelines on Physical Activity and Sedentary Behaviour",
+   "org": "World Health Organization",
+   "url": "https://www.ncbi.nlm.nih.gov/books/NBK566046/",
+   "year": 2020,
+   "verification": "full_text"
+  },
+  "cmo2019": {
+   "title": "UK Chief Medical Officers' Physical Activity Guidelines",
+   "org": "DHSC (UK)",
+   "url": "https://www.gov.uk/government/publications/physical-activity-guidelines-uk-chief-medical-officers-report/uk-chief-medical-officers-physical-activity-guidelines",
+   "year": 2019,
+   "verification": "full_text"
+  },
+  "bell2023": {
+   "title": "Integrating Deloading into Strength and Physique Sports Training Programmes: An International Delphi Consensus Approach",
+   "org": "Bell et al., Sports Medicine – Open",
+   "url": "https://link.springer.com/article/10.1186/s40798-023-00633-0",
+   "year": 2023,
+   "verification": "full_text"
+  },
+  "bell2024": {
+   "title": "A Practical Approach to Deloading: Recommendations and Considerations for Strength and Physique Sports",
+   "org": "Bell et al., Strength & Conditioning Journal (author manuscript)",
+   "url": "https://shura.shu.ac.uk/35313/3/Bell-APracticalApproach(AM).pdf",
+   "year": 2024,
+   "verification": "secondary_only"
+  },
+  "coleman2024": {
+   "title": "Gaining more from doing less? The effects of a one-week deload period during supervised resistance training on muscular adaptations",
+   "org": "Coleman et al., PeerJ",
+   "url": "https://peerj.com/articles/16777/",
+   "year": 2024,
+   "verification": "abstract_only"
+  },
+  "ak2020": {
+   "title": "The Minimum Effective Training Dose Required to Increase 1RM Strength in Resistance-Trained Men: A Systematic Review and Meta-Analysis",
+   "org": "Androulakis-Korakakis et al., Sports Medicine",
+   "url": "https://www.researchgate.net/publication/337716488",
+   "year": 2020,
+   "verification": "secondary_only"
+  },
+  "spiering2021": {
+   "title": "Maintaining Physical Performance: The Minimal Dose of Exercise Needed to Preserve Endurance and Strength Over Time",
+   "org": "Spiering et al., J Strength Cond Res",
+   "url": "https://doi.org/10.1519/jsc.0000000000003964",
+   "year": 2021,
+   "verification": "abstract_only"
+  },
+  "nhs_chest": {
+   "title": "Chest pain",
+   "org": "NHS",
+   "url": "https://www.nhs.uk/symptoms/chest-pain/",
+   "year": 2026,
+   "verification": "full_text"
+  },
+  "nhs_angina": {
+   "title": "Angina",
+   "org": "NHS",
+   "url": "https://www.nhs.uk/conditions/angina/",
+   "year": 2026,
+   "verification": "full_text"
+  },
+  "nhs_999": {
+   "title": "When to call 999",
+   "org": "NHS",
+   "url": "https://www.nhs.uk/nhs-services/urgent-and-emergency-care-services/when-to-call-999/",
+   "year": 2026,
+   "verification": "full_text"
+  },
+  "nhs_sprain": {
+   "title": "Sprains and strains",
+   "org": "NHS",
+   "url": "https://www.nhs.uk/conditions/sprains-and-strains/",
+   "year": 2026,
+   "verification": "full_text"
+  },
+  "nhs_periods": {
+   "title": "Stopped or missed periods",
+   "org": "NHS",
+   "url": "https://www.nhs.uk/conditions/stopped-or-missed-periods/",
+   "year": 2026,
+   "verification": "full_text"
+  },
+  "bhf_safe": {
+   "title": "Exercising with a heart condition: finding a safe level",
+   "org": "British Heart Foundation",
+   "url": "https://www.bhf.org.uk/informationsupport/heart-matters-magazine/activity/finding-safe-exercise-limits",
+   "year": 2024,
+   "verification": "full_text"
+  },
+  "cddft": {
+   "title": "Injuries, aches and pains",
+   "org": "County Durham & Darlington NHS FT (physiotherapy)",
+   "url": "https://www.cddft.nhs.uk/services/physiotherapy/patient-advice-and-information/injuries-aches-and-pains",
+   "year": 2025,
+   "verification": "full_text"
+  },
+  "cc_doms": {
+   "title": "Delayed Onset Muscle Soreness (DOMS)",
+   "org": "Cleveland Clinic (US)",
+   "url": "https://my.clevelandclinic.org/health/diseases/delayed-onset-muscle-soreness",
+   "year": 2024,
+   "verification": "full_text"
+  },
+  "cc_sick": {
+   "title": "Should you exercise when you're sick?",
+   "org": "Cleveland Clinic (US)",
+   "url": "https://health.clevelandclinic.org/should-i-still-work-out-if-im-sick-or-skip-it",
+   "year": 2024,
+   "verification": "full_text"
+  },
+  "ioc_reds": {
+   "title": "2023 International Olympic Committee's consensus statement on Relative Energy Deficiency in Sport (REDs)",
+   "org": "IOC / British Journal of Sports Medicine",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/37752011/",
+   "year": 2023,
+   "verification": "secondary_only"
+  },
+  "riebe2015": {
+   "title": "Updating ACSM's Recommendations for Exercise Preparticipation Health Screening",
+   "org": "Riebe et al., Medicine & Science in Sports & Exercise",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/26473759/",
+   "year": 2015,
+   "verification": "secondary_only"
+  },
+  "parq": {
+   "title": "PAR-Q+ 2025 (terms of use)",
+   "org": "PAR-Q+ Collaboration",
+   "url": "https://eparmedx.com/?page_id=79",
+   "year": 2025,
+   "verification": "full_text"
+  }
+ }
+}

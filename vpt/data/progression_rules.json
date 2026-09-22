@@ -1,0 +1,316 @@
+{
+ "version": "0.1.1",
+ "notes": [
+  "id_scheme: every rule has a permanent `id`. IDs never change or get reused between versions; a retired rule keeps its id with `retired: true`. Prefixes: tr.* = training_rules, pr.* = progression_rules, sf.* = screening (questions cited as sf.screening.<question id>); safety red-flag rules keep their bare snake_case ids from v0.1.0. AI suggestions must cite ids, e.g. 'pr.stall.step2'.",
+  "ACSM 2026: progression isn't needed for health benefit, only for continued gains. Periodisation matters less than once thought.",
+  "The '2-for-2' rule is NSCA's; ACSM 2009's variant is 1-2 reps over target on 2 consecutive sessions."
+ ],
+ "methods": [
+  {
+   "id": "pr.double_progression",
+   "method": "double_progression",
+   "default_for": [
+    "hypertrophy",
+    "general",
+    "endurance",
+    "fat_loss"
+   ],
+   "trigger": "All working sets hit the TOP of the rep range at or below target RPE, in 2 consecutive sessions.",
+   "action": "Increase load by increment_pct (rounded to available plates), reset reps to bottom of range.",
+   "increment_pct": {
+    "upper": 2.5,
+    "lower": 5.0
+   },
+   "increment_kg_min": {
+    "upper": 1.0,
+    "lower": 2.5
+   },
+   "increment_kg_typical": {
+    "upper": [
+     1.0,
+     2.5
+    ],
+    "lower": [
+     2.5,
+     5.0
+    ]
+   },
+   "engine_default": [
+    "increment_pct",
+    "increment_kg_min"
+   ],
+   "sources": [
+    {
+     "title": "Progression Models in Resistance Training for Healthy Adults (Position Stand)",
+     "org": "American College of Sports Medicine (MSSE)",
+     "url": "https://journals.lww.com/acsm-msse/fulltext/2009/03000/progression_models_in_resistance_training_for.26.aspx",
+     "year": 2009
+    },
+    {
+     "title": "Essentials of Strength Training and Conditioning, 4th ed., ch. 17 (textbook; 5th ed. now published, not checked)",
+     "org": "NSCA (Haff & Triplett)",
+     "url": "https://ro.ecu.edu.au/ecuworkspost2013/1882/",
+     "year": 2016
+    }
+   ],
+   "evidence_strength": "weak",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "pr.two_for_two",
+   "method": "two_for_two",
+   "default_for": [
+    "strength"
+   ],
+   "trigger": "2+ reps above target on the LAST set, in 2 consecutive sessions.",
+   "action": "Add load.",
+   "increment_kg": {
+    "upper": {
+     "novice": [
+      1,
+      2.5
+     ],
+     "trained": [
+      2.5,
+      4.5
+     ]
+    },
+    "lower": {
+     "novice": [
+      2.5,
+      4.5
+     ],
+     "trained": [
+      4.5,
+      7
+     ]
+    }
+   },
+   "increment_lb_source": {
+    "upper": {
+     "novice": [
+      2.5,
+      5
+     ],
+     "trained": [
+      5,
+      10
+     ]
+    },
+    "lower": {
+     "novice": [
+      5,
+      10
+     ],
+     "trained": [
+      10,
+      15
+     ]
+    }
+   },
+   "detail": "Increments from secondary sources citing NSCA (lb, converted and rounded to plates); the textbook table itself not checked. Scale down for dumbbells/isolation (smallest available jump).",
+   "sources": [
+    {
+     "title": "Essentials of Strength Training and Conditioning, 4th ed., ch. 17 (textbook; 5th ed. now published, not checked)",
+     "org": "NSCA (Haff & Triplett)",
+     "url": "https://ro.ecu.edu.au/ecuworkspost2013/1882/",
+     "year": 2016
+    },
+    {
+     "title": "Guidelines to progress your physical training over time (citing NSCA)",
+     "org": "Human Performance Resources by CHAMP (HPRC), US DoD",
+     "url": "https://www.hprc-online.org/physical-fitness/training-performance/guidelines-progress-your-physical-training-over-time",
+     "year": 2024
+    }
+   ],
+   "evidence_strength": "weak",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "pr.acsm_percentage",
+   "method": "acsm_percentage",
+   "trigger": "1-2 reps over target on 2 consecutive sessions.",
+   "action": "Increase load 2-10%: lower end for small-muscle/isolation, upper end for large-muscle lifts.",
+   "increment_pct": [
+    2,
+    10
+   ],
+   "sources": [
+    {
+     "title": "Progression Models in Resistance Training for Healthy Adults (Position Stand)",
+     "org": "American College of Sports Medicine (MSSE)",
+     "url": "https://journals.lww.com/acsm-msse/fulltext/2009/03000/progression_models_in_resistance_training_for.26.aspx",
+     "year": 2009
+    }
+   ],
+   "evidence_strength": "weak",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "pr.rpe_autoregulation",
+   "method": "rpe_autoregulation",
+   "trigger": "Logged RPE for the target reps is >= 1 point BELOW target for 2 sessions.",
+   "action": "Increase load one increment. If RPE is >= 1 point ABOVE target for 2 sessions, hold or drop 5%.",
+   "engine_default": true,
+   "sources": [
+    {
+     "title": "Application of the Repetitions in Reserve-Based Rating of Perceived Exertion Scale for Resistance Training",
+     "org": "Helms et al., Strength & Conditioning Journal",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4961270/",
+     "year": 2016
+    }
+   ],
+   "evidence_strength": "weak",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  }
+ ],
+ "volume_progression": {
+  "id": "pr.volume_progression",
+  "rule": "Add 1-2 sets per muscle per week at the start of a new block (every 3-6 weeks) if recovery signals are good, up to the goal's weekly max.",
+  "requires": [
+   "no pain flags",
+   "session feel not 'hard' on >1/3 of sessions",
+   "performance stable or rising"
+  ],
+  "engine_default": true,
+  "sources": [
+   {
+    "title": "The Resistance Training Dose Response: Meta-Regressions Exploring the Effects of Weekly Volume and Frequency on Muscle Hypertrophy and Strength Gains",
+    "org": "Pelland, Remmert, Robinson, Hinson, Zourdos, Sports Medicine",
+    "url": "https://link.springer.com/article/10.1007/s40279-025-02344-w",
+    "year": 2026
+   },
+   {
+    "title": "Dose-response relationship between weekly resistance training volume and increases in muscle mass",
+    "org": "Schoenfeld, Ogborn, Krieger, J Sports Sci",
+    "url": "https://doi.org/10.1080/02640414.2016.1210197",
+    "year": 2017
+   }
+  ],
+  "evidence_strength": "moderate",
+  "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+ },
+ "stall": {
+  "id": "pr.stall",
+  "definition": "No increase in reps or load on a lift for 3 consecutive sessions (or ~3 weeks).",
+  "steps": [
+   {
+    "id": "pr.stall.step1",
+    "step": 1,
+    "action": "check_recovery",
+    "detail": "Look at sleep/energy/feel signals. If poor, deload before anything else."
+   },
+   {
+    "id": "pr.stall.step2",
+    "step": 2,
+    "action": "reset_load",
+    "detail": "Drop load 5-10% and rebuild with the same progression method."
+   },
+   {
+    "id": "pr.stall.step3",
+    "step": 3,
+    "action": "swap_or_change_range",
+    "detail": "Swap to an exercise from `swaps` with the same pattern, or shift the rep range."
+   }
+  ],
+  "engine_default": true,
+  "sources": [
+   {
+    "title": "Essentials of Strength Training and Conditioning, 4th ed., ch. 17 (textbook; 5th ed. now published, not checked)",
+    "org": "NSCA (Haff & Triplett)",
+    "url": "https://ro.ecu.edu.au/ecuworkspost2013/1882/",
+    "year": 2016
+   },
+   {
+    "title": "Progression Models in Resistance Training for Healthy Adults (Position Stand)",
+    "org": "American College of Sports Medicine (MSSE)",
+    "url": "https://journals.lww.com/acsm-msse/fulltext/2009/03000/progression_models_in_resistance_training_for.26.aspx",
+    "year": 2009
+   }
+  ],
+  "evidence_strength": "weak",
+  "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+ },
+ "deload": {
+  "id": "pr.deload",
+  "every_n_weeks": [
+   4,
+   6
+  ],
+  "default_every_n_weeks": 5,
+  "duration_days": 7,
+  "duration_range_days": [
+   3,
+   14
+  ],
+  "method": "Cut volume first. Intensity may be held if volume is cut.",
+  "volume_cut_pct": [
+   40,
+   50
+  ],
+  "intensity_cut_pct": [
+   0,
+   10
+  ],
+  "rir_increase": 2,
+  "triggers": {
+   "planned": "End of block (every_n_weeks).",
+   "autoregulated": [
+    "2+ lifts stalled in the same week",
+    "session feel 'hard' or RPE above target on most sessions for 2 weeks",
+    "user reports persistent fatigue, poor sleep or low motivation",
+    "returning from illness"
+   ]
+  },
+  "detail": "Deload guidance is expert consensus only. One 9-week RCT found a mid-programme 1-week deload gave similar hypertrophy but LESS lower-body strength gain (isometric and dynamic) than training straight through, so the case rests on fatigue management and adherence, not extra gains. Be honest about that in the UI.",
+  "engine_default": [
+   "volume_cut_pct",
+   "intensity_cut_pct",
+   "rir_increase",
+   "autoregulated"
+  ],
+  "sources": [
+   {
+    "title": "Integrating Deloading into Strength and Physique Sports Training Programmes: An International Delphi Consensus Approach",
+    "org": "Bell et al., Sports Medicine – Open",
+    "url": "https://link.springer.com/article/10.1186/s40798-023-00633-0",
+    "year": 2023
+   },
+   {
+    "title": "A Practical Approach to Deloading: Recommendations and Considerations for Strength and Physique Sports",
+    "org": "Bell et al., Strength & Conditioning Journal (author manuscript)",
+    "url": "https://shura.shu.ac.uk/35313/3/Bell-APracticalApproach(AM).pdf",
+    "year": 2024
+   },
+   {
+    "title": "Gaining more from doing less? The effects of a one-week deload period during supervised resistance training on muscular adaptations",
+    "org": "Coleman et al., PeerJ",
+    "url": "https://peerj.com/articles/16777/",
+    "year": 2024
+   }
+  ],
+  "evidence_strength": "weak",
+  "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+ },
+ "new_user_ramp": {
+  "id": "pr.new_user_ramp",
+  "rule": "Weeks 1-2: sets at the goal's beginner min, RPE 6-7. Establish working weights. No AI suggestions beyond rules-only progression until 4 weeks of logs.",
+  "engine_default": true,
+  "sources": [
+   {
+    "title": "UK Chief Medical Officers' Physical Activity Guidelines",
+    "org": "DHSC (UK)",
+    "url": "https://www.gov.uk/government/publications/physical-activity-guidelines-uk-chief-medical-officers-report/uk-chief-medical-officers-physical-activity-guidelines",
+    "year": 2019
+   },
+   {
+    "title": "ACSM Position Stand: Resistance Training Prescription for Muscle Function, Hypertrophy, and Physical Performance in Healthy Adults — An Overview of Reviews",
+    "org": "American College of Sports Medicine (Phillips et al., MSSE)",
+    "url": "https://acsm.org/resistance-training-guidelines-update-2026/",
+    "year": 2026
+   }
+  ],
+  "evidence_strength": "moderate",
+  "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+ }
+}
