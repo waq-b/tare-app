@@ -91,7 +91,7 @@ function Theme({ theme }: { theme: 'dark' | 'light' }) {
               style={{
                 background: `var(--${c}-tint)`,
                 borderColor: `var(--${c}-edge)`,
-                color: `var(--${c})`,
+                color: `var(--${c}-on-tint)`,
               }}
             >
               {c}

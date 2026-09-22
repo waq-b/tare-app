@@ -2,6 +2,10 @@
 
 Decisions Waqar has made. Newest first. When a `decision` issue is answered, add it here and close the issue. Each line gives the decision and why, briefly.
 
+## 2026-09-22 — light-theme chip text (#24)
+
+- **Darken chip text, not the fills.** Each semantic colour gets an on-tint text token (`--<c>-on-tint`) with the same hue, tuned to pass 4.5:1 on its tint over both the page (`bg`) and a card (`surface-1`). Light values: progress `#1A7142`, swap `#0E6A86`, warning `#8B5700`, safety-stop `#B9271E`. Hold and deload were close (4.91 and 4.92) but pass, so they keep their base colour, as do accent and every dark value. Tint fills are unchanged. The contrast test covers both backgrounds, in both themes. _Why:_ light chips on the page background were 4.08–4.39:1, and changing the palette or making tints opaque would have changed how everything looks
+
 ## 2026-09-22 — D0 signed off
 
 - **D0 signed off** (#17): tokens, icons, DESIGN.md and gallery accepted. Before D1: run the vpt v0.1.2 upgrade routine (#19) and apply the contrast decisions (#18)

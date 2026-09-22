@@ -24,6 +24,13 @@ exports[`generate > CSS matches snapshot 1`] = `
   --swap: #6FC8E0;
   --warning: #F2B54A;
   --safety-stop: #FF6259;
+  --accent-on-tint: #CFE88E;
+  --progress-on-tint: #7FD8A0;
+  --hold-on-tint: #A9B6CB;
+  --deload-on-tint: #B9A7F2;
+  --swap-on-tint: #6FC8E0;
+  --warning-on-tint: #F2B54A;
+  --safety-stop-on-tint: #FF6259;
   --safety-stop-solid: #B3140C;
   --on-safety-stop-solid: #FFFFFF;
   --series-1: #3987E5;
@@ -84,6 +91,13 @@ exports[`generate > CSS matches snapshot 1`] = `
   --swap: #0F6F8C;
   --warning: #8F5A00;
   --safety-stop: #C62A20;
+  --accent-on-tint: #46650F;
+  --progress-on-tint: #1A7142;
+  --hold-on-tint: #4E5F78;
+  --deload-on-tint: #6247C2;
+  --swap-on-tint: #0E6A86;
+  --warning-on-tint: #8B5700;
+  --safety-stop-on-tint: #B9271E;
   --safety-stop-solid: #B3140C;
   --on-safety-stop-solid: #FFFFFF;
   --series-1: #2A78D6;
@@ -291,6 +305,13 @@ export declare const tokens: {
       readonly 'swap': "#6FC8E0",
       readonly 'warning': "#F2B54A",
       readonly 'safety-stop': "#FF6259",
+      readonly 'accent-on-tint': "#CFE88E",
+      readonly 'progress-on-tint': "#7FD8A0",
+      readonly 'hold-on-tint': "#A9B6CB",
+      readonly 'deload-on-tint': "#B9A7F2",
+      readonly 'swap-on-tint': "#6FC8E0",
+      readonly 'warning-on-tint': "#F2B54A",
+      readonly 'safety-stop-on-tint': "#FF6259",
       readonly 'safety-stop-solid': "#B3140C",
       readonly 'on-safety-stop-solid': "#FFFFFF",
       readonly 'series-1': "#3987E5",
@@ -318,6 +339,13 @@ export declare const tokens: {
       readonly 'swap': "#0F6F8C",
       readonly 'warning': "#8F5A00",
       readonly 'safety-stop': "#C62A20",
+      readonly 'accent-on-tint': "#46650F",
+      readonly 'progress-on-tint': "#1A7142",
+      readonly 'hold-on-tint': "#4E5F78",
+      readonly 'deload-on-tint': "#6247C2",
+      readonly 'swap-on-tint': "#0E6A86",
+      readonly 'warning-on-tint': "#8B5700",
+      readonly 'safety-stop-on-tint': "#B9271E",
       readonly 'safety-stop-solid': "#B3140C",
       readonly 'on-safety-stop-solid': "#FFFFFF",
       readonly 'series-1': "#2A78D6",
@@ -539,7 +567,7 @@ export declare const tokens: {
 export type ThemeName = 'dark' | 'light';
 export declare const themes: readonly ThemeName[];
 export declare const defaultTheme: 'dark';
-export type ColorName = 'bg' | 'surface-1' | 'surface-2' | 'surface-3' | 'line' | 'line-strong' | 'text' | 'text-2' | 'text-3' | 'accent' | 'on-accent' | 'progress' | 'hold' | 'deload' | 'swap' | 'warning' | 'safety-stop' | 'safety-stop-solid' | 'on-safety-stop-solid' | 'series-1' | 'series-2' | 'series-3' | 'muscle-idle' | 'scrim' | 'shadow';
+export type ColorName = 'bg' | 'surface-1' | 'surface-2' | 'surface-3' | 'line' | 'line-strong' | 'text' | 'text-2' | 'text-3' | 'accent' | 'on-accent' | 'progress' | 'hold' | 'deload' | 'swap' | 'warning' | 'safety-stop' | 'accent-on-tint' | 'progress-on-tint' | 'hold-on-tint' | 'deload-on-tint' | 'swap-on-tint' | 'warning-on-tint' | 'safety-stop-on-tint' | 'safety-stop-solid' | 'on-safety-stop-solid' | 'series-1' | 'series-2' | 'series-3' | 'muscle-idle' | 'scrim' | 'shadow';
 export type SemanticColor = 'progress' | 'hold' | 'deload' | 'swap' | 'warning' | 'safety-stop';
 export type SafetyAction = 'stop_now_call_999' | 'stop_and_contact_111' | 'stop_and_see_gp' | 'reduce_or_rest' | 'modify_exercise' | 'continue_with_caution';
 export type SafetyEmphasis = 'solid' | 'fill' | 'accent';
@@ -565,6 +593,13 @@ export type CssVarName =
   | 'swap'
   | 'warning'
   | 'safety-stop'
+  | 'accent-on-tint'
+  | 'progress-on-tint'
+  | 'hold-on-tint'
+  | 'deload-on-tint'
+  | 'swap-on-tint'
+  | 'warning-on-tint'
+  | 'safety-stop-on-tint'
   | 'safety-stop-solid'
   | 'on-safety-stop-solid'
   | 'series-1'

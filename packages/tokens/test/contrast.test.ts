@@ -1,7 +1,7 @@
 // WCAG contrast for both themes. Failures that come from the canvas itself are not
 // silently re-tinted: they're listed in EXCEPTIONS (and docs/DESIGN.md) for Waqar.
 import { describe, expect, it } from 'vitest';
-import { contrast, loadSource, mix } from './helpers.ts';
+import { contrast, hsl, loadSource, mix } from './helpers.ts';
 
 const src = loadSource();
 const TEXT = 4.5;
@@ -14,11 +14,6 @@ const EXCEPTIONS: Record<string, string> = {
   'light:text-3 on surface-3': '4.26:1. Avoid text-3 on surface-3; use text-2 there',
   'light:series-2 on bg': '2.85:1. Chart marks are always direct-labelled (Charts rule 02)',
   'light:series-3 on bg': '2.51:1. Canvas already notes light aqua < 3:1; always labelled',
-  'light:progress on progress-tint/bg':
-    '4.08:1. Chip text on a tint straight on bg; open decision #24',
-  'light:swap on swap-tint/bg': '4.33:1. as above',
-  'light:warning on warning-tint/bg': '4.39:1. as above',
-  'light:safety-stop on safety-stop-tint/bg': '4.16:1. as above',
 };
 
 type Theme = 'dark' | 'light';
@@ -60,8 +55,17 @@ describe.each(['dark', 'light'] as const)('%s', (theme) => {
     for (const bg of ['bg', 'surface-1']) check(theme, fg, bg, TEXT);
   });
 
-  it.each(semantic)('%s works as text on its own tint (chips, tags, banners)', (fg) => {
-    for (const ground of ['bg', 'surface-1']) check(theme, fg, `${fg}-tint/${ground}`, TEXT);
+  it.each(semantic)('%s-on-tint is readable on its tint over the page and a card', (c) => {
+    // Chips, tags and banners sit on bg (rows) and surface-1 (cards). Both must pass.
+    for (const ground of ['bg', 'surface-1'])
+      check(theme, `${c}-on-tint`, `${c}-tint/${ground}`, TEXT);
+  });
+
+  it.each(semantic)('%s-on-tint keeps the hue of %s', (c) => {
+    const [h0, s0] = hsl(hex(theme, c));
+    const [h1, s1] = hsl(hex(theme, `${c}-on-tint`));
+    expect(Math.abs(h1 - h0), `${theme} ${c} hue`).toBeLessThan(1.5);
+    expect(Math.abs(s1 - s0), `${theme} ${c} saturation`).toBeLessThan(0.03);
   });
 
   it.each(['series-1', 'series-2', 'series-3'])('%s is visible as a mark on bg', (fg) => {

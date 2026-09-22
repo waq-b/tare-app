@@ -12,6 +12,11 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 - GitHub Actions CI: install → lint → typecheck → test
 - Housekeeping: project README replaces the stale dataset copy; app changelog moved here; `docs/plans/` created
 
+### Chip text on tints (2026-09-22, #24)
+
+- New tokens `--<c>-on-tint` for every tint colour (accent, progress, hold, deload, swap, warning, safety-stop), in both themes. Light progress, swap, warning and safety-stop are darker (same hue); the rest equal their base colour. Fills unchanged
+- Contrast test: every on-tint colour passes 4.5:1 on its tint over `bg` and over `surface-1`, in both themes, and keeps the base colour's hue (within 1.5°) and saturation. The four light tint exceptions are gone
+
 ### Contrast decisions (2026-09-22, #18)
 
 - Light `progress` darkened from `#1D7F4A` to `#1C7A47` (4.47 → 4.77:1 on `bg`, 5.35:1 on `surface-1`). The Tokens-board test records it as a deliberate deviation
