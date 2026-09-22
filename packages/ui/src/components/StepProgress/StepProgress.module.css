@@ -1,0 +1,38 @@
+.wrap {
+  display: grid;
+  gap: var(--space-2);
+  width: 100%;
+}
+.bars {
+  display: flex;
+  gap: var(--space-1);
+}
+.seg {
+  flex: 1 1 0;
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--line-strong);
+}
+.accent.done {
+  background: var(--accent);
+}
+.accent.current {
+  background: var(--accent-edge);
+}
+.text.done,
+.text.current {
+  background: var(--text);
+}
+.labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--type-caption-size);
+  color: var(--text-3);
+}
+.labels > span {
+  flex: 1 1 0;
+}
+.labelCurrent {
+  color: var(--text);
+  font-weight: 600;
+}

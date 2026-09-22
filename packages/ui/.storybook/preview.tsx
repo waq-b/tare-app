@@ -5,6 +5,22 @@ import './storybook.css';
 
 type ThemeGlobal = 'dark' | 'light' | 'both';
 
+const TEST_THEME = import.meta.env['TARE_THEME'] as ThemeGlobal | undefined;
+
+/** "Both" renders every story twice, so landmarks (nav, header, main) appear twice. These axe
+ * rules only check for duplicates or nesting across the page, so they're off in Both mode.
+ * Every other rule, including colour contrast, runs on both themes. */
+const DUPLICATE_LANDMARK_RULES = [
+  'landmark-unique',
+  'landmark-no-duplicate-banner',
+  'landmark-no-duplicate-main',
+  'landmark-no-duplicate-contentinfo',
+  'landmark-banner-is-top-level',
+  'landmark-main-is-top-level',
+  'landmark-contentinfo-is-top-level',
+  'landmark-complementary-is-top-level',
+].map((id) => ({ id, enabled: false }));
+
 /** Sets `data-theme` on the story root (and <html>, so portals like sheets match).
  * "Both" renders the story twice, dark and light, side by side. */
 const withTheme: Decorator = (Story, ctx) => {
@@ -48,7 +64,7 @@ const preview: Preview = {
   },
   initialGlobals: {
     // Story tests set TARE_THEME=both (vitest.storybook.config.ts) so axe checks both themes.
-    theme: (import.meta.env['TARE_THEME'] as ThemeGlobal | undefined) ?? 'dark',
+    theme: TEST_THEME ?? 'dark',
     viewport: { value: 'tare', isRotated: false },
   },
   parameters: {
@@ -58,7 +74,10 @@ const preview: Preview = {
         tare: { name: 'Tare 390×844', styles: { width: '390px', height: '844px' }, type: 'mobile' },
       },
     },
-    a11y: { test: 'error' },
+    a11y: {
+      test: 'error',
+      ...(TEST_THEME === 'both' ? { config: { rules: DUPLICATE_LANDMARK_RULES } } : {}),
+    },
     backgrounds: { disable: true },
     controls: { expanded: true },
   },

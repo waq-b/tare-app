@@ -1,0 +1,31 @@
+.bar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--space-3);
+  padding: calc(env(safe-area-inset-top) + var(--space-3)) var(--space-5) var(--space-3);
+}
+.bar > :first-child:is(a, button) {
+  margin-left: calc(var(--space-3) * -1);
+}
+.main {
+  flex-grow: 1;
+  min-width: 0;
+}
+.title {
+  margin: 0;
+  font-size: var(--type-title-size);
+  font-weight: var(--type-title-weight);
+  line-height: var(--type-title-line);
+  letter-spacing: var(--type-title-tracking);
+}
+.subtitle {
+  margin: 2px 0 0;
+  font-size: var(--type-caption-size);
+  color: var(--text-3);
+}
+.actions {
+  display: flex;
+  gap: var(--space-1);
+  margin-right: calc(var(--space-2) * -1);
+}

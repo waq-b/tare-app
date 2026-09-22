@@ -1,0 +1,23 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  border: 1px solid var(--elev-1-border);
+  border-radius: var(--radius-xl);
+  background: var(--elev-1-surface);
+  color: var(--text);
+}
+.ground {
+  background: var(--elev-0-surface);
+  border-color: var(--elev-0-border);
+}
+.pad {
+  padding: var(--space-4);
+}
+.link {
+  text-decoration: none;
+  transition: transform var(--motion-press-duration) var(--motion-press-easing);
+}
+.link:active {
+  transform: scale(var(--motion-press-scale));
+}

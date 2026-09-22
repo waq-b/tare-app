@@ -1,0 +1,22 @@
+.wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  background: var(--text-3);
+}
+.progress {
+  background: var(--progress);
+}
+.warning {
+  background: var(--warning);
+}
+.safety {
+  background: var(--safety-stop);
+}

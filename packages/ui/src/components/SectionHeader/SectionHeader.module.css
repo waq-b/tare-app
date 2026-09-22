@@ -1,0 +1,16 @@
+.wrap {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.title {
+  margin: 0;
+  font-size: var(--type-heading-size);
+  font-weight: var(--type-heading-weight);
+  line-height: var(--type-heading-line);
+}
+.meta {
+  font-size: var(--type-caption-size);
+  color: var(--text-2);
+}

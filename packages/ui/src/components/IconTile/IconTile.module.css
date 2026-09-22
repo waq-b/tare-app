@@ -1,0 +1,70 @@
+.tile {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+  color: var(--text);
+}
+.s40 {
+  width: 40px;
+  height: 40px;
+}
+.s48 {
+  width: 48px;
+  height: 48px;
+}
+.s56 {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+}
+.s64 {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-lg);
+}
+.s72 {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-xl);
+}
+.dashed {
+  border: 1.5px dashed var(--line-strong);
+  background: transparent;
+  color: var(--text-2);
+}
+.accent {
+  background: var(--accent-tint);
+  color: var(--accent-on-tint);
+}
+.progress {
+  background: var(--progress-tint);
+  color: var(--progress-on-tint);
+}
+.hold {
+  background: var(--hold-tint);
+  color: var(--hold-on-tint);
+}
+.deload {
+  background: var(--deload-tint);
+  color: var(--deload-on-tint);
+}
+.swap {
+  background: var(--swap-tint);
+  color: var(--swap-on-tint);
+}
+.warning {
+  background: var(--warning-tint);
+  color: var(--warning-on-tint);
+}
+.safety {
+  background: var(--safety-stop-tint);
+  color: var(--safety-stop-on-tint);
+}
+.on-emergency {
+  background: color-mix(in srgb, var(--on-safety-stop-solid) 16%, transparent);
+  color: var(--on-safety-stop-solid);
+}

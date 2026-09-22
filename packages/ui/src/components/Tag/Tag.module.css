@@ -1,0 +1,67 @@
+.tag {
+  --c: var(--text-2);
+  --c-tint: var(--surface-2);
+  --c-edge: var(--line-strong);
+  --c-text: var(--text-2);
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+  min-height: 24px;
+  padding: 2px 10px;
+  border: 1px solid var(--c-edge);
+  border-radius: var(--radius-pill);
+  background: var(--c-tint);
+  color: var(--c-text);
+  font-size: var(--type-caption-size);
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.accent {
+  --c: var(--accent);
+  --c-tint: var(--accent-tint);
+  --c-edge: var(--accent-edge);
+  --c-text: var(--accent-on-tint);
+}
+.progress {
+  --c: var(--progress);
+  --c-tint: var(--progress-tint);
+  --c-edge: var(--progress-edge);
+  --c-text: var(--progress-on-tint);
+}
+.hold {
+  --c: var(--hold);
+  --c-tint: var(--hold-tint);
+  --c-edge: var(--hold-edge);
+  --c-text: var(--hold-on-tint);
+}
+.deload {
+  --c: var(--deload);
+  --c-tint: var(--deload-tint);
+  --c-edge: var(--deload-edge);
+  --c-text: var(--deload-on-tint);
+}
+.swap {
+  --c: var(--swap);
+  --c-tint: var(--swap-tint);
+  --c-edge: var(--swap-edge);
+  --c-text: var(--swap-on-tint);
+}
+.warning {
+  --c: var(--warning);
+  --c-tint: var(--warning-tint);
+  --c-edge: var(--warning-edge);
+  --c-text: var(--warning-on-tint);
+}
+.safety {
+  --c: var(--safety-stop);
+  --c-tint: var(--safety-stop-tint);
+  --c-edge: var(--safety-stop-edge);
+  --c-text: var(--safety-stop-on-tint);
+}
+.solid.accent {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
