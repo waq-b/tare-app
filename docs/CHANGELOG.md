@@ -14,6 +14,13 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### D1 — Storybook design library (in progress)
 
+- **T13 screens: safety and pain (#37):**
+  - One story per safety action, with a control to switch to any rule for that action, plus the Contact 111 light twin.
+  - Modify exercise lists the exercises `pain_during_exercise` skips, from `body_area_map`.
+  - The pain-flag sheet is redesigned (decision 4): where (all `body_areas`, with side), when (four timings, each mapped to its rule; the "sharp / above 5/10" threshold is labelled as a physio rule of thumb, not NHS guidance), then red-flag follow-ups (severe injury, can't bear weight, sprain, a hot calf for the calf area only, and "not sure"). There's an emergency shortcut to the 999 screen at the top.
+  - The routing helper puts the most urgent answer first and only ever returns real rule IDs (6 tests).
+  - Interaction tests walk the sheet twice: sharp shoulder pain during a set → Modify with its `user_message`; a hot swollen calf → 999 with `tel:999` first.
+  - Pain flag history: a table (results use the fixed action labels), the lock note, and `BodyMap` front and back with active/cleared flags and sides.
 - **T12 screens: onboarding, settings, coach (#36):**
   - Onboarding/Welcome shows "Not medical advice" once, in a disclaimer card.
   - Onboarding/Health shows the 5 `sf.screening` questions word for word. The msk area uses `enums.body_areas`, with a side picker for sided areas. The copy says the answers sync.
