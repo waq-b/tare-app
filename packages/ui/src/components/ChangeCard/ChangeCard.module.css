@@ -54,6 +54,7 @@
   color: var(--text-2);
 }
 .undo {
+  flex-shrink: 0;
   min-width: var(--touch-min);
   min-height: var(--touch-min);
   margin-left: auto;

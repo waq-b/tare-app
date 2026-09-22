@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
-import { PlanDayRow } from './PlanDayRow';
+import { PlanDayRow, SessionBadge } from './PlanDayRow';
 
 const meta = { title: 'Components/Workout/PlanDayRow', component: PlanDayRow } satisfies Meta<
   typeof PlanDayRow
@@ -20,3 +20,15 @@ export const Session: Story = {
 };
 export const Rest: Story = { args: { kind: 'rest', day: 'Wed' } };
 export const Ride: Story = { args: { kind: 'ride', day: 'Fri' } };
+
+export const SessionBadgeStory: Story = {
+  name: 'SessionBadge',
+  args: { kind: 'rest', day: 'Mon' },
+  render: () => (
+    <div style={{ display: 'flex', gap: 8 }}>
+      {['A', 'B', 'C'].map((l) => (
+        <SessionBadge key={l} letter={l} />
+      ))}
+    </div>
+  ),
+};

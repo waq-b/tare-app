@@ -27,3 +27,5 @@ jobs:
       # Unit tests plus every Storybook story as a browser test (render, play, axe in both themes).
       - run: npm test
       - run: npm run build-storybook -w @tare/ui
+      # Every board and every DESIGN.md component has a story.
+      - run: npm run check:stories

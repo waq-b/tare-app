@@ -14,6 +14,10 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### D1 — Storybook design library (in progress)
 
+- **T15 quality gates (#39):**
+  - `scripts/check-stories.ts` (`npm run check:stories`, run in CI after the Storybook build) proves every board's D1 story from DESIGN.md §4 exists, and that all 96 components in §3 have a story. It found 12 gaps, now filled; DESIGN.md §4 now lists Connect-AI under Settings.
+  - Touch targets: after every story test, every interactive element must be ≥48×48 (labels count for checkboxes and radios). A guard story proves the check catches a 32px button. It found the Undo button, a sortable header and a short text link, all fixed.
+  - a11y: axe with zero violations in both themes, on all 306 story tests.
 - **T14 screens: progress, body, food, notifications, flow (#38):**
   - Progress/Lifts: lift picker, a `ChartFrame` with its table, weekly sets against the fat-loss band, recent sessions.
   - Progress/Empty, Lifts table (sortable, with sparklines; the e1RM note comes from `tr.global.e1rm`), and Lift chart (full scrub chart plus table).

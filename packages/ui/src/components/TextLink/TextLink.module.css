@@ -3,6 +3,7 @@
   align-items: center;
   gap: var(--space-1);
   min-height: var(--touch-min);
+  min-width: var(--touch-min);
   padding: 0;
   border: 0;
   background: none;

@@ -62,3 +62,6 @@ export const OpenAndClose: Story = {
     );
   },
 };
+
+/** The scrim behind every sheet (tap to close). */
+export const Scrim: Story = { args: { title: 'Scrim behind a sheet' } };

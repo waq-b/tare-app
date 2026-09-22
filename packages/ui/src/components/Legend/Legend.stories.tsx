@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Legend } from './Legend';
+import { ChartLegend, Legend } from './Legend';
 
 const meta = { title: 'Components/Data/Legend', component: Legend } satisfies Meta<typeof Legend>;
 export default meta;
@@ -20,4 +20,12 @@ export const ChartKey: StoryObj<typeof meta> = {
       { label: 'Target band', color: 'var(--progress)', mark: 'dashed' },
     ],
   },
+};
+
+export const ChartLegendStory: StoryObj<typeof meta> = {
+  name: 'ChartLegend',
+  args: { items: [] },
+  render: () => (
+    <ChartLegend items={[{ label: 'e1RM (estimated)', color: 'var(--accent)', mark: 'line' }]} />
+  ),
 };

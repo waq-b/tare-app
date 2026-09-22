@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { historyOf } from '../../../fixtures';
-import { SessionExerciseBlock } from './SessionExerciseBlock';
+import { SessionExerciseBlock, SetPill } from './SessionExerciseBlock';
 
 const last = historyOf('Barbell_Bench_Press_-_Medium_Grip').at(-1);
 const work = (last?.sets ?? []).filter((s) => s.kind === 'work');
@@ -25,4 +25,9 @@ export const PerHand: Story = {
     loadConvention: 'per_hand',
     effort: 'OK',
   },
+};
+
+export const SetPillStory: Story = {
+  name: 'SetPill',
+  render: () => <SetPill load={62.5} reps={6} />,
 };

@@ -46,3 +46,15 @@ export const Rows: Story = {
     await expect(c.getByRole('switch', { name: 'Safety follow-ups (always on)' })).toBeDisabled();
   },
 };
+
+export const ToggleRowStory: Story = {
+  name: 'ToggleRow',
+  render: () => (
+    <ToggleRow
+      title="Weekly review ready"
+      description="When your Claude has written it"
+      checked
+      onChange={() => undefined}
+    />
+  ),
+};

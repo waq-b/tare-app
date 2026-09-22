@@ -2,6 +2,7 @@ import type { Decorator, Preview } from '@storybook/react-vite';
 import { useEffect } from 'react';
 import '../src/styles/global.css';
 import './storybook.css';
+import { smallTargets, TOUCH_MIN } from './touch';
 
 type ThemeGlobal = 'dark' | 'light' | 'both';
 
@@ -47,6 +48,11 @@ const withTheme: Decorator = (Story, ctx) => {
 
 const preview: Preview = {
   decorators: [withTheme],
+  afterEach: async ({ canvasElement, parameters }) => {
+    if (!TEST_THEME || parameters['touchTargets'] === false) return;
+    const small = smallTargets(canvasElement);
+    if (small.length) throw new Error(`Touch targets under ${TOUCH_MIN}px:\n${small.join('\n')}`);
+  },
   globalTypes: {
     theme: {
       description: 'Theme',

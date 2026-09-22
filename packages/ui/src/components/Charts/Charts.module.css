@@ -389,6 +389,8 @@
 .sortBtn {
   display: inline-flex;
   align-items: center;
+  justify-content: flex-end;
+  min-width: var(--touch-min);
   gap: 4px;
   min-height: var(--touch-min);
   padding: 0;

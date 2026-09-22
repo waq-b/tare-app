@@ -3,7 +3,13 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { expect, userEvent, within } from 'storybook/test';
 import { review } from '../../../fixtures';
-import { ChangeCard, type DecisionState } from './ChangeCard';
+import {
+  AcceptReject,
+  ChangeCard,
+  DecisionStatus,
+  ReasonPicker,
+  type DecisionState,
+} from './ChangeCard';
 
 const REASONS = [
   { value: 'too_heavy', label: 'Too heavy' },
@@ -69,4 +75,22 @@ export const Decide: Story = {
     await userEvent.click(c.getByRole('button', { name: 'Too heavy' }));
     await expect(c.getByRole('status')).toHaveTextContent('Kept as is · Too heavy');
   },
+};
+
+export const AcceptRejectStory: Story = {
+  name: 'AcceptReject',
+  render: () => <AcceptReject subject="Bench press" />,
+};
+export const DecisionStatusStory: Story = {
+  name: 'DecisionStatus',
+  render: () => (
+    <div style={{ display: 'grid', gap: 8 }}>
+      <DecisionStatus state="accepted" />
+      <DecisionStatus state="kept" reason="Too heavy" />
+    </div>
+  ),
+};
+export const ReasonPickerStory: Story = {
+  name: 'ReasonPicker',
+  render: () => <ReasonPicker options={REASONS} value="too_heavy" />,
 };

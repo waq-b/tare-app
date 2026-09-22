@@ -15,3 +15,17 @@ export const RendersBothThemesUnderTest: StoryObj = {
     await expect(themes).toEqual(['dark', 'light']);
   },
 };
+
+/** The touch-target check catches a small button (this story opts out of the check itself). */
+export const TouchCheckCatchesSmallTargets: StoryObj = {
+  parameters: { touchTargets: false },
+  render: () => (
+    <button type="button" style={{ width: 32, height: 32 }}>
+      Go
+    </button>
+  ),
+  play: async ({ canvasElement }) => {
+    const { smallTargets } = await import('../.storybook/touch');
+    await expect(smallTargets(canvasElement).join()).toMatch(/"Go" is 32×32/);
+  },
+};
