@@ -135,7 +135,7 @@ export function QuietHoursCard({ on, onChange, from, to }: QuietHoursCardProps) 
     <section className={styles['quiet']}>
       <div className={styles['quietHead']}>
         <Icon name="moon" size={20} />
-        <h3 className={styles['title']}>Quiet hours</h3>
+        <h2 className={styles['title']}>Quiet hours</h2>
         <Switch label="Quiet hours" checked={on} {...(onChange ? { onChange } : {})} />
       </div>
       <p className={styles['quietRange']}>

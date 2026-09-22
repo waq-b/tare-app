@@ -43,7 +43,8 @@ export function DataTable<R extends Record<string, unknown>>({
       })
     : rows;
   return (
-    <div className={styles['tableWrap']}>
+    // Scrolls sideways on narrow screens, so it's a focusable, labelled region.
+    <div className={styles['tableWrap']} role="region" aria-label={caption} tabIndex={0}>
       <table className={styles['table']}>
         <caption className="sr-only">{caption}</caption>
         <thead>
@@ -107,6 +108,8 @@ export interface ChartFrameProps {
   table: ReactNode;
   /** Start on the table (e.g. when the user prefers tables). */
   initialView?: 'chart' | 'table';
+  /** Heading level for the title. */
+  as?: 'h2' | 'h3';
 }
 
 /** Every chart has a table one tap away (Charts rule 04). */
@@ -117,12 +120,13 @@ export function ChartFrame({
   chart,
   table,
   initialView = 'chart',
+  as: H = 'h2',
 }: ChartFrameProps) {
   const [view, setView] = useState<'chart' | 'table'>(initialView);
   return (
     <section className={styles['frame']} aria-label={title}>
       <div className={styles['frameHead']}>
-        <h3 className={styles['frameTitle']}>{title}</h3>
+        <H className={styles['frameTitle']}>{title}</H>
         <div className={styles['toggle']}>
           <SegmentedControl
             label={`${title}: view`}

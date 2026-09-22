@@ -14,6 +14,15 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### D1 — Storybook design library (in progress)
 
+- **T14 screens: progress, body, food, notifications, flow (#38):**
+  - Progress/Lifts: lift picker, a `ChartFrame` with its table, weekly sets against the fat-loss band, recent sessions.
+  - Progress/Empty, Lifts table (sortable, with sparklines; the e1RM note comes from `tr.global.e1rm`), and Lift chart (full scrub chart plus table).
+  - Progress/Body: 7-day average hero, trend chart, rate/waist/sessions/weigh-ins, heatmap, the active pain flag in its safety colour, health answers synced.
+  - Log weigh-in: any frequency; charts use the 7-day average.
+  - Food Today, Week and Not connected. The targets are labelled placeholders; the canvas's Morton source isn't in vpt, so it isn't shown.
+  - Notifications: push mocks, centre, and settings (safety follow-ups locked on, ride nudges disabled "coming later").
+  - Prototype/Today → review: a clickable Flow with a live rest countdown and effort tags. Its walk-through test logs three sets, finishes, and decides both changes.
+  - Fixed: scrollable tables are now focusable labelled regions, `ChartFrame` takes a heading level, and heading order is right on every screen.
 - **T13 screens: safety and pain (#37):**
   - One story per safety action, with a control to switch to any rule for that action, plus the Contact 111 light twin.
   - Modify exercise lists the exercises `pain_during_exercise` skips, from `body_area_map`.
