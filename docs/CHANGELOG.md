@@ -14,6 +14,14 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### D1 — Storybook design library (in progress)
 
+- **T12 screens: onboarding, settings, coach (#36):**
+  - Onboarding/Welcome shows "Not medical advice" once, in a disclaimer card.
+  - Onboarding/Health shows the 5 `sf.screening` questions word for word. The msk area uses `enums.body_areas`, with a side picker for sided areas. The copy says the answers sync.
+  - One Screening result story per result: a fixed UI title, then `result_messages` verbatim. GP-first stops setup and asks `cleared_by_gp`; "yes" and "not yet" have stories, and "not yet" offers GP finder and 111 from the data.
+  - Goals includes all 5 goals from the data (the canvas omitted endurance). Level is beginner/intermediate. Kit and can't-do options come from `equipment_detail` / `skill_tags`.
+  - Settings shows health answers "Synced to your account", safety follow-ups "always on", and the vpt version and source count from the data.
+  - Connect your AI uses the short `get_coach_brief` bootstrap.
+  - Coach: an interactive weekly review from the fixture review (+ light), kept with a reason, not enough data (text from `pr.new_user_ramp`; the rules list shows each rule's trigger/definition from the data), and a missed run.
 - **T11 screens: workout, today, plan (#35):** 18 boards as screen stories, composed from components with fixtures (`stories/screens`).
   - Workout: Ledger (interactive), Ledger (light), Edit set, Rest timer, Swap sheet, Offline.
   - Today: Default, Default (light), Rest day, Deload week, Sync failed, Loading.
