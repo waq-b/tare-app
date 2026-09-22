@@ -2,6 +2,13 @@
 
 Decisions Waqar has made. Newest first. When a `decision` issue is answered, add it here and close the issue. Each line gives the decision and why, briefly.
 
+## 2026-09-22 — D1 signed off
+
+- **D1 plan signed off** (`docs/plans/D1.md`, #25–#41)
+- **CLAUDE.md updated to vpt v0.1.2** (#42): §4 layout and §9 heading; `packages/data` added to the layout; §9 notes swaps filter by `equipment_detail` and `skill_tags`
+- **Storybook hosting** (#43): a public Render static site, with fictional fixtures only and `noindex`. _Why:_ simplest and free; nothing personal is in it
+- **Pain-flag sheet and BodyMap** (#44): the builder designs them in Storybook from existing components, in the canvas style, and Waqar reviews the stories. _Why:_ doesn't block T13 on the design session
+
 ## 2026-09-22 — light-theme chip text (#24)
 
 - **Darken chip text, not the fills.** Each semantic colour gets an on-tint text token (`--<c>-on-tint`) with the same hue, tuned to pass 4.5:1 on its tint over both the page (`bg`) and a card (`surface-1`). Light values: progress `#1A7142`, swap `#0E6A86`, warning `#8B5700`, safety-stop `#B9271E`. Hold and deload were close (4.91 and 4.92) but pass, so they keep their base colour, as do accent and every dark value. Tint fills are unchanged. The contrast test covers both backgrounds, in both themes. _Why:_ light chips on the page background were 4.08–4.39:1, and changing the palette or making tints opaque would have changed how everything looks
