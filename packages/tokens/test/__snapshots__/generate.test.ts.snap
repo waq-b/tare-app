@@ -1,0 +1,712 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`generate > CSS matches snapshot 1`] = `
+"/* Generated from packages/tokens/src/tokens.json. Do not edit. */
+
+/* Dark is the default theme. */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0E0F14;
+  --surface-1: #16171E;
+  --surface-2: #1E2029;
+  --surface-3: #282B36;
+  --line: #2B2E3A;
+  --line-strong: #3A3E4C;
+  --text: #ECEBE4;
+  --text-2: #A9AAB4;
+  --text-3: #8A8C99;
+  --accent: #CFE88E;
+  --on-accent: #12140C;
+  --progress: #7FD8A0;
+  --hold: #A9B6CB;
+  --deload: #B9A7F2;
+  --swap: #6FC8E0;
+  --warning: #F2B54A;
+  --safety-stop: #FF6259;
+  --safety-stop-solid: #B3140C;
+  --on-safety-stop-solid: #FFFFFF;
+  --series-1: #3987E5;
+  --series-2: #D95926;
+  --series-3: #199E70;
+  --muscle-idle: #2A2D39;
+  --scrim: rgba(4, 5, 8, 0.66);
+  --shadow: rgba(0, 0, 0, 0.5);
+  --accent-tint: color-mix(in srgb, var(--accent) 12%, transparent);
+  --accent-edge: color-mix(in srgb, var(--accent) 40%, transparent);
+  --progress-tint: color-mix(in srgb, var(--progress) 12%, transparent);
+  --progress-edge: color-mix(in srgb, var(--progress) 40%, transparent);
+  --hold-tint: color-mix(in srgb, var(--hold) 12%, transparent);
+  --hold-edge: color-mix(in srgb, var(--hold) 40%, transparent);
+  --deload-tint: color-mix(in srgb, var(--deload) 12%, transparent);
+  --deload-edge: color-mix(in srgb, var(--deload) 40%, transparent);
+  --swap-tint: color-mix(in srgb, var(--swap) 12%, transparent);
+  --swap-edge: color-mix(in srgb, var(--swap) 40%, transparent);
+  --warning-tint: color-mix(in srgb, var(--warning) 12%, transparent);
+  --warning-edge: color-mix(in srgb, var(--warning) 40%, transparent);
+  --safety-stop-tint: color-mix(in srgb, var(--safety-stop) 12%, transparent);
+  --safety-stop-edge: color-mix(in srgb, var(--safety-stop) 40%, transparent);
+  --muscle-primary: var(--accent);
+  --muscle-secondary: color-mix(in srgb, var(--accent) 40%, transparent);
+  --elev-0-surface: var(--bg);
+  --elev-0-border: var(--line);
+  --elev-0-shadow: none;
+  --elev-1-surface: var(--surface-1);
+  --elev-1-border: var(--line);
+  --elev-1-shadow: none;
+  --elev-2-surface: var(--surface-1);
+  --elev-2-border: var(--line-strong);
+  --elev-2-shadow: 0 12px 32px var(--shadow);
+  --safety-stop-now-call-999: var(--safety-stop-solid);
+  --safety-stop-and-contact-111: var(--warning);
+  --safety-stop-and-see-gp: var(--warning);
+  --safety-reduce-or-rest: var(--deload);
+  --safety-modify-exercise: var(--swap);
+  --safety-continue-with-caution: var(--warning);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #F3F2ED;
+  --surface-1: #FFFFFF;
+  --surface-2: #EAE9E3;
+  --surface-3: #DEDDD6;
+  --line: #D9D8D0;
+  --line-strong: #C4C3BA;
+  --text: #14151B;
+  --text-2: #4B4D57;
+  --text-3: #63656F;
+  --accent: #46650F;
+  --on-accent: #FFFFFF;
+  --progress: #1D7F4A;
+  --hold: #4E5F78;
+  --deload: #6247C2;
+  --swap: #0F6F8C;
+  --warning: #8F5A00;
+  --safety-stop: #C62A20;
+  --safety-stop-solid: #B3140C;
+  --on-safety-stop-solid: #FFFFFF;
+  --series-1: #2A78D6;
+  --series-2: #EB6834;
+  --series-3: #1BAF7A;
+  --muscle-idle: #DEDDD6;
+  --scrim: rgba(20, 21, 27, 0.45);
+  --shadow: rgba(20, 21, 27, 0.14);
+  --accent-tint: color-mix(in srgb, var(--accent) 12%, transparent);
+  --accent-edge: color-mix(in srgb, var(--accent) 40%, transparent);
+  --progress-tint: color-mix(in srgb, var(--progress) 12%, transparent);
+  --progress-edge: color-mix(in srgb, var(--progress) 40%, transparent);
+  --hold-tint: color-mix(in srgb, var(--hold) 12%, transparent);
+  --hold-edge: color-mix(in srgb, var(--hold) 40%, transparent);
+  --deload-tint: color-mix(in srgb, var(--deload) 12%, transparent);
+  --deload-edge: color-mix(in srgb, var(--deload) 40%, transparent);
+  --swap-tint: color-mix(in srgb, var(--swap) 12%, transparent);
+  --swap-edge: color-mix(in srgb, var(--swap) 40%, transparent);
+  --warning-tint: color-mix(in srgb, var(--warning) 12%, transparent);
+  --warning-edge: color-mix(in srgb, var(--warning) 40%, transparent);
+  --safety-stop-tint: color-mix(in srgb, var(--safety-stop) 12%, transparent);
+  --safety-stop-edge: color-mix(in srgb, var(--safety-stop) 40%, transparent);
+  --muscle-primary: var(--accent);
+  --muscle-secondary: color-mix(in srgb, var(--accent) 40%, transparent);
+  --elev-0-surface: var(--bg);
+  --elev-0-border: var(--line);
+  --elev-0-shadow: none;
+  --elev-1-surface: var(--surface-1);
+  --elev-1-border: var(--line);
+  --elev-1-shadow: none;
+  --elev-2-surface: var(--surface-1);
+  --elev-2-border: var(--line-strong);
+  --elev-2-shadow: 0 12px 32px var(--shadow);
+  --safety-stop-now-call-999: var(--safety-stop-solid);
+  --safety-stop-and-contact-111: var(--warning);
+  --safety-stop-and-see-gp: var(--warning);
+  --safety-reduce-or-rest: var(--deload);
+  --safety-modify-exercise: var(--swap);
+  --safety-continue-with-caution: var(--warning);
+}
+
+:root {
+  --brand-miniquest-pip: #D63A2F;
+  --brand-miniquest-night: #15123A;
+  --brand-miniquest-star: #EFE9FB;
+  --brand-miniquest-mist: #C9C3E0;
+  --brand-miniquest-dim: #8A7FB0;
+  --font-sans: 'Instrument Sans', 'Helvetica Neue', 'Helvetica', sans-serif;
+  --font-mono: 'Azeret Mono', ui-monospace, 'SF Mono', 'Menlo', monospace;
+  --font-pixel: 'Silkscreen', ui-monospace, monospace;
+  --type-num-hero-family: var(--font-mono);
+  --type-num-hero-size: 72px;
+  --type-num-hero-weight: 500;
+  --type-num-hero-line: 1.1;
+  --type-num-hero-tracking: -0.03em;
+  --type-num-hero-numeric: tabular-nums;
+  --type-num-hero-transform: none;
+  --type-num-xl-family: var(--font-mono);
+  --type-num-xl-size: 46px;
+  --type-num-xl-weight: 600;
+  --type-num-xl-line: 1.1;
+  --type-num-xl-tracking: -0.03em;
+  --type-num-xl-numeric: tabular-nums;
+  --type-num-xl-transform: none;
+  --type-num-l-family: var(--font-mono);
+  --type-num-l-size: 26px;
+  --type-num-l-weight: 600;
+  --type-num-l-line: 1;
+  --type-num-l-tracking: -0.02em;
+  --type-num-l-numeric: tabular-nums;
+  --type-num-l-transform: none;
+  --type-num-m-family: var(--font-mono);
+  --type-num-m-size: 15px;
+  --type-num-m-weight: 500;
+  --type-num-m-line: 1.2;
+  --type-num-m-tracking: 0;
+  --type-num-m-numeric: tabular-nums;
+  --type-num-m-transform: none;
+  --type-display-family: var(--font-sans);
+  --type-display-size: 30px;
+  --type-display-weight: 600;
+  --type-display-line: 1.1;
+  --type-display-tracking: -0.02em;
+  --type-display-numeric: normal;
+  --type-display-transform: none;
+  --type-title-family: var(--font-sans);
+  --type-title-size: 22px;
+  --type-title-weight: 600;
+  --type-title-line: 1.2;
+  --type-title-tracking: -0.01em;
+  --type-title-numeric: normal;
+  --type-title-transform: none;
+  --type-heading-family: var(--font-sans);
+  --type-heading-size: 18px;
+  --type-heading-weight: 600;
+  --type-heading-line: 1.25;
+  --type-heading-tracking: 0;
+  --type-heading-numeric: normal;
+  --type-heading-transform: none;
+  --type-body-family: var(--font-sans);
+  --type-body-size: 16px;
+  --type-body-weight: 400;
+  --type-body-line: 1.5;
+  --type-body-tracking: 0;
+  --type-body-numeric: normal;
+  --type-body-transform: none;
+  --type-body-s-family: var(--font-sans);
+  --type-body-s-size: 14px;
+  --type-body-s-weight: 400;
+  --type-body-s-line: 1.4;
+  --type-body-s-tracking: 0;
+  --type-body-s-numeric: normal;
+  --type-body-s-transform: none;
+  --type-caption-family: var(--font-sans);
+  --type-caption-size: 13px;
+  --type-caption-weight: 400;
+  --type-caption-line: 1.4;
+  --type-caption-tracking: 0;
+  --type-caption-numeric: normal;
+  --type-caption-transform: none;
+  --type-label-family: var(--font-sans);
+  --type-label-size: 11px;
+  --type-label-weight: 600;
+  --type-label-line: 1.2;
+  --type-label-tracking: 0.1em;
+  --type-label-numeric: normal;
+  --type-label-transform: uppercase;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 48px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-sheet: 28px;
+  --radius-pill: 999px;
+  --touch-min: 48px;
+  --touch-primary: 56px;
+  --touch-primary-lg: 64px;
+  --touch-focus: 84px;
+  --touch-button: 60px;
+  --touch-button-compact: 52px;
+  --motion-press-duration: 90ms;
+  --motion-press-easing: ease-out;
+  --motion-state-duration: 160ms;
+  --motion-state-easing: ease-out;
+  --motion-set-done-duration: 220ms;
+  --motion-set-done-easing: cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  --motion-sheet-duration: 280ms;
+  --motion-sheet-easing: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --motion-scrim-duration: 160ms;
+  --motion-scrim-easing: ease-out;
+  --motion-press-scale: 0.97;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-press-duration: 120ms;
+    --motion-press-easing: linear;
+    --motion-state-duration: 120ms;
+    --motion-state-easing: linear;
+    --motion-set-done-duration: 120ms;
+    --motion-set-done-easing: linear;
+    --motion-sheet-duration: 120ms;
+    --motion-sheet-easing: linear;
+    --motion-scrim-duration: 120ms;
+    --motion-scrim-easing: linear;
+    --motion-press-scale: 1;
+  }
+}
+"
+`;
+
+exports[`generate > TS declarations match snapshot 1`] = `
+"// Generated from packages/tokens/src/tokens.json. Do not edit.
+export declare const tokens: {
+  readonly 'color': {
+    readonly 'dark': {
+      readonly 'bg': "#0E0F14",
+      readonly 'surface-1': "#16171E",
+      readonly 'surface-2': "#1E2029",
+      readonly 'surface-3': "#282B36",
+      readonly 'line': "#2B2E3A",
+      readonly 'line-strong': "#3A3E4C",
+      readonly 'text': "#ECEBE4",
+      readonly 'text-2': "#A9AAB4",
+      readonly 'text-3': "#8A8C99",
+      readonly 'accent': "#CFE88E",
+      readonly 'on-accent': "#12140C",
+      readonly 'progress': "#7FD8A0",
+      readonly 'hold': "#A9B6CB",
+      readonly 'deload': "#B9A7F2",
+      readonly 'swap': "#6FC8E0",
+      readonly 'warning': "#F2B54A",
+      readonly 'safety-stop': "#FF6259",
+      readonly 'safety-stop-solid': "#B3140C",
+      readonly 'on-safety-stop-solid': "#FFFFFF",
+      readonly 'series-1': "#3987E5",
+      readonly 'series-2': "#D95926",
+      readonly 'series-3': "#199E70",
+      readonly 'muscle-idle': "#2A2D39",
+      readonly 'scrim': "rgba(4, 5, 8, 0.66)",
+      readonly 'shadow': "rgba(0, 0, 0, 0.5)"
+    },
+    readonly 'light': {
+      readonly 'bg': "#F3F2ED",
+      readonly 'surface-1': "#FFFFFF",
+      readonly 'surface-2': "#EAE9E3",
+      readonly 'surface-3': "#DEDDD6",
+      readonly 'line': "#D9D8D0",
+      readonly 'line-strong': "#C4C3BA",
+      readonly 'text': "#14151B",
+      readonly 'text-2': "#4B4D57",
+      readonly 'text-3': "#63656F",
+      readonly 'accent': "#46650F",
+      readonly 'on-accent': "#FFFFFF",
+      readonly 'progress': "#1D7F4A",
+      readonly 'hold': "#4E5F78",
+      readonly 'deload': "#6247C2",
+      readonly 'swap': "#0F6F8C",
+      readonly 'warning': "#8F5A00",
+      readonly 'safety-stop': "#C62A20",
+      readonly 'safety-stop-solid': "#B3140C",
+      readonly 'on-safety-stop-solid': "#FFFFFF",
+      readonly 'series-1': "#2A78D6",
+      readonly 'series-2': "#EB6834",
+      readonly 'series-3': "#1BAF7A",
+      readonly 'muscle-idle': "#DEDDD6",
+      readonly 'scrim': "rgba(20, 21, 27, 0.45)",
+      readonly 'shadow': "rgba(20, 21, 27, 0.14)"
+    }
+  },
+  readonly 'brand': {
+    readonly 'miniquest-pip': "#D63A2F",
+    readonly 'miniquest-night': "#15123A",
+    readonly 'miniquest-star': "#EFE9FB",
+    readonly 'miniquest-mist': "#C9C3E0",
+    readonly 'miniquest-dim': "#8A7FB0"
+  },
+  readonly 'safety': {
+    readonly 'stop_now_call_999': {
+      readonly 'color': "safety-stop-solid",
+      readonly 'emphasis': "solid"
+    },
+    readonly 'stop_and_contact_111': {
+      readonly 'color': "warning",
+      readonly 'emphasis': "fill"
+    },
+    readonly 'stop_and_see_gp': {
+      readonly 'color': "warning",
+      readonly 'emphasis': "fill"
+    },
+    readonly 'reduce_or_rest': {
+      readonly 'color': "deload",
+      readonly 'emphasis': "fill"
+    },
+    readonly 'modify_exercise': {
+      readonly 'color': "swap",
+      readonly 'emphasis': "fill"
+    },
+    readonly 'continue_with_caution': {
+      readonly 'color': "warning",
+      readonly 'emphasis': "accent"
+    }
+  },
+  readonly 'font': {
+    readonly 'sans': "'Instrument Sans', 'Helvetica Neue', 'Helvetica', sans-serif",
+    readonly 'mono': "'Azeret Mono', ui-monospace, 'SF Mono', 'Menlo', monospace",
+    readonly 'pixel': "'Silkscreen', ui-monospace, monospace"
+  },
+  readonly 'type': {
+    readonly 'num-hero': {
+      readonly 'family': "mono",
+      readonly 'size': 72,
+      readonly 'weight': 500,
+      readonly 'line': 1.1,
+      readonly 'tracking': "-0.03em",
+      readonly 'numeric': true,
+      readonly 'uppercase': false
+    },
+    readonly 'num-xl': {
+      readonly 'family': "mono",
+      readonly 'size': 46,
+      readonly 'weight': 600,
+      readonly 'line': 1.1,
+      readonly 'tracking': "-0.03em",
+      readonly 'numeric': true,
+      readonly 'uppercase': false
+    },
+    readonly 'num-l': {
+      readonly 'family': "mono",
+      readonly 'size': 26,
+      readonly 'weight': 600,
+      readonly 'line': 1,
+      readonly 'tracking': "-0.02em",
+      readonly 'numeric': true,
+      readonly 'uppercase': false
+    },
+    readonly 'num-m': {
+      readonly 'family': "mono",
+      readonly 'size': 15,
+      readonly 'weight': 500,
+      readonly 'line': 1.2,
+      readonly 'tracking': "0",
+      readonly 'numeric': true,
+      readonly 'uppercase': false
+    },
+    readonly 'display': {
+      readonly 'family': "sans",
+      readonly 'size': 30,
+      readonly 'weight': 600,
+      readonly 'line': 1.1,
+      readonly 'tracking': "-0.02em",
+      readonly 'numeric': false,
+      readonly 'uppercase': false
+    },
+    readonly 'title': {
+      readonly 'family': "sans",
+      readonly 'size': 22,
+      readonly 'weight': 600,
+      readonly 'line': 1.2,
+      readonly 'tracking': "-0.01em",
+      readonly 'numeric': false,
+      readonly 'uppercase': false
+    },
+    readonly 'heading': {
+      readonly 'family': "sans",
+      readonly 'size': 18,
+      readonly 'weight': 600,
+      readonly 'line': 1.25,
+      readonly 'tracking': "0",
+      readonly 'numeric': false,
+      readonly 'uppercase': false
+    },
+    readonly 'body': {
+      readonly 'family': "sans",
+      readonly 'size': 16,
+      readonly 'weight': 400,
+      readonly 'line': 1.5,
+      readonly 'tracking': "0",
+      readonly 'numeric': false,
+      readonly 'uppercase': false
+    },
+    readonly 'body-s': {
+      readonly 'family': "sans",
+      readonly 'size': 14,
+      readonly 'weight': 400,
+      readonly 'line': 1.4,
+      readonly 'tracking': "0",
+      readonly 'numeric': false,
+      readonly 'uppercase': false
+    },
+    readonly 'caption': {
+      readonly 'family': "sans",
+      readonly 'size': 13,
+      readonly 'weight': 400,
+      readonly 'line': 1.4,
+      readonly 'tracking': "0",
+      readonly 'numeric': false,
+      readonly 'uppercase': false
+    },
+    readonly 'label': {
+      readonly 'family': "sans",
+      readonly 'size': 11,
+      readonly 'weight': 600,
+      readonly 'line': 1.2,
+      readonly 'tracking': "0.1em",
+      readonly 'numeric': false,
+      readonly 'uppercase': true
+    }
+  },
+  readonly 'space': {
+    readonly '1': 4,
+    readonly '2': 8,
+    readonly '3': 12,
+    readonly '4': 16,
+    readonly '5': 20,
+    readonly '6': 24,
+    readonly '7': 32,
+    readonly '8': 48
+  },
+  readonly 'radius': {
+    readonly 'sm': 8,
+    readonly 'md': 12,
+    readonly 'lg': 16,
+    readonly 'xl': 20,
+    readonly 'sheet': 28,
+    readonly 'pill': 999
+  },
+  readonly 'touch': {
+    readonly 'min': 48,
+    readonly 'primary': 56,
+    readonly 'primary-lg': 64,
+    readonly 'focus': 84,
+    readonly 'button': 60,
+    readonly 'button-compact': 52
+  },
+  readonly 'motion': {
+    readonly 'press': {
+      readonly 'duration': 90,
+      readonly 'easing': "ease-out"
+    },
+    readonly 'state': {
+      readonly 'duration': 160,
+      readonly 'easing': "ease-out"
+    },
+    readonly 'set-done': {
+      readonly 'duration': 220,
+      readonly 'easing': "cubic-bezier(0.2, 0.9, 0.3, 1.2)"
+    },
+    readonly 'sheet': {
+      readonly 'duration': 280,
+      readonly 'easing': "cubic-bezier(0.2, 0.8, 0.2, 1)"
+    },
+    readonly 'scrim': {
+      readonly 'duration': 160,
+      readonly 'easing': "ease-out"
+    },
+    readonly 'press-scale': 0.97,
+    readonly 'reduced': {
+      readonly 'duration': 120,
+      readonly 'easing': "linear"
+    }
+  },
+  readonly 'tint': {
+    readonly 'tint': 12,
+    readonly 'edge': 40
+  },
+  readonly 'muscleSecondaryOpacity': 40
+};
+
+export type ThemeName = 'dark' | 'light';
+export declare const themes: readonly ThemeName[];
+export declare const defaultTheme: 'dark';
+export type ColorName = 'bg' | 'surface-1' | 'surface-2' | 'surface-3' | 'line' | 'line-strong' | 'text' | 'text-2' | 'text-3' | 'accent' | 'on-accent' | 'progress' | 'hold' | 'deload' | 'swap' | 'warning' | 'safety-stop' | 'safety-stop-solid' | 'on-safety-stop-solid' | 'series-1' | 'series-2' | 'series-3' | 'muscle-idle' | 'scrim' | 'shadow';
+export type SemanticColor = 'progress' | 'hold' | 'deload' | 'swap' | 'warning' | 'safety-stop';
+export type SafetyAction = 'stop_now_call_999' | 'stop_and_contact_111' | 'stop_and_see_gp' | 'reduce_or_rest' | 'modify_exercise' | 'continue_with_caution';
+export type SafetyEmphasis = 'solid' | 'fill' | 'accent';
+export declare const safetyActions: readonly SafetyAction[];
+export type TypeStyleName = 'num-hero' | 'num-xl' | 'num-l' | 'num-m' | 'display' | 'title' | 'heading' | 'body' | 'body-s' | 'caption' | 'label';
+export type SpaceStep = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8';
+export type RadiusName = 'sm' | 'md' | 'lg' | 'xl' | 'sheet' | 'pill';
+export type CssVarName =
+  | 'bg'
+  | 'surface-1'
+  | 'surface-2'
+  | 'surface-3'
+  | 'line'
+  | 'line-strong'
+  | 'text'
+  | 'text-2'
+  | 'text-3'
+  | 'accent'
+  | 'on-accent'
+  | 'progress'
+  | 'hold'
+  | 'deload'
+  | 'swap'
+  | 'warning'
+  | 'safety-stop'
+  | 'safety-stop-solid'
+  | 'on-safety-stop-solid'
+  | 'series-1'
+  | 'series-2'
+  | 'series-3'
+  | 'muscle-idle'
+  | 'scrim'
+  | 'shadow'
+  | 'accent-tint'
+  | 'accent-edge'
+  | 'progress-tint'
+  | 'progress-edge'
+  | 'hold-tint'
+  | 'hold-edge'
+  | 'deload-tint'
+  | 'deload-edge'
+  | 'swap-tint'
+  | 'swap-edge'
+  | 'warning-tint'
+  | 'warning-edge'
+  | 'safety-stop-tint'
+  | 'safety-stop-edge'
+  | 'muscle-primary'
+  | 'muscle-secondary'
+  | 'elev-0-surface'
+  | 'elev-0-border'
+  | 'elev-0-shadow'
+  | 'elev-1-surface'
+  | 'elev-1-border'
+  | 'elev-1-shadow'
+  | 'elev-2-surface'
+  | 'elev-2-border'
+  | 'elev-2-shadow'
+  | 'safety-stop-now-call-999'
+  | 'safety-stop-and-contact-111'
+  | 'safety-stop-and-see-gp'
+  | 'safety-reduce-or-rest'
+  | 'safety-modify-exercise'
+  | 'safety-continue-with-caution'
+  | 'brand-miniquest-pip'
+  | 'brand-miniquest-night'
+  | 'brand-miniquest-star'
+  | 'brand-miniquest-mist'
+  | 'brand-miniquest-dim'
+  | 'font-sans'
+  | 'font-mono'
+  | 'font-pixel'
+  | 'type-num-hero-family'
+  | 'type-num-hero-size'
+  | 'type-num-hero-weight'
+  | 'type-num-hero-line'
+  | 'type-num-hero-tracking'
+  | 'type-num-hero-numeric'
+  | 'type-num-hero-transform'
+  | 'type-num-xl-family'
+  | 'type-num-xl-size'
+  | 'type-num-xl-weight'
+  | 'type-num-xl-line'
+  | 'type-num-xl-tracking'
+  | 'type-num-xl-numeric'
+  | 'type-num-xl-transform'
+  | 'type-num-l-family'
+  | 'type-num-l-size'
+  | 'type-num-l-weight'
+  | 'type-num-l-line'
+  | 'type-num-l-tracking'
+  | 'type-num-l-numeric'
+  | 'type-num-l-transform'
+  | 'type-num-m-family'
+  | 'type-num-m-size'
+  | 'type-num-m-weight'
+  | 'type-num-m-line'
+  | 'type-num-m-tracking'
+  | 'type-num-m-numeric'
+  | 'type-num-m-transform'
+  | 'type-display-family'
+  | 'type-display-size'
+  | 'type-display-weight'
+  | 'type-display-line'
+  | 'type-display-tracking'
+  | 'type-display-numeric'
+  | 'type-display-transform'
+  | 'type-title-family'
+  | 'type-title-size'
+  | 'type-title-weight'
+  | 'type-title-line'
+  | 'type-title-tracking'
+  | 'type-title-numeric'
+  | 'type-title-transform'
+  | 'type-heading-family'
+  | 'type-heading-size'
+  | 'type-heading-weight'
+  | 'type-heading-line'
+  | 'type-heading-tracking'
+  | 'type-heading-numeric'
+  | 'type-heading-transform'
+  | 'type-body-family'
+  | 'type-body-size'
+  | 'type-body-weight'
+  | 'type-body-line'
+  | 'type-body-tracking'
+  | 'type-body-numeric'
+  | 'type-body-transform'
+  | 'type-body-s-family'
+  | 'type-body-s-size'
+  | 'type-body-s-weight'
+  | 'type-body-s-line'
+  | 'type-body-s-tracking'
+  | 'type-body-s-numeric'
+  | 'type-body-s-transform'
+  | 'type-caption-family'
+  | 'type-caption-size'
+  | 'type-caption-weight'
+  | 'type-caption-line'
+  | 'type-caption-tracking'
+  | 'type-caption-numeric'
+  | 'type-caption-transform'
+  | 'type-label-family'
+  | 'type-label-size'
+  | 'type-label-weight'
+  | 'type-label-line'
+  | 'type-label-tracking'
+  | 'type-label-numeric'
+  | 'type-label-transform'
+  | 'space-1'
+  | 'space-2'
+  | 'space-3'
+  | 'space-4'
+  | 'space-5'
+  | 'space-6'
+  | 'space-7'
+  | 'space-8'
+  | 'radius-sm'
+  | 'radius-md'
+  | 'radius-lg'
+  | 'radius-xl'
+  | 'radius-sheet'
+  | 'radius-pill'
+  | 'touch-min'
+  | 'touch-primary'
+  | 'touch-primary-lg'
+  | 'touch-focus'
+  | 'touch-button'
+  | 'touch-button-compact'
+  | 'motion-press-duration'
+  | 'motion-press-easing'
+  | 'motion-state-duration'
+  | 'motion-state-easing'
+  | 'motion-set-done-duration'
+  | 'motion-set-done-easing'
+  | 'motion-sheet-duration'
+  | 'motion-sheet-easing'
+  | 'motion-scrim-duration'
+  | 'motion-scrim-easing'
+  | 'motion-press-scale';
+export declare const cssVarNames: readonly CssVarName[];
+
+/** \`var(--name)\` for a known token. */
+export declare function cssVar(name: CssVarName): string;
+"
+`;

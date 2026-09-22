@@ -1,0 +1,23 @@
+{
+  "name": "@tare/tokens",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Tare design tokens: one JSON source, generated CSS variables and typed TS exports.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./tokens.css": "./dist/tokens.css",
+    "./tokens.json": "./src/tokens.json"
+  },
+  "files": [
+    "dist",
+    "src/tokens.json"
+  ],
+  "scripts": {
+    "build": "node scripts/build.ts",
+    "typecheck": "tsc -p tsconfig.json"
+  }
+}
