@@ -1,8 +1,8 @@
 // The active workout: the Ledger (boards Workout-A, Workout-A-Edit, Rest-Timer, Swap-Sheet).
 // One tap logs the current set as planned; everything is saved as it happens, so a reload,
 // crash or closed app reopens exactly here.
-import { exercise, rule, startingLoadRule } from '@tare/data';
-import { defaultLoadStep, kitKindOf, swapOptions, swapStartLoad } from '@tare/engine';
+import { exercise, startingLoadRule } from '@tare/data';
+import { swapOptions, swapStartLoad, type KitLoad } from '@tare/engine';
 import { Icon } from '@tare/icons';
 import {
   Button,
@@ -19,6 +19,7 @@ import {
   StatusHero,
   StepProgress,
   SwapRow,
+  TextField,
   WorkoutFooter,
   WorkoutTopBar,
   num,
@@ -35,7 +36,7 @@ import { isoDay, shortDate } from '../lib/dates.ts';
 import { nameOf, patternOf, repsText } from '../lib/session.ts';
 import { exerciseView, lastSession, type ExerciseView, type WorkRow } from '../workout/ledger.ts';
 import { raisePainFlag } from '../safety/flag.ts';
-import { DEFAULT_KIT } from '../settings/kit.ts';
+import { kitFor } from '../settings/kit.ts';
 import { OfflineBanner } from '../sync/Banners.tsx';
 import { usePainForm } from '../safety/PainForm.tsx';
 import { logWorkSet, undoSet } from '../workout/actions.ts';
@@ -100,6 +101,7 @@ function Ledger({ workout }: { workout: WorkoutRecord }) {
   const ex = workout.exercises[position];
   const history = useExerciseHistory(ex?.exerciseId ?? '');
   const { rest, remaining } = useRest(workout.id);
+  const profile = useProfile();
   const now = useClock(1000);
   const [sheet, setSheet] = useState<SheetKind>(null);
   // The footer button changes meaning in place (Done → Next exercise → Done), so a double
@@ -108,7 +110,8 @@ function Ledger({ workout }: { workout: WorkoutRecord }) {
 
   if (!ex || !sets || !history) return <main aria-busy="true" aria-label="Loading" />;
   const last = lastSession(history);
-  const view = exerciseView(workout, position, sets, last, DEFAULT_KIT[kitKindOf(ex.exerciseId)]);
+  const kit = kitFor(profile, ex.exerciseId);
+  const view = exerciseView(workout, position, sets, last, kit);
   if (!view) return null;
   const nextIndex = workout.exercises.findIndex((e, i) => i > position && !e.skipped);
   const isLast = nextIndex === -1;
@@ -323,6 +326,7 @@ function Ledger({ workout }: { workout: WorkoutRecord }) {
       />
       {sheet === 'edit' && cur ? (
         <EditSheet
+          kit={kit}
           view={view}
           cur={cur}
           convention={convention}
@@ -374,24 +378,23 @@ function sessionTitle(w: WorkoutRecord) {
 }
 
 function EditSheet({
+  kit,
   view,
   cur,
   convention,
   onClose,
   onLog,
 }: {
+  kit: KitLoad;
   view: ExerciseView;
   cur: WorkRow;
   convention: LoadConvention;
   onClose: () => void;
   onLog: (load: number, reps: number, carry: boolean) => void;
 }) {
-  const ex = exercise(view.ex.exerciseId);
-  const step = defaultLoadStep(ex);
-  const typical = (
-    rule('pr.double_progression').raw['increment_kg_typical'] as Record<string, [number, number]>
-  )[ex.increment_class]?.[1];
-  const jump = typical ?? step;
+  const { r } = useAppData();
+  const step = kit.step;
+  const [ownStep, setOwnStep] = useState<string | null>(null);
   const [load, setLoad] = useState(cur.load ?? 0);
   const [reps, setReps] = useState(cur.reps);
   const [carry, setCarry] = useState(cur.load === null);
@@ -429,12 +432,43 @@ function EditSheet({
             onChange={setLoad}
           />
           <IncrementChips
-            deltas={[-jump * 2, -jump, jump, jump * 2]}
+            deltas={[-step * 2, -step, step, step * 2]}
             onApply={(d) => setLoad(Math.max(0, load + d))}
           />
         </>
       )}
       <NumberStepper label="Reps" value={reps} step={1} min={0} onChange={setReps} />
+      {bodyweight ? null : ownStep === null ? (
+        <Button variant="ghost" size={52} onClick={() => setOwnStep(String(step))}>
+          Smallest jump here: {num(step)} kg · change
+        </Button>
+      ) : (
+        <div className={s['row']} style={{ alignItems: 'flex-end' }}>
+          <TextField
+            label="Smallest jump for this exercise · kg"
+            inputMode="decimal"
+            value={ownStep}
+            onChange={(v) => setOwnStep(v.replace(/[^\d.,]/g, ''))}
+          />
+          <Button
+            variant="secondary-outline"
+            size={52}
+            onClick={() => {
+              const n = Number(ownStep.replace(',', '.'));
+              if (!(n > 0)) return;
+              void (async () => {
+                const p = await r.profile.get();
+                await r.profile.update({
+                  stepOverrides: { ...(p?.stepOverrides ?? {}), [view.ex.exerciseId]: n },
+                });
+                setOwnStep(null);
+              })();
+            }}
+          >
+            Save
+          </Button>
+        </div>
+      )}
       {bodyweight ? null : (
         <Checkbox
           label={`Use ${num(load)} kg for the rest of the sets`}
@@ -508,7 +542,12 @@ function SwapSheet({
   const options = swapOptions(ex.exerciseId, profile);
   const startFor = (toId: string) => {
     if (ex.load === null) return null;
-    const st = swapStartLoad({ fromId: ex.exerciseId, toId, workingLoad: ex.load });
+    const st = swapStartLoad({
+      fromId: ex.exerciseId,
+      toId,
+      workingLoad: ex.load,
+      step: kitFor(profile, toId).step,
+    });
     return st.kind === 'load' ? st.load : null;
   };
   const labelFor = (toId: string) => {

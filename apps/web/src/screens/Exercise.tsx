@@ -29,6 +29,7 @@ import {
 } from '../data/hooks.ts';
 import type { SetRecord } from '../db/index.ts';
 import { shortDate } from '../lib/dates.ts';
+import { kitFor } from '../settings/kit.ts';
 import { nameOf, patternOf, repsText } from '../lib/session.ts';
 import s from './screens.module.css';
 
@@ -194,6 +195,7 @@ function Strength({ id, sets }: { id: string; sets: readonly SetRecord[] }) {
 
 function Swaps({ id, kit, cantDo }: { id: string; kit: string[]; cantDo: string[] }) {
   const { r } = useAppData();
+  const profile = useProfile();
   const last = useLiveQuery(() => r.sets.lastWorkingLoad(id), [r, id]);
   const options = swapOptions(id, { kit, cantDo });
   if (!options.length) return null;
@@ -202,7 +204,14 @@ function Swaps({ id, kit, cantDo }: { id: string; kit: string[]; cantDo: string[
       <SectionLabel>Swaps for your kit</SectionLabel>
       {options.map((o, i) => {
         const start =
-          last == null ? null : swapStartLoad({ fromId: id, toId: o.id, workingLoad: last });
+          last == null
+            ? null
+            : swapStartLoad({
+                fromId: id,
+                toId: o.id,
+                workingLoad: last,
+                step: kitFor(profile, o.id).step,
+              });
         const load =
           start?.kind === 'load'
             ? `${start.load} kg${start.perHand ? ' per hand' : ''}`

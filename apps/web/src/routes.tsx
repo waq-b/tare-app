@@ -16,6 +16,7 @@ import { Restore } from './screens/Restore.tsx';
 import { Safety } from './screens/Safety.tsx';
 import { Settings } from './screens/Settings.tsx';
 import { Today } from './screens/Today.tsx';
+import { WeightSteps } from './screens/WeightSteps.tsx';
 import { Workout } from './screens/Workout.tsx';
 import { SignIn } from './screens/SignIn.tsx';
 
@@ -34,6 +35,7 @@ export const routes: RouteObject[] = [
       { path: 'body', element: <Navigate to="/progress?view=body" replace /> },
       { path: 'settings', element: <Settings /> },
       { path: 'settings/about-you', element: <AboutYou /> },
+      { path: 'settings/weight-steps', element: <WeightSteps /> },
       { path: 'workout', element: <Workout /> },
       { path: 'workout/finish', element: <Finish /> },
       { path: 'pain', element: <FlagPain /> },

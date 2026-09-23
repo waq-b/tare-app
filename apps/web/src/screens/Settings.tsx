@@ -83,6 +83,12 @@ export function Settings() {
             subtitle="For suggested starting weights"
             href="/settings/about-you"
           />
+          <ListRow
+            leading={<Icon name="dumbbell" size={22} />}
+            title="Weight steps"
+            subtitle="The smallest jumps at your gym"
+            href="/settings/weight-steps"
+          />
         </div>
         <div>
           <SectionLabel>Health</SectionLabel>

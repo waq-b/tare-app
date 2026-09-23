@@ -4,6 +4,7 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { useState } from 'react';
 import { isoDay } from '../lib/dates.ts';
 import { bodyStatsOf, estimateFor } from '../lib/estimate.ts';
+import { kitFor } from '../settings/kit.ts';
 import { useAppData } from './DbContext.tsx';
 
 export function useProfile() {
@@ -64,7 +65,7 @@ export function useTargetLoads(
       } else if (i.startLoad !== null) {
         out[i.exerciseId] = { load: i.startLoad, source: 'plan', stackDependent: false };
       } else {
-        const e = estimateFor(i.exerciseId, i.repRange[0], stats);
+        const e = estimateFor(i.exerciseId, i.repRange[0], stats, kitFor(profile, i.exerciseId));
         out[i.exerciseId] =
           e && e.load !== null
             ? { load: e.load, source: 'estimate', stackDependent: e.stackDependent }

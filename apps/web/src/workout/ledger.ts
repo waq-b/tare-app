@@ -105,6 +105,7 @@ export function exerciseView(
           workingLoad: ex.load,
           workingReps: targetReps(ex, 1, last),
           patternsSoFar,
+          ...(kit ? { step: kit.step } : {}),
         }).sets.map((w, i) => ({ index: i + 1, ...w, done: warm[i] }));
 
   const estimatedFirstSession = ex.estimated === true && last.length === 0;

@@ -28,6 +28,15 @@ export const Profile = z.looseObject({
   sex: z.enum(['male', 'female', 'prefer_not_to_say']).nullable().optional(),
   birthYear: z.number().int().nullable().optional(),
   heightCm: z.number().positive().nullable().optional(),
+  /** Smallest jump and lightest option per kind of kit (P1 T2); defaults when missing. */
+  kitLoads: z
+    .record(
+      z.string(),
+      z.looseObject({ step: z.number().positive(), lightest: z.number().nonnegative() }),
+    )
+    .optional(),
+  /** Per-exercise smallest jump, overriding its kit's. */
+  stepOverrides: z.record(z.string(), z.number().positive()).optional(),
 });
 
 export const ScreeningRecord = z.looseObject({
