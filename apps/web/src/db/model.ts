@@ -89,6 +89,10 @@ export const WorkoutExercise = z.looseObject({
   load: z.number().nonnegative().nullable(),
   /** The load is a suggestion from body stats (tr.global.starting_load), not a logged weight. */
   estimated: z.boolean().optional(),
+  /** Target reps from the rules (P1); without it, reps follow last time within the range. */
+  reps: z.number().int().positive().optional(),
+  /** What's shaping today (P1): the new-user ramp, a deload, no Hard sets (DOMS). */
+  notes: z.array(z.string()).optional(),
 });
 
 export const WorkoutRecord = z.looseObject({
@@ -139,6 +143,25 @@ export const PainFlag = z.looseObject({
   skippedExerciseIds: z.array(z.string()),
 });
 
+/** A change the rules made or offered (P1 T8). Applied ones (load up) happen by themselves and
+ * can be undone; offered ones (stall, deload, volume) wait for accept or keep. P2's coach reads
+ * these, and later the app learns the user's style from them (#93). */
+export const ChangeRecord = z.looseObject({
+  ...base,
+  date: isoDate,
+  kind: z.enum(['progression', 'stall', 'deload', 'volume', 'safety_return']),
+  status: z.enum(['applied', 'undone', 'offered', 'accepted', 'kept']),
+  exerciseId: z.string().nullable(),
+  /** e.g. { load: 60, reps: 10 } → { load: 62.5, reps: 6 }; a deload or volume change uses sets. */
+  from: z.record(z.string(), z.number().nullable()),
+  to: z.record(z.string(), z.number().nullable()),
+  ruleIds: z.array(z.string()),
+  /** Offer-specific detail, e.g. the stall step or the deload trigger. */
+  detail: z.string().nullable(),
+  /** Why it was kept (the Coach-Reject reasons), or null. */
+  keepReason: z.string().nullable(),
+});
+
 export type Profile = z.infer<typeof Profile>;
 export type ScreeningRecord = z.infer<typeof ScreeningRecord>;
 export type PlannedExercise = z.infer<typeof PlannedExercise>;
@@ -148,6 +171,20 @@ export type WorkoutExercise = z.infer<typeof WorkoutExercise>;
 export type SetRecord = z.infer<typeof SetRecord>;
 export type WeighIn = z.infer<typeof WeighIn>;
 export type PainFlag = z.infer<typeof PainFlag>;
+export type ChangeRecord = z.infer<typeof ChangeRecord>;
+/** A change to save: every field but the stamps. (Spelt out: Omit loses fields on loose types.) */
+export interface NewChange {
+  id: string;
+  date: string;
+  kind: ChangeRecord['kind'];
+  status: ChangeRecord['status'];
+  exerciseId: string | null;
+  from: Record<string, number | null>;
+  to: Record<string, number | null>;
+  ruleIds: string[];
+  detail: string | null;
+  keepReason: string | null;
+}
 
 /** Synced tables and their schemas. The outbox and meta stay on the phone. */
 export const SYNCED = {
@@ -158,6 +195,7 @@ export const SYNCED = {
   sets: SetRecord,
   weighIns: WeighIn,
   painFlags: PainFlag,
+  changes: ChangeRecord,
 } as const;
 export type SyncedTable = keyof typeof SYNCED;
 export const SYNCED_TABLES = Object.keys(SYNCED) as SyncedTable[];
@@ -170,6 +208,7 @@ export interface RecordOf {
   sets: SetRecord;
   weighIns: WeighIn;
   painFlags: PainFlag;
+  changes: ChangeRecord;
 }
 
 export interface OutboxEntry {

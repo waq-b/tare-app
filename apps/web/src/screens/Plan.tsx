@@ -11,7 +11,8 @@ import {
   TopBar,
 } from '@tare/ui';
 import { Navigate, useParams } from 'react-router';
-import { useActivePlan, useTargetLoads } from '../data/hooks.ts';
+import { useActivePlan, useToday } from '../data/hooks.ts';
+import { usePlanState } from '../plan/usePlanTargets.ts';
 import { WEEKDAYS, WEEKDAYS_SHORT } from '../lib/dates.ts';
 import { estimateMinutes, nameOf, sessionItems, type PlannedSession } from '../lib/session.ts';
 import s from './screens.module.css';
@@ -73,11 +74,13 @@ export function PlanSession() {
 }
 
 function SessionList({ session }: { session: PlannedSession }) {
-  const loads = useTargetLoads(session.exercises);
-  if (!loads) return null;
+  const plan = useActivePlan();
+  const today = useToday();
+  const state = usePlanState(plan, today);
+  if (!state) return null;
   return (
     <div>
-      {sessionItems(session, loads).map((e) => (
+      {sessionItems(session, state.targets).map((e) => (
         <ExerciseCard
           key={e.exerciseId}
           href={`/exercise/${encodeURIComponent(e.exerciseId)}`}

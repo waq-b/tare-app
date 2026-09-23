@@ -7,6 +7,8 @@ import type {
   ScreeningRecord,
   SetRecord,
   WeighIn,
+  ChangeRecord,
+  NewChange,
   WorkoutExercise,
   WorkoutRecord,
 } from './model.ts';
@@ -145,6 +147,17 @@ export function repos(store: Store) {
       remove: (id: string) => store.remove('weighIns', id),
       /** Oldest first. */
       list: async () => live(await db.weighIns.orderBy('date').toArray()),
+    },
+
+    changes: {
+      all: async () => live(await db.changes.orderBy('date').toArray()),
+      /** Save a change (an offer is made once: callers give it a stable id). */
+      // Validated by the store's schema; the cast only bridges Omit on a loose type.
+      put: (c: NewChange) =>
+        store.put('changes', c as unknown as Parameters<typeof store.put<'changes'>>[1]),
+      get: (id: string) => store.get('changes', id),
+      decide: (id: string, status: ChangeRecord['status'], keepReason: string | null = null) =>
+        store.update('changes', id, { status, keepReason }),
     },
 
     painFlags: {

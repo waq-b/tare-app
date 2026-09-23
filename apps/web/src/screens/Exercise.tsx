@@ -4,6 +4,7 @@ import { exercise, rule } from '@tare/data';
 import { e1rm, swapOptions, swapStartLoad } from '@tare/engine';
 import { MuscleMap, muscles, type Muscle } from '@tare/icons';
 import {
+  Button,
   Card,
   EmptyState,
   ExerciseHeader,
@@ -26,9 +27,12 @@ import {
   useExerciseHistory,
   useFinishedWorkouts,
   useProfile,
+  useToday,
 } from '../data/hooks.ts';
-import type { SetRecord } from '../db/index.ts';
+import type { PlannedExercise, SetRecord } from '../db/index.ts';
 import { shortDate } from '../lib/dates.ts';
+import { undoIncrease } from '../plan/actions.ts';
+import { usePlanState } from '../plan/usePlanTargets.ts';
 import { kitFor } from '../settings/kit.ts';
 import { nameOf, patternOf, repsText } from '../lib/session.ts';
 import s from './screens.module.css';
@@ -112,13 +116,7 @@ function Detail({ id }: { id: string }) {
           </div>
         ) : null}
         {history ? <Strength id={id} sets={history} /> : null}
-        {profile && planned ? (
-          <WhyCard rules={[rule(profile.goalId)]}>
-            {planned.sets} sets of {repsText(planned.repRange)} reps, from your goal’s ranges. The
-            weight starts from the last one you logged; automatic progression arrives with the rules
-            engine.
-          </WhyCard>
-        ) : null}
+        {profile && planned ? <TodayWhy id={id} planned={planned} goalId={profile.goalId} /> : null}
         {profile ? <Swaps id={id} kit={profile.kit} cantDo={profile.cantDo} /> : null}
       </main>
     </>
@@ -231,5 +229,64 @@ function Swaps({ id, kit, cantDo }: { id: string; kit: string[]; cantDo: string[
         );
       })}
     </div>
+  );
+}
+
+const kgText = (n: number | null) =>
+  n === null ? 'an easy first set' : `${Number.isInteger(n) ? n : n.toFixed(1)} kg`;
+
+/** Why this exercise's target is what it is today, with the rules; an increase can be undone. */
+function TodayWhy({
+  id,
+  planned,
+  goalId,
+}: {
+  id: string;
+  planned: PlannedExercise;
+  goalId: string;
+}) {
+  const data = useAppData();
+  const plan = useActivePlan();
+  const today = useToday();
+  const state = usePlanState(plan, today);
+  const t = state?.targets[id];
+  if (!t) return null;
+  const range = `${planned.sets} sets of ${repsText(planned.repRange)} reps`;
+  const rules = [...new Set([goalId, ...t.ruleIds, ...(t.diff?.ruleIds ?? [])])].map((r) =>
+    rule(r),
+  );
+  const d = t.diff;
+  const text =
+    d?.kind === 'increase'
+      ? `Up to ${kgText(t.load)} from ${kgText(d.from.load)}: every set reached the top of the range, at an effort you could manage, twice in a row. Reps start again at the bottom.`
+      : d?.kind === 'undone'
+        ? `You kept ${kgText(t.load)} for now. The increase comes back after your next session if you hit the top of the range again.`
+        : d?.kind === 'reset'
+          ? `Down to ${kgText(t.load)} from ${kgText(d.from.load)} to build back up after a stall.`
+          : d?.kind === 'deload'
+            ? `Deload week: ${t.sets} sets instead of ${d.from.sets}, weight held.`
+            : d?.kind === 'return'
+              ? `Back after a pain flag: ${kgText(t.load)}, ${t.sets} sets, then build up again.`
+              : t.source === 'log'
+                ? `${kgText(t.load)} × ${t.reps}: one more rep on the same weight until every set reaches the top of the range.`
+                : t.estimated
+                  ? `${kgText(t.load)}, estimated from your body stats. Change it freely.`
+                  : `${range}. Your first session finds your weight.`;
+  return (
+    <WhyCard title="Why today" rules={rules}>
+      <p style={{ margin: 0 }}>{text}</p>
+      <p style={{ margin: '8px 0 0' }}>{range}, from your goal’s ranges.</p>
+      {d?.kind === 'increase' ? (
+        <div style={{ marginTop: 12 }}>
+          <Button
+            variant="secondary-outline"
+            size={52}
+            onClick={() => void undoIncrease(data, t, today)}
+          >
+            Keep {kgText(d.from.load)} for now
+          </Button>
+        </div>
+      ) : null}
+    </WhyCard>
   );
 }

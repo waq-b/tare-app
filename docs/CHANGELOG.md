@@ -14,6 +14,18 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### P1 — Rules engine (building; ships to the phone after the P0 two weeks, #90)
 
+- **T8 changes in the app (#83; completes T3–T7):** Today, Plan and the workout take each exercise's target from the engine, in this order:
+  1. progression from your log (or the plan's start weight, or a body-stats estimate);
+  2. an increase you undid holds;
+  3. an accepted stall reset;
+  4. the new-user ramp's sets;
+  5. an accepted deload;
+  6. the first session back after a cleared pain flag.
+  - **Changes are visible:** a changed prescription shows a chip (+5, −5, Deload, Lighter), and exercise detail's "Why today" card explains it with the rules. An increase can be kept at last time's weight with one tap.
+  - **Offers wait for you (decision #87):** stall steps, deloads and extra sets appear on Today under "Suggested changes". Accept, or Keep as is with a reason, and each decision can be undone. Accepting a stall's recovery step starts a deload; accepting extra sets updates the plan.
+  - **The Ledger:** follows the target reps, and notes the ramp, a deload, or no Hard sets on a sore muscle (DOMS). The ramp's first two weeks show "Finding your weights".
+  - **A change log:** every applied, undone, offered, accepted and kept change is a synced `changes` record (server migration 002), for P2's coach and for learning your style later (#93).
+  - **Fixed along the way:** accepting extra sets updated the wrong exercises (a counter bug), and the volume card compared a subset of sets with the week's total
 - **Engine for T7 (#82, #73):** `returnAfterFlag` gives the first session back after a flag clears: `pain_during_exercise` at the rule's share of the previous load (rounded down to the kit), `suspected_sprain_strain` at its share of the sets. `noHardSets` covers `doms_normal`. A property test over all 21 safety rules proves a return never adds load or sets. The shares are text-only in the data (`FALLBACK(vpt-issue #23)`)
 - **Engine for T3–T6 (#78–#81):**
   - `blockOf`: training week since the first workout, the ramp weeks (`pr.new_user_ramp`), a planned deload after every `default_every_n_weeks`, and the first week of each new block. `rampSets`: the low end of the goal's sets per exercise during the ramp.

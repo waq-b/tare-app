@@ -127,6 +127,13 @@ describe('push and pull', () => {
     expect(next.changes[0].record.deleted).toBe(true);
   });
 
+  it('accepts the P1 changes table (migration 002)', async () => {
+    const res = await push(tokenA, [
+      { table: 'changes', id: 'c-1', record: { id: 'c-1', updatedAt: 1, kind: 'progression' } },
+    ]);
+    expect(res.json()).toEqual({ received: 1, applied: 1 });
+  });
+
   it('rejects malformed batches', async () => {
     expect(
       (await push(tokenA, [{ table: 'secrets', id: 'x', record: { id: 'x', updatedAt: 1 } }]))

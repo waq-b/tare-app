@@ -201,6 +201,14 @@ function Ledger({ workout }: { workout: WorkoutRecord }) {
           pattern={patternOf(ex.exerciseId)}
           {...(view.work.some((w) => w.set) ? {} : { onSwap: () => setSheet('swap') })}
         />
+        {ex.notes?.includes('deload') ? (
+          <InlineNote>Deload week: fewer sets, and keep every set Easy or OK.</InlineNote>
+        ) : ex.notes?.includes('ramp') ? (
+          <InlineNote>Finding your working weights: keep every set Easy or OK.</InlineNote>
+        ) : null}
+        {ex.notes?.includes('no_hard_sets') ? (
+          <InlineNote>This muscle is sore (DOMS): no Hard sets today.</InlineNote>
+        ) : null}
         {view.estimatedFirstSession ? (
           <InlineNote>
             {startingLoadRule().first_session.label} Tap Easy or Hard after a set and the next one

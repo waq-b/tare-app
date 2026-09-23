@@ -45,6 +45,8 @@ export function lastSession(history: readonly SetRecord[]): SetRecord[] {
 }
 
 export function targetReps(ex: WorkoutExercise, index: number, last: readonly SetRecord[]): number {
+  // The rules' target (P1) wins; without one, follow last time within the range.
+  if (ex.reps) return clamp(ex.reps, ex.repRange);
   const prev = last[index - 1] ?? last.at(-1);
   return prev ? clamp(prev.reps, ex.repRange) : ex.repRange[0];
 }

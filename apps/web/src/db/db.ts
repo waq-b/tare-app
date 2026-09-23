@@ -10,6 +10,7 @@ export class TareDb extends Dexie {
   sets!: EntityTable<RecordOf['sets'], 'id'>;
   weighIns!: EntityTable<RecordOf['weighIns'], 'id'>;
   painFlags!: EntityTable<RecordOf['painFlags'], 'id'>;
+  changes!: EntityTable<RecordOf['changes'], 'id'>;
   outbox!: EntityTable<OutboxEntry, 'seq'>;
   meta!: EntityTable<MetaEntry, 'key'>;
 
@@ -26,6 +27,10 @@ export class TareDb extends Dexie {
       painFlags: 'id, status, date',
       outbox: '++seq, [table+id]',
       meta: 'key',
+    });
+    // P1: the rules' changes (applied, offered, accepted, kept).
+    this.version(2).stores({
+      changes: 'id, date, kind, status, exerciseId',
     });
   }
 }
