@@ -19,8 +19,8 @@ describe('app shell', () => {
   });
 
   it('drill-ins and flows have no bottom nav', async () => {
-    await renderAt('/workout');
-    await screen.findByText('Workout is on its way');
+    await renderAt('/settings');
+    await screen.findByText('Export all data');
     expect(screen.queryByRole('navigation', { name: 'Main' })).toBeNull();
   });
 

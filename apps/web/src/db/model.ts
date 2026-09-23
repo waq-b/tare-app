@@ -63,6 +63,19 @@ export const PlanRecord = z.looseObject({
   ),
 });
 
+/** One exercise in a workout, with the targets it started with (they can change mid-workout). */
+export const WorkoutExercise = z.looseObject({
+  exerciseId: z.string(),
+  swappedFrom: z.string().nullable(),
+  skipped: z.boolean(),
+  /** Working sets planned (Add set / Skip set change it). */
+  sets: z.number().int().nonnegative(),
+  repRange: z.tuple([z.number().int().positive(), z.number().int().positive()]),
+  restSec: z.number().int().positive(),
+  /** Target working load, kg (per hand for dumbbells); null = find it with an easy first set. */
+  load: z.number().nonnegative().nullable(),
+});
+
 export const WorkoutRecord = z.looseObject({
   ...base,
   planId: z.string().nullable(),
@@ -71,13 +84,9 @@ export const WorkoutRecord = z.looseObject({
   startedAt: z.number(),
   finishedAt: z.number().nullable(),
   feel: z.enum(['easy', 'good', 'tough', 'wrecked']).nullable(),
-  exercises: z.array(
-    z.looseObject({
-      exerciseId: z.string(),
-      swappedFrom: z.string().nullable(),
-      skipped: z.boolean(),
-    }),
-  ),
+  /** Index of the exercise on screen, so a reload resumes in the same place. */
+  current: z.number().int().nonnegative(),
+  exercises: z.array(WorkoutExercise),
 });
 
 export const SetRecord = z.looseObject({
@@ -116,6 +125,7 @@ export type ScreeningRecord = z.infer<typeof ScreeningRecord>;
 export type PlannedExercise = z.infer<typeof PlannedExercise>;
 export type PlanRecord = z.infer<typeof PlanRecord>;
 export type WorkoutRecord = z.infer<typeof WorkoutRecord>;
+export type WorkoutExercise = z.infer<typeof WorkoutExercise>;
 export type SetRecord = z.infer<typeof SetRecord>;
 export type WeighIn = z.infer<typeof WeighIn>;
 export type PainFlag = z.infer<typeof PainFlag>;

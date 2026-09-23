@@ -6,9 +6,11 @@ import { Placeholder } from './screens/Placeholder.tsx';
 import { NotFound } from './screens/NotFound.tsx';
 import { Onboarding } from './screens/onboarding/Onboarding.tsx';
 import { Exercise } from './screens/Exercise.tsx';
+import { Finish } from './screens/Finish.tsx';
 import { Plan, PlanSession } from './screens/Plan.tsx';
 import { Settings } from './screens/Settings.tsx';
 import { Today } from './screens/Today.tsx';
+import { Workout } from './screens/Workout.tsx';
 import { SignIn } from './screens/SignIn.tsx';
 
 export const routes: RouteObject[] = [
@@ -25,8 +27,9 @@ export const routes: RouteObject[] = [
       { path: 'history/:sessionId', element: <Placeholder title="Session" back="/history" /> },
       { path: 'body', element: <Placeholder title="Body" back="/progress" /> },
       { path: 'settings', element: <Settings /> },
-      { path: 'workout', element: <Placeholder title="Workout" back="/" /> },
-      { path: 'workout/finish', element: <Placeholder title="Finish" back="/workout" /> },
+      { path: 'workout', element: <Workout /> },
+      { path: 'workout/finish', element: <Finish /> },
+      { path: 'pain', element: <Placeholder title="Flag pain" back="/workout" /> },
       { path: 'safety/:ruleId', element: <Placeholder title="Safety" back="/" /> },
       { path: 'sign-in', element: <SignIn /> },
       { path: 'onboarding/:step?', element: <Onboarding /> },

@@ -7,6 +7,7 @@ import type {
   ScreeningRecord,
   SetRecord,
   WeighIn,
+  WorkoutExercise,
   WorkoutRecord,
 } from './model.ts';
 
@@ -33,7 +34,12 @@ export function repos(store: Store) {
     plans: {
       active: async () => live(await db.plans.toArray()).find((p) => p.active),
       /** Saves a plan as the active one; any other active plan is switched off. */
-      activate: (p: Fields<PlanRecord> & { id?: string }) =>
+      activate: (p: {
+        id?: string;
+        name: string;
+        startedOn: string;
+        sessions: PlanRecord['sessions'];
+      }) =>
         db.transaction('rw', db.plans, db.outbox, async () => {
           for (const old of live(await db.plans.toArray())) {
             if (old.active && old.id !== p.id)
@@ -45,7 +51,13 @@ export function repos(store: Store) {
 
     workouts: {
       start: (w: Pick<WorkoutRecord, 'planId' | 'sessionKey' | 'date' | 'exercises'>) =>
-        store.put('workouts', { ...w, startedAt: store.now(), finishedAt: null, feel: null }),
+        store.put('workouts', {
+          ...w,
+          startedAt: store.now(),
+          finishedAt: null,
+          feel: null,
+          current: 0,
+        }),
       get: (id: string) => store.get('workouts', id),
       /** The workout in progress, if any (resume after a reload or crash). */
       unfinished: async () =>
@@ -54,6 +66,19 @@ export function repos(store: Store) {
         ),
       update: (id: string, change: Partial<Fields<WorkoutRecord>>) =>
         store.update('workouts', id, change),
+      /** Changes one exercise from its latest saved state, so quick taps each count. */
+      updateExercise: (
+        id: string,
+        position: number,
+        change: (e: WorkoutExercise) => Partial<WorkoutExercise>,
+      ) =>
+        db.transaction('rw', db.workouts, db.outbox, async () => {
+          const w = await store.get('workouts', id);
+          if (!w) throw new Error(`workouts: no record ${id}`);
+          return store.update('workouts', id, {
+            exercises: w.exercises.map((e, i) => (i === position ? { ...e, ...change(e) } : e)),
+          });
+        }),
       finish: (id: string, feel: WorkoutRecord['feel']) =>
         store.update('workouts', id, { finishedAt: store.now(), feel }),
       /** Finished workouts, newest first. */

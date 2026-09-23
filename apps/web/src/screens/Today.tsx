@@ -81,9 +81,7 @@ export function Today() {
           <>
             <WeekStrip days={weekDays(today, plan, finished)} />
             {unfinished ? <Resume /> : null}
-            {!plan ? (
-              <StatusHero icon={<Icon name="plan" size={28} />} title="No plan yet." />
-            ) : doneToday ? (
+            {doneToday ? (
               <StatusHero
                 icon={<Icon name="check" size={28} />}
                 tone="accent"
@@ -91,6 +89,8 @@ export function Today() {
               >
                 Nice work. Rest up for the next one.
               </StatusHero>
+            ) : !plan ? (
+              <StatusHero icon={<Icon name="plan" size={28} />} title="No plan yet." />
             ) : session && !unfinished ? (
               <SessionToday plan={plan} session={session} today={today} />
             ) : !session ? (
@@ -142,10 +142,14 @@ function SessionToday({
       planId: plan.id,
       sessionKey: session.key,
       date: today,
-      exercises: session.exercises.map((e) => ({
+      exercises: items.map((e) => ({
         exerciseId: e.exerciseId,
         swappedFrom: null,
         skipped: false,
+        sets: e.planned.sets,
+        repRange: e.planned.repRange,
+        restSec: e.planned.restSec,
+        load: e.load,
       })),
     });
     void navigate('/workout');

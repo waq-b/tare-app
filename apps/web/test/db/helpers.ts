@@ -31,7 +31,23 @@ export const workout: Pick<WorkoutRecord, 'planId' | 'sessionKey' | 'date' | 'ex
   sessionKey: 'A',
   date: '2026-09-01',
   exercises: [
-    { exerciseId: 'Barbell_Squat', swappedFrom: null, skipped: false },
-    { exerciseId: 'Barbell_Bench_Press_-_Medium_Grip', swappedFrom: null, skipped: false },
+    {
+      exerciseId: 'Barbell_Squat',
+      swappedFrom: null,
+      skipped: false,
+      sets: 3,
+      repRange: [6, 10],
+      restSec: 120,
+      load: 80,
+    },
+    {
+      exerciseId: 'Barbell_Bench_Press_-_Medium_Grip',
+      swappedFrom: null,
+      skipped: false,
+      sets: 3,
+      repRange: [6, 10],
+      restSec: 120,
+      load: 60,
+    },
   ],
 };

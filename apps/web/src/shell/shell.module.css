@@ -9,6 +9,7 @@
   background: var(--bg);
 }
 .screen {
+  position: relative; /* sheets position themselves in the screen */
   display: flex;
   flex-direction: column;
   flex-grow: 1;
