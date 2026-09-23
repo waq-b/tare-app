@@ -1,16 +1,17 @@
 // @tare/data: the only module that reads vpt/data (CLAUDE.md §9).
 // Everything is validated on first use; accessors throw on unknown IDs rather than guess.
 import type { z } from 'zod';
-import exercisesJson from '../../../vpt/data/exercises.json' with { type: 'json' };
-import progressionJson from '../../../vpt/data/progression_rules.json' with { type: 'json' };
-import ruleIdsJson from '../../../vpt/data/rule_ids.json' with { type: 'json' };
-import safetyJson from '../../../vpt/data/safety_rules.json' with { type: 'json' };
-import sourcesJson from '../../../vpt/data/sources.json' with { type: 'json' };
-import trainingJson from '../../../vpt/data/training_rules.json' with { type: 'json' };
+// Which files feed the loader is picked by a package import condition: the full vpt/data in
+// tests and Storybook, the slim app bundle (dist/vpt-app.json) in the web app ("tare-app").
+import { raw } from '#vpt-source';
+
+/** The unvalidated files behind vpt() (for building the app bundle in tests and scripts). */
+export const rawVpt = raw;
 import { loadVpt, type RuleEntry, type Vpt } from './load.ts';
 import type * as S from './schemas.ts';
 
 export { loadVpt, labelFromId, MIN_VPT_VERSION, versionAtLeast } from './load.ts';
+export { slimForApp } from './slim.ts';
 export type { RawVpt, RuleEntry, RuleFile, Vpt } from './load.ts';
 
 export type Exercise = z.infer<typeof S.Exercise>;
@@ -36,14 +37,7 @@ let cache: Vpt | undefined;
 
 /** The validated dataset (parsed once). */
 export function vpt(): Vpt {
-  cache ??= loadVpt({
-    exercises: exercisesJson,
-    training: trainingJson,
-    progression: progressionJson,
-    safety: safetyJson,
-    sources: sourcesJson,
-    ruleIds: ruleIdsJson,
-  });
+  cache ??= loadVpt(raw);
   return cache;
 }
 

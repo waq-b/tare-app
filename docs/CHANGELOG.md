@@ -14,6 +14,7 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### P0 — Logging app (in progress)
 
+- **T2 app data bundle (#52):** `npm run build -w @tare/data` writes `dist/vpt-app.json`: every rules file in full plus 252 exercises (the 111 staples and every swap they offer; swap targets' own swaps trimmed to the set; provenance fields dropped). 91 KB gzipped. It passes the same schemas and version check. `@tare/data` picks its files through a `#vpt-source` import: the full set by default, the bundle under the `tare-app` condition (the web app). Tests fail if the bundle is stale or any staple, swap or plan exercise is missing
 - **T1 engine (#51):** new `packages/engine`, pure functions over the vpt rules, each result citing the rule IDs it used:
   - `evaluateScreening`: `sf.screening` matrix rows (all 32 answer combinations tested), with the most cautious row leading, the lowest effort cap kept, msk areas flagged, and the `cleared_by_gp` follow-up. Messages are shown verbatim
   - `routePainFlag` (moved from the D1 story helper, same tests) and `modifyForPainFlag` (`pain_during_exercise`: stop the current exercise, skip the rest that load the area as primary per `body_area_map`)

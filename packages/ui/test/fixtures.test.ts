@@ -1,6 +1,15 @@
 // The fixtures must agree with themselves and with the rules, so no story shows an
 // impossible screen (e.g. a coach review before 4 weeks of logs).
-import { exercise, rule, safetyRule, screening, vpt } from '@tare/data';
+import {
+  exercise,
+  loadVpt,
+  rawVpt,
+  rule,
+  safetyRule,
+  screening,
+  slimForApp,
+  vpt,
+} from '@tare/data';
 import { describe, expect, it } from 'vitest';
 import {
   CURRENT_WEEK,
@@ -30,6 +39,18 @@ import {
 } from '../fixtures';
 
 const enums = vpt().enums;
+
+describe('app bundle', () => {
+  it('ships every plan exercise and its swaps (the plan seeds P0, #69)', () => {
+    const slim = new Set(loadVpt(slimForApp(rawVpt)).exercises.map((e) => e.id));
+    for (const s of plan) {
+      for (const e of s.exercises) {
+        expect(slim.has(e.exerciseId), e.exerciseId).toBe(true);
+        for (const w of exercise(e.exerciseId).swaps) expect(slim.has(w.id), w.id).toBe(true);
+      }
+    }
+  });
+});
 
 describe('calendar and logs', () => {
   it('has 3 sessions in each logged week, on the planned weekdays, before today', () => {

@@ -8,9 +8,16 @@
     ".": "./src/index.ts"
   },
   "scripts": {
+    "build": "node scripts/build.ts",
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
     "zod": "^4.6.5"
+  },
+  "imports": {
+    "#vpt-source": {
+      "tare-app": "./src/source-app.ts",
+      "default": "./src/source-full.ts"
+    }
   }
 }
