@@ -14,6 +14,7 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### P1 — Rules engine (building; ships to the phone after the P0 two weeks, #90)
 
+- **T9 Coach tab (#84):** before the ramp rule's 4 weeks of logs: "Not enough data yet" (board Coach-Early), with a week tracker, the ramp rule word for word, and the rules running now. After that: a rules-only summary (weight increases in 4 weeks, lifts stalled now, the next planned deload, changes you decided) until your Claude connects in P2. Every tab is now a real screen, so the placeholder is gone
 - **T8 changes in the app (#83; completes T3–T7):** Today, Plan and the workout take each exercise's target from the engine, in this order:
   1. progression from your log (or the plan's start weight, or a body-stats estimate);
   2. an increase you undid holds;
