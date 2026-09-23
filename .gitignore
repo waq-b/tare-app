@@ -5,6 +5,8 @@ coverage/
 *.tsbuildinfo
 .env*
 !.env.example
+# The end-to-end build's settings: fake URLs only, no secrets.
+!apps/web/.env.e2e
 .DS_Store
 design/*.tgz
 packages/icons/gallery/
