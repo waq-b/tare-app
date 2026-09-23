@@ -32,6 +32,7 @@ import type { PlanRecord, WorkoutRecord } from '../db/index.ts';
 import { addDays, longDate, mondayOf, parseDay, weekdayOf, WEEKDAYS } from '../lib/dates.ts';
 import { estimateMinutes, nameOf, sessionItems, type PlannedSession } from '../lib/session.ts';
 import { avoidedFor } from '../safety/flag.ts';
+import { SyncBanner } from '../sync/Banners.tsx';
 import s from './screens.module.css';
 
 const LETTERS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
@@ -84,6 +85,7 @@ export function Today() {
         {loading ? null : (
           <>
             <WeekStrip days={weekDays(today, plan, finished)} />
+            <SyncBanner />
             {unfinished ? <Resume /> : null}
             {doneToday ? (
               <StatusHero

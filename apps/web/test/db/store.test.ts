@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { uuidv7 } from '../../src/db/index.ts';
+import { Store, uuidv7 } from '../../src/db/index.ts';
 import { profile, setup } from './helpers.ts';
 
 describe('uuidv7', () => {
@@ -54,6 +54,20 @@ describe('Store', () => {
     expect(b.daysPerWeek).toBe(4);
     expect(b.updatedAt).toBeGreaterThan(a.updatedAt);
     expect(await db.outbox.count()).toBe(2);
+  });
+
+  it('updatedAt always goes up for a record, even in the same millisecond', async () => {
+    const { db } = setup();
+    const frozen = new Store(db, () => 1000);
+    const a = await frozen.put('weighIns', {
+      date: '2026-09-01',
+      time: '07:30',
+      kg: 92,
+      waistCm: null,
+    });
+    const b = await frozen.update('weighIns', a.id, { kg: 91 });
+    const c = await frozen.update('weighIns', a.id, { kg: 90 });
+    expect([a.updatedAt, b.updatedAt, c.updatedAt]).toEqual([1000, 1001, 1002]);
   });
 
   it('remove is a soft delete: hidden from reads, kept and queued for sync', async () => {

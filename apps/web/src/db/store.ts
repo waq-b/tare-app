@@ -21,16 +21,17 @@ export class Store {
   /** Create or replace a record (validated), stamped and queued. */
   async put<T extends SyncedTable>(t: T, rec: New<T>): Promise<RecordOf[T]> {
     const at = this.now();
-    const full = SYNCED[t].parse({
-      ...rec,
-      id: rec.id ?? uuidv7(at),
-      updatedAt: at,
-    }) as RecordOf[T];
-    await this.db.transaction('rw', this.table(t), this.db.outbox, async () => {
+    return this.db.transaction('rw', this.table(t), this.db.outbox, async () => {
+      const id = rec.id ?? uuidv7(at);
+      // Each change to a record gets a later updatedAt than the last, even within the same
+      // millisecond, so last-write-wins never drops a newer edit.
+      const prev = rec.id ? await this.table(t).get(id) : undefined;
+      const updatedAt = prev ? Math.max(at, prev.updatedAt + 1) : at;
+      const full = SYNCED[t].parse({ ...rec, id, updatedAt }) as RecordOf[T];
       await this.table(t).put(full);
       await this.db.outbox.add({ table: t, id: full.id, record: full, queuedAt: at });
+      return full;
     });
-    return full;
   }
 
   /** Change fields on an existing record. */

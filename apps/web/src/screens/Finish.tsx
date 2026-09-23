@@ -5,7 +5,6 @@ import {
   Button,
   ComparisonRow,
   EffortTap,
-  InlineNote,
   SectionLabel,
   StatTile,
   TopBar,
@@ -20,6 +19,8 @@ import { useUnfinishedWorkout } from '../data/hooks.ts';
 import type { WorkoutRecord } from '../db/index.ts';
 import { shortDate } from '../lib/dates.ts';
 import { nameOf } from '../lib/session.ts';
+import { SyncNote } from '../sync/Banners.tsx';
+import { useSyncNow } from '../sync/SyncContext.tsx';
 import { finishWorkout } from '../workout/finish.ts';
 import { summarise } from '../workout/ledger.ts';
 import { useClock } from '../workout/rest.ts';
@@ -35,6 +36,7 @@ export function Finish() {
 function Summary({ workout }: { workout: WorkoutRecord }) {
   const data = useAppData();
   const navigate = useNavigate();
+  const syncNow = useSyncNow();
   const now = useClock(60_000);
   const [feel, setFeel] = useState<SessionFeel | null>(null);
   const [busy, setBusy] = useState(false);
@@ -52,6 +54,7 @@ function Summary({ workout }: { workout: WorkoutRecord }) {
   async function done() {
     setBusy(true);
     await finishWorkout(data, workout, feel);
+    syncNow();
     void navigate('/', { replace: true });
   }
 
@@ -100,7 +103,7 @@ function Summary({ workout }: { workout: WorkoutRecord }) {
           value={feel}
           onChange={setFeel}
         />
-        <InlineNote>Saved on this phone.</InlineNote>
+        <SyncNote />
         <div className={s['foot']}>
           <Button size={60} fullWidth disabled={busy} onClick={() => void done()}>
             Done

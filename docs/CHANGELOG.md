@@ -14,6 +14,12 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### P0 — Logging app (in progress)
 
+- **T11 sync client (#61):**
+  - Background sync at start, on reconnect, on return to the app, after finishing a workout, and every 5 minutes, with backoff (30 s to 5 min) after a failure; logging never waits for it.
+  - A pass pushes the outbox, squeezed to the latest copy of each record, in batches of 500. Rows queued during a push stay and go next. Then it pulls from the saved cursor, applying last-write-wins with the same schemas (a mismatching record is counted, not applied), and pulled records are never queued back.
+  - Each record's `updatedAt` now always goes up, even for two edits in the same millisecond, so the server never drops a newer edit.
+  - The D1 states: "Offline: logging still works" (Today and the workout), "N changes haven't synced" with Retry, "Sign in again to sync" (sign-in stays open for a remembered account whose session expired), and "Synced · time" on Finish.
+  - Tested against an in-memory server with the API's rules: offline then online, squashing, edits during a push, a second device pulling everything, conflicts both ways, and every failure keeping the outbox
 - **T10 sync API (#60):** `apps/server`, Fastify on Node 24 (runs the TypeScript directly).
   - `GET /health`; `POST /sync/push` applies an outbox batch (up to 500) last-write-wins by `updatedAt`, so replays and older copies change nothing; `GET /sync/pull?since=` returns changes after a cursor (a global sequence bumped on every change), paged.
   - Postgres via one `DATABASE_URL`, with SQL migrations applied at start-up. One `records` table keyed by (user, table, id) holds the app's JSON. **RLS is on everywhere**: each request runs as `authenticated` with the caller's claims, so Postgres refuses other users' rows. The allowlist and migrations tables have no grants for app roles.

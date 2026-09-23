@@ -26,7 +26,9 @@ export function SignIn() {
   const [sending, setSending] = useState(false);
   const [failure, setFailure] = useState<string | null>(null);
 
-  if (state.status === 'signedIn') return <Navigate to="/" replace />;
+  // Signed in with a live session: nothing to do. A remembered account without one (it
+  // expired) can sign in again here to resume sync.
+  if (state.status === 'signedIn' && state.session) return <Navigate to="/" replace />;
 
   async function send(e: FormEvent) {
     e.preventDefault();

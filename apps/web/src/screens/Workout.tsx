@@ -34,6 +34,7 @@ import { isoDay, shortDate } from '../lib/dates.ts';
 import { nameOf, patternOf, repsText } from '../lib/session.ts';
 import { exerciseView, lastSession, type ExerciseView, type WorkRow } from '../workout/ledger.ts';
 import { raisePainFlag } from '../safety/flag.ts';
+import { OfflineBanner } from '../sync/Banners.tsx';
 import { usePainForm } from '../safety/PainForm.tsx';
 import { logWorkSet, undoSet } from '../workout/actions.ts';
 import { adjustRest, clearRest, useClock, useRest } from '../workout/rest.ts';
@@ -158,6 +159,7 @@ function Ledger({ workout }: { workout: WorkoutRecord }) {
         onFlagPain={() => setSheet('pain')}
       />
       <main className={s['body']} style={{ gap: 14 }}>
+        <OfflineBanner />
         <StepProgress
           total={workout.exercises.length}
           done={position}
