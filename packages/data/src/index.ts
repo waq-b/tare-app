@@ -8,12 +8,19 @@ import { raw } from '#vpt-source';
 /** The unvalidated files behind vpt() (for building the app bundle in tests and scripts). */
 export const rawVpt = raw;
 import { loadVpt, type RuleEntry, type Vpt } from './load.ts';
+import {
+  parseDoubleProgression,
+  parseTwoForTwo,
+  type DoubleProgression,
+  type TwoForTwoRule,
+} from './progression.ts';
 import { parseStartingLoad, type StartingLoadRule } from './startingLoad.ts';
 import type * as S from './schemas.ts';
 
 export { loadVpt, labelFromId, MIN_VPT_VERSION, versionAtLeast } from './load.ts';
 export { slimForApp } from './slim.ts';
 export { parseStartingLoad, type StartingLoadRule } from './startingLoad.ts';
+export type { DoubleProgression, TwoForTwoRule } from './progression.ts';
 export type { RawVpt, RuleEntry, RuleFile, Vpt } from './load.ts';
 
 export type Exercise = z.infer<typeof S.Exercise>;
@@ -123,4 +130,24 @@ let startingLoadCache: StartingLoadRule | undefined;
 export function startingLoadRule(): StartingLoadRule {
   startingLoadCache ??= parseStartingLoad(rule('tr.global.starting_load').raw['value']);
   return startingLoadCache;
+}
+
+const method = (id: string) => {
+  const m = vpt().progression.methods.find((x) => x.id === id);
+  if (!m) throw new Error(`vpt: no progression method ${id}`);
+  return m;
+};
+let doubleCache: DoubleProgression | undefined;
+let twoCache: TwoForTwoRule | undefined;
+
+/** pr.double_progression, validated. */
+export function doubleProgressionRule(): DoubleProgression {
+  doubleCache ??= parseDoubleProgression(method('pr.double_progression'));
+  return doubleCache;
+}
+
+/** pr.two_for_two, validated. */
+export function twoForTwoRule(): TwoForTwoRule {
+  twoCache ??= parseTwoForTwo(method('pr.two_for_two'));
+  return twoCache;
 }

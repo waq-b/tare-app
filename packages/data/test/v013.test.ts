@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { rule, startingLoadRule, vpt } from '../src/index.ts';
+import { doubleProgressionRule, rule, startingLoadRule, twoForTwoRule, vpt } from '../src/index.ts';
 
 describe('vpt v0.1.3', () => {
   it('loads at the minimum version', () => {
@@ -35,5 +35,11 @@ describe('vpt v0.1.3', () => {
     const p = rule('pr.personal_adjustment');
     expect(p.file).toBe('progression');
     expect(p.sources.length).toBeGreaterThan(0);
+  });
+
+  it('progression methods validate, with their text numbers parsed (FALLBACK vpt-issue #22)', () => {
+    expect(doubleProgressionRule().sessions).toBe(2);
+    expect(doubleProgressionRule().default_for).toContain('fat_loss');
+    expect(twoForTwoRule()).toMatchObject({ sessions: 2, repsOver: 2 });
   });
 });
