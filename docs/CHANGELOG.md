@@ -12,7 +12,7 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 - GitHub Actions CI: install → lint → typecheck → test
 - Housekeeping: project README replaces the stale dataset copy; app changelog moved here; `docs/plans/` created
 
-### D1 — Storybook design library (built and deployed 2026-09-23; sign-off pending)
+### D1 — Storybook design library (built, deployed and signed off 2026-09-23)
 
 - **Layout fixes after review (2026-09-23):** Waqar spotted sideways scrolling on the Coach screens. Cause: `DiffChip` never wrapped, so long diffs ("2 sets in Session A from the next block") pushed up to 155px past the 390px frame.
   - New layout check after every story test: nothing may spill past the story frame, nothing may scroll sideways (except labelled table regions and deliberate "…" truncation), and visible text may not overlap. Text is clipped to its scroll area first, and content behind an open sheet is skipped. A guard story proves it catches both a spill and an overlap.

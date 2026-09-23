@@ -2,6 +2,10 @@
 
 Decisions Waqar has made. Newest first. When a `decision` issue is answered, add it here and close the issue. Each line gives the decision and why, briefly.
 
+## 2026-09-23 — D1 done
+
+- **D1 signed off** (#50), after the layout fixes: the Storybook design library at https://tare-storybook.onrender.com. Polish stays in `later` issues #45–#49. P0 planning starts
+
 ## 2026-09-22 — D1 signed off
 
 - **D1 plan signed off** (`docs/plans/D1.md`, #25–#41)
