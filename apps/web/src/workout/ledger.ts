@@ -2,7 +2,8 @@
 // what to show out. Warm-ups come from the engine (tr.global.warm_up); loads before P1 are the
 // target the workout started with (#70); target reps follow last time, within the rep range.
 import { exercise } from '@tare/data';
-import { e1rm, warmUpSets } from '@tare/engine';
+import { startingLoadRule } from '@tare/data';
+import { e1rm, firstSessionNext, warmUpSets, type KitLoad } from '@tare/engine';
 import type { SetRecord, WorkoutExercise, WorkoutRecord } from '../db/index.ts';
 
 export interface WarmUpRow {
@@ -28,6 +29,8 @@ export interface ExerciseView {
   /** The next working set to log, or null when the exercise is complete. */
   current: WorkRow | null;
   complete: boolean;
+  /** The first session on an estimated starting weight (tr.global.starting_load first_session). */
+  estimatedFirstSession: boolean;
 }
 
 const clamp = (n: number, [lo, hi]: readonly [number, number]) => Math.min(hi, Math.max(lo, n));
@@ -46,11 +49,39 @@ export function targetReps(ex: WorkoutExercise, index: number, last: readonly Se
   return prev ? clamp(prev.reps, ex.repRange) : ex.repRange[0];
 }
 
+/** The next load after the logged sets. On the first session with an estimated starting weight,
+ * each set's effort adjusts the next (Easy up, Hard down), at most the rule's number of times. */
+function nextLoad(
+  ex: WorkoutExercise,
+  work: readonly SetRecord[],
+  firstSession: boolean,
+  kit: KitLoad | undefined,
+): number | null {
+  const lastSet = work.at(-1);
+  if (!lastSet) return ex.load;
+  if (!firstSession || !kit) return lastSet.load;
+  const max = startingLoadRule().maxFirstSessionChanges;
+  let changes = 0;
+  let next = work[0]?.load ?? ex.load;
+  for (const set of work) {
+    next = set.load;
+    if (changes >= max) continue;
+    const r = firstSessionNext({ load: set.load, effort: set.effort, kit });
+    if (r.changed) {
+      next = r.load;
+      changes++;
+    }
+  }
+  return next;
+}
+
 export function exerciseView(
   workout: WorkoutRecord,
   position: number,
   sets: readonly SetRecord[],
   last: readonly SetRecord[],
+  /** The kit this exercise rounds to (for first-session adjustments). */
+  kit?: KitLoad,
 ): ExerciseView | null {
   const ex = workout.exercises[position];
   if (!ex) return null;
@@ -76,6 +107,8 @@ export function exerciseView(
           patternsSoFar,
         }).sets.map((w, i) => ({ index: i + 1, ...w, done: warm[i] }));
 
+  const estimatedFirstSession = ex.estimated === true && last.length === 0;
+  const upcoming = nextLoad(ex, work, estimatedFirstSession, kit);
   const count = Math.max(ex.sets, work.length);
   const rows: WorkRow[] = Array.from({ length: count }, (_, i) => {
     const set = work[i];
@@ -83,14 +116,23 @@ export function exerciseView(
     return {
       index: i + 1,
       state: i === work.length ? 'current' : 'upcoming',
-      // After a logged set, the next one aims for the same weight.
-      load: work.at(-1)?.load ?? ex.load,
+      // After a logged set, the next one aims for the same weight (or, on an estimated first
+      // session, the weight its effort points to).
+      load: upcoming,
       reps: targetReps(ex, i + 1, last),
       set: undefined,
     };
   });
   const current = rows.find((r) => r.state === 'current') ?? null;
-  return { ex, position, warmups, work: rows, current, complete: current === null };
+  return {
+    ex,
+    position,
+    warmups,
+    work: rows,
+    current,
+    complete: current === null,
+    estimatedFirstSession,
+  };
 }
 
 /** kg moved, counting both hands for dumbbells logged per hand. */

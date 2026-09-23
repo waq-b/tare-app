@@ -5,3 +5,4 @@ export * from './pain.ts';
 export * from './screening.ts';
 export * from './swaps.ts';
 export * from './volume.ts';
+export * from './startingLoad.ts';

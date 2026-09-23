@@ -36,6 +36,12 @@ describe('onboarding', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Continue setup' }));
     await screen.findByText('What matters most?');
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
+    await screen.findByText('About you');
+    fireEvent.click(screen.getByRole('radio', { name: 'Male' }));
+    fireEvent.change(screen.getByLabelText('Age'), { target: { value: '35' } });
+    fireEvent.change(screen.getByLabelText('Weight · kg'), { target: { value: '92' } });
+    fireEvent.change(screen.getByLabelText('Height · cm · optional'), { target: { value: '180' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
     await screen.findByText('Your gym');
     fireEvent.click(screen.getByRole('button', { name: 'Build my plan' }));
     expect(await screen.findByRole('heading', { name: 'Your plan' })).toBeTruthy();
@@ -45,7 +51,12 @@ describe('onboarding', () => {
     expect(document.body.textContent).toContain('tr.goal.fat_loss');
     // Starting weights are optional and tucked away.
     expect(screen.queryByLabelText('Back squat · kg')).toBeNull();
+    expect(screen.getByText(/suggested from your body stats/)).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: /Starting weights · optional/ }));
+    // The rule's worked example: a 35-year-old beginner man, 92 kg, 180 cm → squat 40.
+    expect(screen.getByLabelText('Back squat · kg').getAttribute('placeholder')).toBe(
+      '40 · estimated',
+    );
     fireEvent.change(screen.getByLabelText('Back squat · kg'), { target: { value: '70,5' } });
     fireEvent.click(screen.getByRole('button', { name: 'Start training' }));
     await waitFor(() => expect(router.state.location.pathname).toBe('/'));
@@ -58,6 +69,9 @@ describe('onboarding', () => {
       region: 'england',
     });
     expect(profile?.onboardedAt).toBeGreaterThan(0);
+    expect(profile).toMatchObject({ sex: 'male', heightCm: 180 });
+    expect(profile?.birthYear).toBe(new Date().getFullYear() - 35);
+    expect((await data.r.weighIns.list())[0]?.kg).toBe(92); // the first weigh-in
     expect((await data.r.screening.latest())?.result).toBe('continue_progress_as_tolerated');
     const plan = await data.r.plans.active();
     const squat = plan?.sessions[0]?.exercises.find((e) => e.exerciseId === 'Barbell_Squat');
@@ -119,6 +133,7 @@ describe('onboarding', () => {
     expect(screen.getByText('Left knee noted')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Continue setup' }));
     fireEvent.click(await screen.findByRole('button', { name: 'Continue' }));
+    fireEvent.click(await screen.findByRole('button', { name: 'Skip' }));
     fireEvent.click(await screen.findByRole('button', { name: 'Build my plan' }));
     expect(
       await screen.findByText('Changed to go easy on the area you told us about'),

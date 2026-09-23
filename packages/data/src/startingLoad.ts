@@ -74,6 +74,12 @@ export type StartingLoadRule = z.infer<typeof StartingLoadValue> & {
   firstSessionRir: number;
   /** Parsed from below_lightest_load.rule: the lightest option is OK up to this share of e1RM. */
   lightestMaxPctOf1rm: number;
+  /** Parsed from first_session.after_set_1: Easy raises by this range (fractions). */
+  afterEasyRaise: [number, number];
+  /** Parsed from first_session.after_set_1: Hard drops by this fraction. */
+  afterHardDrop: number;
+  /** Parsed from first_session.max_changes: adjustments allowed in the first session. */
+  maxFirstSessionChanges: number;
 };
 
 function parse(label: string, text: string, re: RegExp): number {
@@ -93,8 +99,24 @@ export function parseStartingLoad(raw: unknown): StartingLoadRule {
   const v = res.data;
   // FALLBACK(vpt-issue #21): these constants live only inside formula text in v0.1.3. Parse
   // them here, loudly; switch to structured fields when the data adds them.
+  const easy = v.first_session.after_set_1['easy'] ?? '';
+  const hard = v.first_session.after_set_1['hard'] ?? '';
+  const words: Record<string, number> = { once: 1, twice: 2 };
+  const times = /at most (\w+)/.exec(v.first_session.max_changes)?.[1] ?? '';
+  const maxChanges = words[times] ?? Number(times);
+  if (!Number.isFinite(maxChanges) || maxChanges <= 0) {
+    throw new Error(
+      `vpt: tr.global.starting_load max_changes changed shape: "${v.first_session.max_changes}"`,
+    );
+  }
   return {
     ...v,
+    afterEasyRaise: [
+      parse('Easy raise (low)', easy, /raise ([\d.]+)-[\d.]+%/) / 100,
+      parse('Easy raise (high)', easy, /raise [\d.]+-([\d.]+)%/) / 100,
+    ],
+    afterHardDrop: parse('Hard drop', hard, /drop ([\d.]+)%/) / 100,
+    maxFirstSessionChanges: maxChanges,
     bmiCap: parse(
       'BMI cap',
       v.reference_mass.expression,

@@ -3,6 +3,7 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useState } from 'react';
 import { isoDay } from '../lib/dates.ts';
+import { bodyStatsOf, estimateFor } from '../lib/estimate.ts';
 import { useAppData } from './DbContext.tsx';
 
 export function useProfile() {
@@ -31,14 +32,44 @@ export function useExerciseHistory(exerciseId: string) {
   return useLiveQuery(() => r.sets.history(exerciseId), [r, exerciseId]);
 }
 
-/** The load to prefill per exercise (#70): the last working load, else the plan's start. */
-export function useTargetLoads(items: readonly { exerciseId: string; startLoad: number | null }[]) {
+export interface Target {
+  /** kg (per hand for dumbbells), or null for an easy first set. */
+  load: number | null;
+  /** Where it came from: the last finished workout, the plan, or an estimate from body stats. */
+  source: 'history' | 'plan' | 'estimate' | null;
+  /** An estimate for a pulldown or cable row: a rough guide, the stack decides. */
+  stackDependent: boolean;
+}
+
+/** The load to aim for per exercise: the last working load, else the plan's start weight, else
+ * a suggestion from body stats (tr.global.starting_load), else an easy first set. */
+export function useTargetLoads(
+  items: readonly {
+    exerciseId: string;
+    startLoad: number | null;
+    repRange: readonly [number, number];
+  }[],
+) {
   const { r } = useAppData();
-  const key = items.map((i) => `${i.exerciseId}:${i.startLoad}`).join('|');
+  const key = items.map((i) => `${i.exerciseId}:${i.startLoad}:${i.repRange[0]}`).join('|');
   return useLiveQuery(async () => {
-    const out: Record<string, number | null> = {};
+    const profile = await r.profile.get();
+    const weight = (await r.weighIns.list()).at(-1)?.kg ?? null;
+    const stats = bodyStatsOf(profile, weight, new Date().getFullYear());
+    const out: Record<string, Target> = {};
     for (const i of items) {
-      out[i.exerciseId] = (await r.sets.lastWorkingLoad(i.exerciseId)) ?? i.startLoad;
+      const last = await r.sets.lastWorkingLoad(i.exerciseId);
+      if (last !== null) {
+        out[i.exerciseId] = { load: last, source: 'history', stackDependent: false };
+      } else if (i.startLoad !== null) {
+        out[i.exerciseId] = { load: i.startLoad, source: 'plan', stackDependent: false };
+      } else {
+        const e = estimateFor(i.exerciseId, i.repRange[0], stats);
+        out[i.exerciseId] =
+          e && e.load !== null
+            ? { load: e.load, source: 'estimate', stackDependent: e.stackDependent }
+            : { load: null, source: null, stackDependent: false };
+      }
     }
     return out;
     // `key` stands in for `items`, so a new array with the same contents doesn't re-query.

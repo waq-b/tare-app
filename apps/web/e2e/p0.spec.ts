@@ -55,6 +55,7 @@ test('onboard, a whole workout offline, reload mid-way, sync, export and restore
   await expect(page.getByRole('heading', { name: 'You’re all set.' })).toBeVisible();
   await page.getByRole('button', { name: 'Continue setup' }).click();
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
+  await page.getByRole('button', { name: 'Skip' }).click();
   await page.getByRole('button', { name: 'Build my plan' }).click();
   await expect(page.getByRole('heading', { name: 'Your plan' })).toBeVisible();
   await page.getByRole('button', { name: /Starting weights · optional/ }).click();

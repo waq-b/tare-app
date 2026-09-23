@@ -1,8 +1,8 @@
 // The active workout: the Ledger (boards Workout-A, Workout-A-Edit, Rest-Timer, Swap-Sheet).
 // One tap logs the current set as planned; everything is saved as it happens, so a reload,
 // crash or closed app reopens exactly here.
-import { exercise, rule } from '@tare/data';
-import { defaultLoadStep, swapOptions, swapStartLoad } from '@tare/engine';
+import { exercise, rule, startingLoadRule } from '@tare/data';
+import { defaultLoadStep, kitKindOf, swapOptions, swapStartLoad } from '@tare/engine';
 import { Icon } from '@tare/icons';
 import {
   Button,
@@ -10,6 +10,7 @@ import {
   EffortTap,
   ExerciseHeader,
   IncrementChips,
+  InlineNote,
   LastTimeStrip,
   NumberStepper,
   RestTimer,
@@ -34,6 +35,7 @@ import { isoDay, shortDate } from '../lib/dates.ts';
 import { nameOf, patternOf, repsText } from '../lib/session.ts';
 import { exerciseView, lastSession, type ExerciseView, type WorkRow } from '../workout/ledger.ts';
 import { raisePainFlag } from '../safety/flag.ts';
+import { DEFAULT_KIT } from '../settings/kit.ts';
 import { OfflineBanner } from '../sync/Banners.tsx';
 import { usePainForm } from '../safety/PainForm.tsx';
 import { logWorkSet, undoSet } from '../workout/actions.ts';
@@ -106,7 +108,7 @@ function Ledger({ workout }: { workout: WorkoutRecord }) {
 
   if (!ex || !sets || !history) return <main aria-busy="true" aria-label="Loading" />;
   const last = lastSession(history);
-  const view = exerciseView(workout, position, sets, last);
+  const view = exerciseView(workout, position, sets, last, DEFAULT_KIT[kitKindOf(ex.exerciseId)]);
   if (!view) return null;
   const nextIndex = workout.exercises.findIndex((e, i) => i > position && !e.skipped);
   const isLast = nextIndex === -1;
@@ -196,6 +198,12 @@ function Ledger({ workout }: { workout: WorkoutRecord }) {
           pattern={patternOf(ex.exerciseId)}
           {...(view.work.some((w) => w.set) ? {} : { onSwap: () => setSheet('swap') })}
         />
+        {view.estimatedFirstSession ? (
+          <InlineNote>
+            {startingLoadRule().first_session.label} Tap Easy or Hard after a set and the next one
+            adjusts.
+          </InlineNote>
+        ) : null}
         {lastFirst ? (
           <LastTimeStrip
             sets={`${num(lastFirst.load)} × ${last.map((x) => x.reps).join(' · ')}`}

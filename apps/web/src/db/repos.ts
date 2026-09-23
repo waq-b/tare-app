@@ -24,6 +24,7 @@ export function repos(store: Store) {
     profile: {
       get: () => store.get('profile', PROFILE_ID),
       save: (p: Fields<Profile>) => store.put('profile', { ...p, id: PROFILE_ID }),
+      update: (change: Partial<Fields<Profile>>) => store.update('profile', PROFILE_ID, change),
     },
 
     screening: {

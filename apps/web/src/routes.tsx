@@ -5,6 +5,7 @@ import { AppShell } from './shell/AppShell.tsx';
 import { Placeholder } from './screens/Placeholder.tsx';
 import { NotFound } from './screens/NotFound.tsx';
 import { Onboarding } from './screens/onboarding/Onboarding.tsx';
+import { AboutYou } from './screens/AboutYou.tsx';
 import { Exercise } from './screens/Exercise.tsx';
 import { History, SessionDetail } from './screens/History.tsx';
 import { Progress } from './screens/Progress.tsx';
@@ -32,6 +33,7 @@ export const routes: RouteObject[] = [
       { path: 'history/:sessionId', element: <SessionDetail /> },
       { path: 'body', element: <Navigate to="/progress?view=body" replace /> },
       { path: 'settings', element: <Settings /> },
+      { path: 'settings/about-you', element: <AboutYou /> },
       { path: 'workout', element: <Workout /> },
       { path: 'workout/finish', element: <Finish /> },
       { path: 'pain', element: <FlagPain /> },

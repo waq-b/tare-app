@@ -158,6 +158,7 @@ function SessionToday({
       repRange: e.planned.repRange,
       restSec: e.planned.restSec,
       load: e.load,
+      ...(e.estimated ? { estimated: true } : {}),
     }));
     const w = await r.workouts.start({
       planId: plan.id,

@@ -3,8 +3,9 @@
 import { vpt } from '@tare/data';
 import type { ScreeningOutcome } from '@tare/engine';
 import type { AppData } from '../../data/DbContext.tsx';
+import { isoDay as isoOfDate } from '../../lib/dates.ts';
 import type { SeedPlan } from '../../seed/plan.ts';
-import { clearDraft, type Draft } from './draft.ts';
+import { clearDraft, draftBody, type Draft } from './draft.ts';
 
 export function goalIdOf(key: string): string {
   const g = vpt().training.goals.find((x) => x.goal === key);
@@ -12,7 +13,7 @@ export function goalIdOf(key: string): string {
   return g.id;
 }
 
-const isoDay = (ms: number) => new Date(ms).toISOString().slice(0, 10);
+const isoDay = (ms: number) => isoOfDate(new Date(ms));
 
 /** The screening as answered. GP-first saves this alone ("Save my answers"). */
 export function saveScreening(data: AppData, d: Draft, o: ScreeningOutcome, now = Date.now()) {
@@ -39,12 +40,17 @@ export async function completeOnboarding(
 ) {
   const { db } = data;
   // All or nothing: a reload or a closed app mid-way must never leave a profile without a plan.
-  await db.transaction('rw', [db.screening, db.profile, db.plans, db.outbox, db.meta], async () => {
-    await saveAll(data, d, o, plan, now);
-  });
+  await db.transaction(
+    'rw',
+    [db.screening, db.profile, db.plans, db.weighIns, db.outbox, db.meta],
+    async () => {
+      await saveAll(data, d, o, plan, now);
+    },
+  );
 }
 
 async function saveAll(data: AppData, d: Draft, o: ScreeningOutcome, plan: SeedPlan, now: number) {
+  const body = draftBody(d);
   await saveScreening(data, d, o, now);
   await data.r.profile.save({
     goalId: goalIdOf(d.goalsRanked[0] ?? 'general'),
@@ -59,7 +65,20 @@ async function saveAll(data: AppData, d: Draft, o: ScreeningOutcome, plan: SeedP
     region: d.region,
     maxRpe: o.maxRpe,
     onboardedAt: now,
+    sex: body?.sex ?? null,
+    birthYear: body ? new Date(now).getFullYear() - body.age : null,
+    heightCm: body?.heightCm ?? null,
   });
+  // The bodyweight given for the estimates is also the first weigh-in.
+  if (body) {
+    const t = new Date(now);
+    await data.r.weighIns.add({
+      date: isoDay(now),
+      time: `${String(t.getHours()).padStart(2, '0')}:${String(t.getMinutes()).padStart(2, '0')}`,
+      kg: body.bodyweight,
+      waistCm: null,
+    });
+  }
   await data.r.plans.activate({
     ...plan,
     sessions: plan.sessions.map((sess) => ({

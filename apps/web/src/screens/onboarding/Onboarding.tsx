@@ -1,7 +1,16 @@
 // Onboarding (boards Onb-Welcome, Onb-Health, Onb-GP, Onb-Goals, Onb-Kit) plus the
 // starting-weights step (#69). Screening questions and messages are the data's, word for word;
 // the result is the engine's (evaluateScreening). One route per step, so Back works.
-import { exercise, displayName, goal, rule, screening, services, vpt } from '@tare/data';
+import {
+  displayName,
+  exercise,
+  goal,
+  rule,
+  screening,
+  services,
+  startingLoadRule,
+  vpt,
+} from '@tare/data';
 import { evaluateScreening, weeklySets, type ScreeningOutcome } from '@tare/engine';
 import { Icon } from '@tare/icons';
 import {
@@ -34,21 +43,23 @@ import { Navigate, useNavigate, useParams } from 'react-router';
 import { useAppData } from '../../data/DbContext.tsx';
 import { seedPlan, SEED_DAYS, uniqueExercises } from '../../seed/plan.ts';
 import s from '../screens.module.css';
+import { estimateFor } from '../../lib/estimate.ts';
 import { completeOnboarding, goalIdOf, saveScreening } from './complete.ts';
-import { loadDraft, saveDraft, type Draft, type Region } from './draft.ts';
+import { draftBody, loadDraft, saveDraft, type Draft, type Region } from './draft.ts';
 
-const STEPS = ['welcome', 'health', 'result', 'goals', 'kit', 'plan'] as const;
+const STEPS = ['welcome', 'health', 'result', 'goals', 'body', 'kit', 'plan'] as const;
 type Step = (typeof STEPS)[number];
 const PROGRESS: Partial<Record<Step, number>> = {
   health: 1,
   result: 1,
   goals: 2,
-  kit: 3,
-  plan: 4,
+  body: 3,
+  kit: 4,
+  plan: 5,
 };
 const progress = (step: Step) => {
   const n = PROGRESS[step];
-  return n ? { progress: { total: 4, done: n, label: `Step ${n} of 4` } } : {};
+  return n ? { progress: { total: 5, done: n, label: `Step ${n} of 5` } } : {};
 };
 const prev = (step: Step) =>
   `/onboarding/${STEPS[Math.max(0, STEPS.indexOf(step) - 1)] ?? 'welcome'}`;
@@ -143,7 +154,7 @@ export function Onboarding() {
   // Steps after the result need a result that lets setup go on.
   const outcome = outcomeOf(draft);
   const blocked = !outcome || outcome.result === 'medical_clearance_first';
-  if ((st === 'goals' || st === 'kit' || st === 'plan') && blocked) {
+  if ((st === 'goals' || st === 'body' || st === 'kit' || st === 'plan') && blocked) {
     return <Navigate to={outcome ? '/onboarding/result' : '/onboarding/health'} replace />;
   }
 
@@ -155,6 +166,7 @@ export function Onboarding() {
         {st === 'health' ? <Health {...props} /> : null}
         {st === 'result' ? <Result {...props} /> : null}
         {st === 'goals' ? <Goals {...props} /> : null}
+        {st === 'body' ? <Body {...props} /> : null}
         {st === 'kit' ? <Kit {...props} /> : null}
         {st === 'plan' ? <YourPlan {...props} /> : null}
       </main>
@@ -462,15 +474,94 @@ function Goals({ draft, update }: StepProps) {
             { value: 'intermediate', label: 'Intermediate' },
           ]}
         />
+        <p className={s['lede']} style={{ fontSize: 14 }}>
+          {cap(startingLoadRule().inputs.level.definition[draft.level] ?? '')}
+        </p>
       </div>
       <div className={s['foot']}>
         <Button
           size={60}
           fullWidth
           disabled={!draft.goalsRanked.length}
-          onClick={() => void navigate('/onboarding/kit')}
+          onClick={() => void navigate('/onboarding/body')}
         >
           Continue
+        </Button>
+      </div>
+    </>
+  );
+}
+
+const SEXES: { value: 'male' | 'female' | 'prefer_not_to_say'; label: string }[] = [
+  { value: 'male', label: 'Male' },
+  { value: 'female', label: 'Female' },
+  { value: 'prefer_not_to_say', label: 'Rather not say' },
+];
+
+/** Body stats for suggested starting weights (tr.global.starting_load). Optional: skipping
+ * means every exercise starts with an easy set to find its weight. */
+function Body({ draft, update }: StepProps) {
+  const navigate = useNavigate();
+  const ok = draftBody(draft) !== null;
+  return (
+    <>
+      <div className={s['stack']}>
+        <h1 className={s['h1']}>About you</h1>
+        <p className={s['lede']}>
+          To suggest starting weights. They’re estimates that aim low, and you can change any of
+          them.
+        </p>
+      </div>
+      <div className={s['stack']}>
+        <SectionLabel as="h2">Sex</SectionLabel>
+        <SegmentedControl
+          label="Sex"
+          tone="neutral"
+          value={draft.sex}
+          onChange={(v) => update({ sex: v })}
+          options={SEXES}
+        />
+        {draft.sex === 'prefer_not_to_say' ? (
+          <p className={s['lede']} style={{ fontSize: 14 }}>
+            We’ll use the lower of the two estimates.
+          </p>
+        ) : null}
+      </div>
+      <div className={s['grid2']}>
+        <TextField
+          label="Age"
+          inputMode="numeric"
+          value={draft.age}
+          onChange={(v) => update({ age: v.replace(/\D/g, '') })}
+        />
+        <TextField
+          label="Weight · kg"
+          inputMode="decimal"
+          value={draft.bodyweight}
+          onChange={(v) => update({ bodyweight: v.replace(/[^\d.,]/g, '') })}
+        />
+      </div>
+      <TextField
+        label="Height · cm · optional"
+        inputMode="numeric"
+        value={draft.heightCm}
+        onChange={(v) => update({ heightCm: v.replace(/\D/g, '') })}
+        hint="Only used to keep the estimate from running high."
+      />
+      <div className={s['foot']}>
+        <Button size={60} fullWidth disabled={!ok} onClick={() => void navigate('/onboarding/kit')}>
+          Continue
+        </Button>
+        <Button
+          variant="secondary-outline"
+          size={52}
+          fullWidth
+          onClick={() => {
+            update({ sex: null, age: '', bodyweight: '', heightCm: '' });
+            void navigate('/onboarding/kit');
+          }}
+        >
+          Skip
         </Button>
       </div>
     </>
@@ -567,6 +658,12 @@ function YourPlan({ draft, update }: StepProps) {
   const [text, setText] = useState<Record<string, string>>(() =>
     Object.fromEntries(ids.map((id) => [id, draft.startLoads[id]?.toString() ?? ''])),
   );
+  const body = draftBody(draft);
+  const stats = body ? { ...body, level: draft.level } : null;
+  const reps = (id: string) =>
+    plan.sessions.flatMap((x) => x.exercises).find((e) => e.exerciseId === id)?.repRange[0] ?? 8;
+  const estimates = Object.fromEntries(ids.map((id) => [id, estimateFor(id, reps(id), stats)]));
+  const suggested = ids.filter((id) => estimates[id]?.load != null).length;
 
   const setLoad = (id: string, v: string) => {
     const clean = v.replace(',', '.').replace(/[^\d.]/g, '');
@@ -671,24 +768,42 @@ function YourPlan({ draft, update }: StepProps) {
         >
           Starting weights · optional
         </Button>
+        <p className={s['lede']} style={{ fontSize: 14 }}>
+          {stats
+            ? `${suggested} of ${ids.length} suggested from your body stats. The rest start with an easy set.`
+            : 'Each exercise starts with an easy set to find its weight.'}
+        </p>
         {showWeights ? (
           <>
             <p className={s['lede']}>
-              If you already know them: what you can lift for the reps with a couple in reserve.
-              Leave any blank to find it in your first session.
+              {stats ? `${startingLoadRule().first_session.label} ` : ''}Type a weight you already
+              know to use it instead.
             </p>
             {ids.map((id) => {
               const ex = exercise(id);
               if (ex.load_convention === 'bodyweight') return null;
               const perHand = ex.load_convention === 'per_hand';
+              const e = estimates[id];
+              const placeholder =
+                e?.load != null
+                  ? `${e.load} · estimated${e.outcome === 'lightest_load' ? ' (the lightest option)' : ''}`
+                  : 'Easy first set';
+              const hint =
+                e?.outcome === 'suggest_lighter_kit_or_calibrate'
+                  ? 'Lighter than the lightest option: start with an easy set, or swap to lighter kit.'
+                  : (e?.outcome === 'estimate' || e?.outcome === 'lightest_load') &&
+                      e.stackDependent
+                    ? 'A rough guide: machines differ, and your first set will tell.'
+                    : undefined;
               return (
                 <TextField
                   key={id}
                   label={`${displayName(ex)} · kg${perHand ? ' per hand' : ''}`}
                   inputMode="decimal"
-                  placeholder="Easy first set"
+                  placeholder={placeholder}
                   value={text[id] ?? ''}
                   onChange={(v) => setLoad(id, v)}
+                  {...(hint ? { hint } : {})}
                 />
               );
             })}

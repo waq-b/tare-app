@@ -24,6 +24,10 @@ export const Profile = z.looseObject({
   region: z.enum(['england', 'wales', 'scotland', 'northern_ireland']),
   maxRpe: z.number().nullable(), // from the screening outcome
   onboardedAt: z.number().nullable(),
+  /** Body stats for suggested starting weights (tr.global.starting_load); optional. */
+  sex: z.enum(['male', 'female', 'prefer_not_to_say']).nullable().optional(),
+  birthYear: z.number().int().nullable().optional(),
+  heightCm: z.number().positive().nullable().optional(),
 });
 
 export const ScreeningRecord = z.looseObject({
@@ -74,6 +78,8 @@ export const WorkoutExercise = z.looseObject({
   restSec: z.number().int().positive(),
   /** Target working load, kg (per hand for dumbbells); null = find it with an easy first set. */
   load: z.number().nonnegative().nullable(),
+  /** The load is a suggestion from body stats (tr.global.starting_load), not a logged weight. */
+  estimated: z.boolean().optional(),
 });
 
 export const WorkoutRecord = z.looseObject({

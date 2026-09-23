@@ -11,6 +11,9 @@ describe('vpt v0.1.3', () => {
     expect(r.bmiCap).toBe(25);
     expect(r.firstSessionRir).toBe(4);
     expect(r.lightestMaxPctOf1rm).toBe(0.7);
+    expect(r.afterEasyRaise).toEqual([0.05, 0.1]);
+    expect(r.afterHardDrop).toBe(0.1);
+    expect(r.maxFirstSessionChanges).toBe(2);
     expect(r.worked_examples).toHaveLength(4);
     expect(r.worked_examples.flatMap((e) => Object.keys(e.expected))).toHaveLength(24);
     expect(r.anchors).toEqual(['squat', 'bench', 'deadlift', 'ohp', 'lat_pulldown', 'row']);

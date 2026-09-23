@@ -19,8 +19,13 @@ export interface Draft {
   level: 'beginner' | 'intermediate';
   kit: string[];
   cantDo: string[];
-  /** kg per exercise; missing = start with an easy calibration set (#69). */
+  /** kg per exercise; missing = the body-stats estimate, else an easy calibration set. */
   startLoads: Record<string, number>;
+  /** Body stats for suggested starting weights (tr.global.starting_load). Text as typed. */
+  sex: 'male' | 'female' | 'prefer_not_to_say' | null;
+  age: string;
+  heightCm: string;
+  bodyweight: string;
 }
 
 /** Waqar's defaults (CLAUDE.md §10), all changeable. */
@@ -51,7 +56,24 @@ export const DEFAULT_DRAFT: Draft = {
   ],
   cantDo: ['pull_up', 'chin_up'],
   startLoads: {},
+  sex: null,
+  age: '',
+  heightCm: '',
+  bodyweight: '',
 };
+
+const num = (t: string) => {
+  const n = Number(t.replace(',', '.'));
+  return t.trim() && Number.isFinite(n) && n > 0 ? n : null;
+};
+
+/** The draft's body stats, or null if any required one is missing. */
+export function draftBody(d: Draft) {
+  const age = num(d.age);
+  const bodyweight = num(d.bodyweight);
+  if (!d.sex || !age || !bodyweight) return null;
+  return { sex: d.sex, age: Math.round(age), bodyweight, heightCm: num(d.heightCm) };
+}
 
 const KEY = 'onboardingDraft';
 

@@ -76,6 +76,15 @@ export function Settings() {
           />
         </div>
         <div>
+          <SectionLabel>You</SectionLabel>
+          <ListRow
+            leading={<Icon name="user" size={22} />}
+            title="About you"
+            subtitle="For suggested starting weights"
+            href="/settings/about-you"
+          />
+        </div>
+        <div>
           <SectionLabel>Health</SectionLabel>
           <ListRow leading={<Icon name="flag" size={22} />} title="Pain flags" href="/pain-flags" />
         </div>

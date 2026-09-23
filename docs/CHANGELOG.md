@@ -14,6 +14,13 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### P1 — Rules engine (building; ships to the phone after the P0 two weeks, #90)
 
+- **T12 suggested starting weights (#92):** from `tr.global.starting_load`: reference mass (bodyweight, capped at BMI 25 with a height) × 1RM ratio (sex, level, anchor) × age factor × staple factor × first-session % × safety margin, rounded down to the kit step. Every number is read from the rule.
+  - The engine's `suggestStartingLoad` is tested against all 24 worked examples, including the lightest-load outcomes (use the empty bar when it's a small enough share of the estimate; otherwise a lighter kit or a calibration set). Staples the rule lists in `calibrate_instead` start with an easy set, with its reason.
+  - Onboarding has a skippable "About you" step (sex, age, weight, optional height), and the weight becomes the first weigh-in. "Your plan" shows how many exercises got a suggestion, each as an editable "estimated" placeholder, with hints for stack-dependent machines and below-the-bar results. Settings → About you edits the stats.
+  - Today and the workout use the estimate when there's no logged or typed weight, labelled "Estimated from your body stats". Pulldowns and cable rows say "a rough guide".
+  - The first session on an estimate shows the rule's label, and each set's effort adjusts the next (Easy up 5–10% in kit steps, Hard down 10%, at most twice), per `first_session`.
+  - Kit defaults per decision #88: barbell 2.5 kg steps (1.25 kg plates) from a 20 kg bar, dumbbells 2 kg, stacks 5 kg.
+  - Also fixed: onboarding dates used UTC, so a late-evening GP clearance could be dated tomorrow
 - **vpt v0.1.3 upgrade (#75):** `MIN_VPT_VERSION` 0.1.3. `tr.global.starting_load` is validated with its own schema and exposed as `startingLoadRule()`. Three constants that exist only inside formula text (BMI cap, first-session reps in reserve, lightest-load share) are parsed loudly, marked `FALLBACK(vpt-issue #21)`. `pr.personal_adjustment` loads (unbuilt: #93 is later). No other fallbacks were resolved (#5 display names is unchanged by design). The app bundle is now 100 KB gzipped
 
 ### P0 — Logging app (in progress)
