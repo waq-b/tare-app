@@ -141,8 +141,15 @@ export function repos(store: Store) {
     },
 
     painFlags: {
-      raise: (f: Omit<Fields<PainFlag>, 'status' | 'clearedOn'>) =>
-        store.put('painFlags', { ...f, status: 'active', clearedOn: null }),
+      raise: (f: {
+        date: string;
+        area: string | null;
+        side: PainFlag['side'];
+        ruleId: string;
+        workoutId: string | null;
+        exerciseId: string | null;
+        skippedExerciseIds: string[];
+      }) => store.put('painFlags', { ...f, status: 'active', clearedOn: null }),
       clear: (id: string, date: string) =>
         store.update('painFlags', id, { status: 'cleared', clearedOn: date }),
       active: async () => live(await db.painFlags.where('status').equals('active').toArray()),

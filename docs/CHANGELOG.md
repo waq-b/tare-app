@@ -14,6 +14,11 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### P0 — Logging app (in progress)
 
+- **T8 pain flag → safety (#58):**
+  - Flag pain from the workout's top bar opens the D1 pain sheet: area and side, when, red-flag signs, "not sure", and a chest-pain shortcut. The engine routes the answers (`routePainFlag`), the flag is saved, and the safety screen shows the rule's `user_message` word for word with its services for your nation.
+  - What comes next follows the action. `modify_exercise` applies the engine action to the session in progress: the current exercise stops, and the rest that load the area as primary (`body_area_map`) are skipped and listed. If nothing is left, the workout says "That's all for today". Stop-level results end the session; `reduce_or_rest` offers both; caution goes back to the workout.
+  - While a flag is active, the next sessions leave out the exercises that load that area, and Today says so. Pain flags (from Settings): history table, body map, "It's settled" to clear a flag, and flagging pain outside a workout.
+  - Tested for every rule: the app's safety screen shows all 21 messages verbatim, plus one route per action level
 - **T7 the workout (#57):**
   - The Ledger: the engine's warm-ups (tap to tick, never counted), working sets aiming for the start load or the last logged weight (#70), and target reps from last time within the rep range. One tap on Done (or the current set's check) logs the set as planned; the check on a done set undoes it.
   - With no known weight, Done becomes "Enter weight" and opens the edit sheet (steppers, increment chips from `pr.double_progression` typical jumps, "use this weight for the rest of the sets").

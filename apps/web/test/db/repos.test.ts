@@ -200,6 +200,7 @@ describe('repositories', () => {
       ruleId: 'pain_during_exercise',
       workoutId: null,
       exerciseId: squat,
+      skippedExerciseIds: [],
     });
     expect((await r.painFlags.active()).map((x) => x.id)).toEqual([f.id]);
     await r.painFlags.clear(f.id, '2026-09-05');

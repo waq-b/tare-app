@@ -7,14 +7,17 @@ import {
   Card,
   ExerciseCard,
   IconButton,
+  InlineNote,
   Prescription,
   SectionLabel,
   SessionHeader,
   StatusHero,
+  TextLink,
   TopBar,
   WeekStrip,
   type WeekDay,
 } from '@tare/ui';
+import { useLiveQuery } from 'dexie-react-hooks';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useAppData } from '../data/DbContext.tsx';
@@ -28,6 +31,7 @@ import {
 import type { PlanRecord, WorkoutRecord } from '../db/index.ts';
 import { addDays, longDate, mondayOf, parseDay, weekdayOf, WEEKDAYS } from '../lib/dates.ts';
 import { estimateMinutes, nameOf, sessionItems, type PlannedSession } from '../lib/session.ts';
+import { avoidedFor } from '../safety/flag.ts';
 import s from './screens.module.css';
 
 const LETTERS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
@@ -132,32 +136,47 @@ function SessionToday({
   const { r } = useAppData();
   const navigate = useNavigate();
   const loads = useTargetLoads(session.exercises);
+  const flags = useLiveQuery(() => r.painFlags.active(), [r]);
   const [starting, setStarting] = useState(false);
-  if (!loads) return null;
-  const items = sessionItems(session, loads);
+  if (!loads || !flags) return null;
+  const avoid = avoidedFor(flags);
+  const all = sessionItems(session, loads);
+  const items = all.filter((e) => !avoid.has(e.exerciseId));
+  const left = all.filter((e) => avoid.has(e.exerciseId));
+  const areas = [...new Set(flags.map((f) => f.area).filter((a): a is string => Boolean(a)))];
 
   async function start() {
     setStarting(true);
-    await r.workouts.start({
+    const exercises = all.map((e) => ({
+      exerciseId: e.exerciseId,
+      swappedFrom: null,
+      // Left out while a pain flag is active (pain_during_exercise engine action).
+      skipped: avoid.has(e.exerciseId),
+      sets: avoid.has(e.exerciseId) ? 0 : e.planned.sets,
+      repRange: e.planned.repRange,
+      restSec: e.planned.restSec,
+      load: e.load,
+    }));
+    const w = await r.workouts.start({
       planId: plan.id,
       sessionKey: session.key,
       date: today,
-      exercises: items.map((e) => ({
-        exerciseId: e.exerciseId,
-        swappedFrom: null,
-        skipped: false,
-        sets: e.planned.sets,
-        repRange: e.planned.repRange,
-        restSec: e.planned.restSec,
-        load: e.load,
-      })),
+      exercises,
     });
+    const first = exercises.findIndex((e) => !e.skipped);
+    if (first > 0) await r.workouts.update(w.id, { current: first });
     void navigate('/workout');
   }
 
   return (
     <>
       <SessionHeader title={session.name} duration={`~${estimateMinutes(session)} min`} />
+      {left.length ? (
+        <InlineNote>
+          Left out while your {areas.join(' and ').replace(/_/g, ' ')} settles:{' '}
+          {left.map((e) => e.name).join(', ')}. <TextLink href="/pain-flags">Pain flags</TextLink>
+        </InlineNote>
+      ) : null}
       <div>
         {items.map((e) => (
           <ExerciseCard
@@ -174,7 +193,7 @@ function SessionToday({
         size={64}
         fullWidth
         icon={<Icon name="play" size={20} />}
-        disabled={starting}
+        disabled={starting || items.length === 0}
         onClick={() => void start()}
       >
         Start workout

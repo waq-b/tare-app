@@ -15,6 +15,7 @@ import {
   RestTimer,
   SetRow,
   Sheet,
+  StatusHero,
   StepProgress,
   SwapRow,
   WorkoutFooter,
@@ -32,6 +33,8 @@ import type { SetRecord, WorkoutExercise, WorkoutRecord } from '../db/index.ts';
 import { isoDay, shortDate } from '../lib/dates.ts';
 import { nameOf, patternOf, repsText } from '../lib/session.ts';
 import { exerciseView, lastSession, type ExerciseView, type WorkRow } from '../workout/ledger.ts';
+import { raisePainFlag } from '../safety/flag.ts';
+import { usePainForm } from '../safety/PainForm.tsx';
 import { logWorkSet, undoSet } from '../workout/actions.ts';
 import { adjustRest, clearRest, useClock, useRest } from '../workout/rest.ts';
 import s from './screens.module.css';
@@ -66,7 +69,7 @@ export function Workout() {
   return <Ledger workout={workout} />;
 }
 
-type SheetKind = 'edit' | 'rest' | 'swap' | null;
+type SheetKind = 'edit' | 'rest' | 'swap' | 'pain' | null;
 
 function Ledger({ workout }: { workout: WorkoutRecord }) {
   const data = useAppData();
@@ -84,8 +87,9 @@ function Ledger({ workout }: { workout: WorkoutRecord }) {
   const last = lastSession(history);
   const view = exerciseView(workout, position, sets, last);
   if (!view) return null;
-  const isLast = position === workout.exercises.length - 1;
-  const nextEx = workout.exercises[position + 1];
+  const nextIndex = workout.exercises.findIndex((e, i) => i > position && !e.skipped);
+  const isLast = nextIndex === -1;
+  const nextEx = isLast ? undefined : workout.exercises[nextIndex];
   const convention = exercise(ex.exerciseId).load_convention as LoadConvention;
   const bodyweight = convention === 'bodyweight';
 
@@ -100,8 +104,9 @@ function Ledger({ workout }: { workout: WorkoutRecord }) {
 
   async function next() {
     await clearRest(db);
-    if (isLast) void navigate('/workout/finish');
-    else await r.workouts.update(workout.id, { current: position + 1 });
+    const after = workout.exercises.findIndex((e, i) => i > position && !e.skipped);
+    if (after === -1) void navigate('/workout/finish');
+    else await r.workouts.update(workout.id, { current: after });
   }
 
   const cur = view.current;
@@ -123,13 +128,34 @@ function Ledger({ workout }: { workout: WorkoutRecord }) {
   const lastFirst = last[0];
   const lastEffort = last.at(-1)?.effort;
 
+  if (ex.skipped && isLast) {
+    // A pain flag took out everything that was left (pain_during_exercise engine action).
+    return (
+      <>
+        <WorkoutTopBar
+          sessionName={sessionTitle(workout)}
+          elapsed={elapsedText(now - workout.startedAt)}
+          minimiseHref="/"
+          onFlagPain={() => setSheet('pain')}
+        />
+        <main className={s['body']}>
+          <StatusHero icon={<Icon name="check" size={28} />} title="That’s all for today.">
+            The rest of this session loads the area you flagged, so it’s left out.
+          </StatusHero>
+        </main>
+        <WorkoutFooter actionLabel="Finish workout" onAction={() => void next()} />
+        {sheet === 'pain' ? <PainSheet workout={workout} onClose={() => setSheet(null)} /> : null}
+      </>
+    );
+  }
+
   return (
     <>
       <WorkoutTopBar
         sessionName={sessionTitle(workout)}
         elapsed={elapsedText(now - workout.startedAt)}
         minimiseHref="/"
-        flagPainHref="/pain"
+        onFlagPain={() => setSheet('pain')}
       />
       <main className={s['body']} style={{ gap: 14 }}>
         <StepProgress
@@ -293,6 +319,7 @@ function Ledger({ workout }: { workout: WorkoutRecord }) {
           onClose={() => setSheet(null)}
         />
       ) : null}
+      {sheet === 'pain' ? <PainSheet workout={workout} onClose={() => setSheet(null)} /> : null}
       {sheet === 'swap' ? (
         <SwapSheet workout={workout} ex={ex} position={position} onClose={() => setSheet(null)} />
       ) : null}
@@ -536,6 +563,25 @@ function SwapSheet({
       ) : (
         <p className={s['lede']}>No swaps fit your kit for this one.</p>
       )}
+    </Sheet>
+  );
+}
+
+function PainSheet({ workout, onClose }: { workout: WorkoutRecord; onClose: () => void }) {
+  const data = useAppData();
+  const navigate = useNavigate();
+  const [busy, setBusy] = useState(false);
+  const { body, footer } = usePainForm((res) => {
+    setBusy(true);
+    void (async () => {
+      await clearRest(data.db);
+      const flag = await raisePainFlag(data, { ...res, date: workout.date, workout });
+      void navigate(`/safety/${flag.ruleId}?flag=${flag.id}`);
+    })();
+  }, busy);
+  return (
+    <Sheet open height="tall" title="Flag pain" onClose={onClose} footer={footer}>
+      {body}
     </Sheet>
   );
 }

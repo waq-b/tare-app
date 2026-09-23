@@ -111,13 +111,17 @@ export const WeighIn = z.looseObject({
 export const PainFlag = z.looseObject({
   ...base,
   date: isoDate,
-  area: z.string(), // enums.body_areas
-  side: z.enum(['left', 'right', 'both']),
+  /** enums.body_areas; null when a red flag was raised without an area (e.g. chest pain). */
+  area: z.string().nullable(),
+  /** For sided areas only. */
+  side: z.enum(['left', 'right', 'both']).nullable(),
   ruleId: z.string(), // safety_rules.json
   workoutId: z.string().nullable(),
   exerciseId: z.string().nullable(),
   status: z.enum(['active', 'cleared']),
   clearedOn: isoDate.nullable(),
+  /** Exercises the engine action took out of the session in progress. */
+  skippedExerciseIds: z.array(z.string()),
 });
 
 export type Profile = z.infer<typeof Profile>;

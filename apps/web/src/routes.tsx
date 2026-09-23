@@ -7,7 +7,9 @@ import { NotFound } from './screens/NotFound.tsx';
 import { Onboarding } from './screens/onboarding/Onboarding.tsx';
 import { Exercise } from './screens/Exercise.tsx';
 import { Finish } from './screens/Finish.tsx';
+import { FlagPain, PainFlags } from './screens/Pain.tsx';
 import { Plan, PlanSession } from './screens/Plan.tsx';
+import { Safety } from './screens/Safety.tsx';
 import { Settings } from './screens/Settings.tsx';
 import { Today } from './screens/Today.tsx';
 import { Workout } from './screens/Workout.tsx';
@@ -29,8 +31,9 @@ export const routes: RouteObject[] = [
       { path: 'settings', element: <Settings /> },
       { path: 'workout', element: <Workout /> },
       { path: 'workout/finish', element: <Finish /> },
-      { path: 'pain', element: <Placeholder title="Flag pain" back="/workout" /> },
-      { path: 'safety/:ruleId', element: <Placeholder title="Safety" back="/" /> },
+      { path: 'pain', element: <FlagPain /> },
+      { path: 'pain-flags', element: <PainFlags /> },
+      { path: 'safety/:ruleId', element: <Safety /> },
       { path: 'sign-in', element: <SignIn /> },
       { path: 'onboarding/:step?', element: <Onboarding /> },
       { path: '*', element: <NotFound /> },
