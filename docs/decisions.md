@@ -2,6 +2,14 @@
 
 Decisions Waqar has made. Newest first. When a `decision` issue is answered, add it here and close the issue. Each line gives the decision and why, briefly.
 
+## 2026-09-23 — P1 decisions (yes to all)
+
+- **What changes by itself** (#87): load increases by the rules apply by themselves, always shown (chip and why) and undoable in one tap; stall resets, deloads and extra sets are offered and wait for accept or keep
+- **Smallest jumps** (#88): the gym has 1.25 kg plates, so barbell lifts move in 2.5 kg steps (one plate a side). Dumbbells 2 kg per hand and machines/cables 5 kg as defaults; all changeable in Settings, with a per-exercise override
+- **Untapped effort** (#89): a set with no effort tapped counts as OK; only a Hard tap holds the weight
+- **When P1 ships** (#90): built now while Waqar logs his two P0 weeks; shipped to the phone when they end
+- **Claude's first block** (#91): stays as P2's first task
+
 ## 2026-09-23 — After the first run on the phone
 
 - **Starting weights are optional** (changes #69): onboarding ends on a "Your plan" screen that shows what the answers built and why (sessions, sets per week against the target band, the rules). Starting weights are tucked under "Starting weights · optional"; blank means an easy first set finds the weight
