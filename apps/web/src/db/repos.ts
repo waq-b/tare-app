@@ -80,7 +80,8 @@ export function repos(store: Store) {
       /** A workout's sets in the order they were logged. */
       forWorkout: async (workoutId: string) =>
         live(await db.sets.where('workoutId').equals(workoutId).sortBy('loggedAt')),
-      /** Working sets for an exercise, newest first, from finished workouts only. */
+      /** Working sets for an exercise from finished workouts only, newest workout first
+       * (by the workout's date, then logging order). */
       history: async (exerciseId: string) => {
         const sets = live(
           await db.sets
@@ -89,12 +90,16 @@ export function repos(store: Store) {
             .reverse()
             .toArray(),
         ).filter((s) => s.kind === 'work');
-        const done = new Set(
+        const dateOf = new Map(
           live(await db.workouts.toArray())
             .filter((w) => w.finishedAt !== null)
-            .map((w) => w.id),
+            .map((w) => [w.id, w.date]),
         );
-        return sets.filter((s) => done.has(s.workoutId));
+        return sets
+          .filter((s) => dateOf.has(s.workoutId))
+          .sort((a, b) =>
+            (dateOf.get(b.workoutId) ?? '').localeCompare(dateOf.get(a.workoutId) ?? ''),
+          );
       },
       /** The last working load logged for an exercise, to prefill the Ledger (#70). */
       lastWorkingLoad: async (exerciseId: string): Promise<number | null> => {

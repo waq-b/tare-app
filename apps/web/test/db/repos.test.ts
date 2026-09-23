@@ -139,6 +139,32 @@ describe('repositories', () => {
     expect(await r.sets.lastWorkingLoad(squat)).toBe(82.5);
   });
 
+  it('lastWorkingLoad goes by the workout’s date, not when it was typed in', async () => {
+    const { r } = setup();
+    const recent = await r.workouts.start({ ...workout, date: '2026-09-10' });
+    await r.sets.log({
+      workoutId: recent.id,
+      exerciseId: squat,
+      kind: 'work',
+      load: 90,
+      reps: 5,
+      effort: null,
+    });
+    await r.workouts.finish(recent.id, 'good');
+    // An older session, logged afterwards (e.g. backfilled)
+    const older = await r.workouts.start({ ...workout, date: '2026-09-01' });
+    await r.sets.log({
+      workoutId: older.id,
+      exerciseId: squat,
+      kind: 'work',
+      load: 70,
+      reps: 5,
+      effort: null,
+    });
+    await r.workouts.finish(older.id, 'good');
+    expect(await r.sets.lastWorkingLoad(squat)).toBe(90);
+  });
+
   it('removing a workout soft-deletes its sets too', async () => {
     const { r, db } = setup();
     const w = await r.workouts.start(workout);

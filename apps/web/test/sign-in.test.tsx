@@ -60,7 +60,7 @@ describe('sign-in (email code, like pip)', () => {
     const auth = fakeAuthClient(null);
     auth.getSession = () => Promise.reject(new Error('offline'));
     const { router } = await renderApp('/plan', { account: 'test@example.com', auth });
-    expect(await screen.findByText('Plan is on its way')).toBeTruthy();
+    expect(await screen.findByText('No plan yet.')).toBeTruthy();
     expect(router.state.location.pathname).toBe('/plan');
   });
 });
