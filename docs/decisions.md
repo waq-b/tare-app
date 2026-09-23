@@ -2,6 +2,12 @@
 
 Decisions Waqar has made. Newest first. When a `decision` issue is answered, add it here and close the issue. Each line gives the decision and why, briefly.
 
+## 2026-09-23 — Render addresses for now (changes #67)
+
+- Render's custom-domain allowance is used up, so Tare stays on Render's own addresses for now: the app at `https://tare-web.example.com`, the API at `https://tare-api.example.com`. `tare.example.com` comes later
+- When it moves, the phone's local data doesn't follow the new address; sync restores it after signing in. Check sync is healthy before switching
+- Sign-in emails go through Resend from `tare@mail.example.com` (a separate API key from pip's), because Supabase needs custom SMTP to edit the email template
+
 ## 2026-09-23 — P0 decisions
 
 - **Supabase** (#66): create a free project "tare" in London (EU). Daily use keeps a free project from pausing

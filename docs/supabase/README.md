@@ -10,8 +10,8 @@ Supabase's dashboard settings that code can't set. Do these once; redo them if t
 
 ## Authentication → URL Configuration
 
-- **Site URL:** `https://tare.example.com`
-- **Redirect URLs:** `https://tare.example.com/**`, `https://tare-web.example.com/**`, `http://localhost:5173/**`
+- **Site URL:** `https://tare-web.example.com` (until the move to `tare.example.com`; decision 2026-09-23)
+- **Redirect URLs:** `https://tare-web.example.com/**`, `https://tare.example.com/**`, `http://localhost:5173/**`
 
 ## Authentication → Emails → Templates → Magic Link
 
@@ -20,7 +20,7 @@ Supabase's dashboard settings that code can't set. Do these once; redo them if t
 
 ## Authentication → Emails → SMTP settings
 
-Supabase's built-in mailer sends only a few emails an hour. Use Resend, as pip does: sender `Tare <tare@mail.example.com>`, host `smtp.resend.com`, port 465, user `resend`, password = a Resend API key (kept in Supabase only, never in this repo).
+Needed before the template can be edited. Resend, as pip does (`mail.example.com` is already verified there): sender `Tare <tare@mail.example.com>`, host `smtp.resend.com`, port 465, user `resend`, password = a Resend API key with sending access named `tare-supabase` (kept in Supabase only, never in this repo).
 
 ## Your account
 

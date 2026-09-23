@@ -15,10 +15,7 @@ The free API sleeps after 15 minutes idle, so the first sync after a break takes
 2. **Supabase auth settings:** see [`supabase/README.md`](supabase/README.md) (sign-ups off, 8-digit code, 10-minute expiry, URLs, email template, Resend SMTP)
 3. **Your account:** Supabase → Authentication → Users → Add user → your email, auto-confirm on. (Your email is already on the allowlist.)
 4. **SPA rewrite on `tare-web`:** Render → `tare-web` → Redirects/Rewrites → Source `/*`, Destination `/index.html`, Action **Rewrite**
-5. **Domains (#67):** Cloudflare DNS, both **DNS only** (grey cloud) so Render can issue certificates:
-   - `tare` CNAME `tare-web.example.com`, then Render → `tare-web` → Custom domains → `tare.example.com`
-   - `api.tare` CNAME `tare-api.example.com`, then Render → `tare-api` → Custom domains → `api.tare.example.com`
-   - After that, `VITE_API_URL` on `tare-web` becomes `https://api.tare.example.com` (Claude can do this step)
+5. **Domains:** not for now (decision 2026-09-23: Render's custom-domain allowance is used up). The app is `https://tare-web.example.com`, the API `https://tare-api.example.com`. When moving to `tare.example.com` later: Cloudflare CNAMEs (DNS only), Render custom domains, update `VITE_API_URL`, `ALLOWED_ORIGINS` and Supabase's URLs, and sync first (the phone's local data doesn't follow a new address)
 
 ## Allowing someone else in
 
