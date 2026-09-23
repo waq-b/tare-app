@@ -1,12 +1,13 @@
 {
- "version": "0.1.2",
+ "version": "0.1.3",
  "notes": [
   "id_scheme: every rule has a permanent `id`. IDs never change or get reused between versions; a retired rule keeps its id with `retired: true`. Prefixes: tr.* = training_rules, pr.* = progression_rules, sf.* = screening (questions cited as sf.screening.<question id>); safety red-flag rules keep their bare snake_case ids from v0.1.0. AI suggestions must cite ids, e.g. 'pr.stall.step2'.",
   "ACSM 2026 (overview of 137 reviews) supersedes ACSM 2009. Its big shift: hypertrophy is load-agnostic from ~30-100% 1RM when sets are taken close to failure; rest and periodisation matter less than once thought.",
   "Rep ranges below are DEFAULTS for plan generation, not hard rules. The validator should allow anything inside `allowed_*` ranges.",
   "Fields marked engine_default:true are our synthesis where sources give no exact figure.",
   "Weekly set counts use fractional counting: direct sets = 1.0, sets where the muscle is secondary = 0.5 (Pelland 2026).",
-  "v0.1.2: stabilisers (exercises.json) are never counted in weekly volume; only primary (1.0) and secondary (0.5) are."
+  "v0.1.2: stabilisers (exercises.json) are never counted in weekly volume; only primary (1.0) and secondary (0.5) are.",
+  "v0.1.3: tr.global.starting_load estimates a conservative first working load from body stats; pr.personal_adjustment bounds learning the user's style."
  ],
  "global": [
   {
@@ -425,6 +426,715 @@
      "org": "Kolber et al., J Strength Cond Res",
      "url": "https://elementssystem.com/wp-content/uploads/2018/06/Kolber.pdf",
      "year": 2014
+    }
+   ],
+   "evidence_strength": "weak",
+   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+  },
+  {
+   "id": "tr.global.starting_load",
+   "rule": "starting_load",
+   "value": {
+    "formula": "starting working load = reference_mass x ratio_1rm[sex][level][anchor] x age_factor(age) x staple_factor x first_session_pct x safety_margin, then round DOWN to the kit step",
+    "inputs": {
+     "sex": {
+      "enum": [
+       "male",
+       "female",
+       "prefer_not_to_say"
+      ],
+      "prefer_not_to_say": "use the female ratios (the lower of the two)"
+     },
+     "age": {
+      "unit": "years",
+      "applies": [
+       18,
+       75
+      ],
+      "outside": "calibrate_instead"
+     },
+     "bodyweight": {
+      "unit": "kg"
+     },
+     "height": {
+      "unit": "cm",
+      "optional": true,
+      "used_for": "reference_mass only"
+     },
+     "level": {
+      "enum": [
+       "beginner",
+       "intermediate"
+      ],
+      "matches": "tr.goal.* weekly_sets_per_muscle levels",
+      "definition": {
+       "beginner": "under ~6 months of regular lifting",
+       "intermediate": "~6 months to 2 years"
+      }
+     },
+     "target_reps": {
+      "from": "the plan's target reps for that exercise (normally the bottom of the goal's rep range)"
+     }
+    },
+    "reference_mass": {
+     "expression": "min(bodyweight, 25 x height_m^2)",
+     "without_height": "bodyweight",
+     "why": "strength follows lean mass; weight above a BMI of 25 adds little strength, so capping it avoids overestimating"
+    },
+    "ratio_1rm": {
+     "male": {
+      "beginner": {
+       "squat": 0.95,
+       "bench": 0.7,
+       "deadlift": 1.1,
+       "ohp": 0.4,
+       "lat_pulldown": 0.55,
+       "row": 0.6
+      },
+      "intermediate": {
+       "squat": 1.25,
+       "bench": 0.95,
+       "deadlift": 1.45,
+       "ohp": 0.55,
+       "lat_pulldown": 0.75,
+       "row": 0.8
+      }
+     },
+     "female": {
+      "beginner": {
+       "squat": 0.55,
+       "bench": 0.35,
+       "deadlift": 0.65,
+       "ohp": 0.2,
+       "lat_pulldown": 0.35,
+       "row": 0.3
+      },
+      "intermediate": {
+       "squat": 0.8,
+       "bench": 0.5,
+       "deadlift": 0.95,
+       "ohp": 0.33,
+       "lat_pulldown": 0.5,
+       "row": 0.45
+      }
+     }
+    },
+    "ratio_note": "Estimated 1RM divided by reference mass, for the anchor lift. Beginner rows sit near the 5th percentile of logged lifters and intermediate rows near the 20th, both at or below population and untrained-trial data, so they aim low.",
+    "age_factor": {
+     "bands": [
+      {
+       "from": 18,
+       "to": 40,
+       "factor_at_start": 1.0,
+       "per_year": 0.0
+      },
+      {
+       "from": 40,
+       "to": 50,
+       "factor_at_start": 1.0,
+       "per_year": -0.01
+      },
+      {
+       "from": 50,
+       "to": 60,
+       "factor_at_start": 0.9,
+       "per_year": -0.015
+      },
+      {
+       "from": 60,
+       "to": 75,
+       "factor_at_start": 0.75,
+       "per_year": -0.02
+      }
+     ],
+     "method": "factor_at_start + per_year x (age - from)",
+     "at_75": 0.45
+    },
+    "first_session_pct": {
+     "expression": "min(1 / (1 + (target_reps + 4) / 30), cap)",
+     "why": "inverse of the Epley formula (tr.global.e1rm) at 4 reps in reserve, i.e. effort Easy",
+     "cap": {
+      "beginner": 0.6,
+      "intermediate": 0.7,
+      "age_65_plus": 0.5
+     },
+     "cap_rule": "age >= 65 uses age_65_plus; otherwise the level's cap"
+    },
+    "safety_margin": 0.9,
+    "rounding": "round DOWN to the user's kit step (barbell: smallest plate pair; dumbbells: the next rack weight down; stack: the next pin down)",
+    "below_lightest_load": {
+     "rule": "if the rounded load is below the lightest option (e.g. the empty bar), use the lightest option only if it is <= 70% of the estimated 1RM; otherwise suggest a lighter-kit swap from `swaps` or calibrate",
+     "outcomes": [
+      "estimate",
+      "lightest_load",
+      "suggest_lighter_kit_or_calibrate"
+     ]
+    },
+    "load_convention": "per_hand staples carry the per-hand conversion in their factor (e.g. 0.41); the result is the weight of each dumbbell. Anchor-lift loads are total loads (bar included).",
+    "anchors": [
+     "squat",
+     "bench",
+     "deadlift",
+     "ohp",
+     "lat_pulldown",
+     "row"
+    ],
+    "staples": {
+     "Barbell_Squat": {
+      "anchor": "squat",
+      "factor": 1.0,
+      "basis": "anchor"
+     },
+     "Box_Squat": {
+      "anchor": "squat",
+      "factor": 1.0,
+      "basis": "convention: same bar and load path as the back squat"
+     },
+     "Barbell_Full_Squat": {
+      "anchor": "squat",
+      "factor": 0.95,
+      "basis": "convention: deeper range, a little lighter"
+     },
+     "Front_Squat_Clean_Grip": {
+      "anchor": "squat",
+      "factor": 0.8,
+      "basis": "convention: front squat ~80% of back squat; no peer-reviewed ratio"
+     },
+     "Smith_Machine_Squat": {
+      "anchor": "squat",
+      "factor": 0.95,
+      "basis": "tr.global.swap_starting_load (barbell -> Smith, squat)"
+     },
+     "Barbell_Deadlift": {
+      "anchor": "deadlift",
+      "factor": 1.0,
+      "basis": "anchor"
+     },
+     "Sumo_Deadlift": {
+      "anchor": "deadlift",
+      "factor": 1.0,
+      "basis": "convention: similar 1RM to conventional"
+     },
+     "Trap_Bar_Deadlift": {
+      "anchor": "deadlift",
+      "factor": 1.0,
+      "basis": "convention: trap bar 1RM is usually equal or higher; kept at 1.0"
+     },
+     "Romanian_Deadlift": {
+      "anchor": "deadlift",
+      "factor": 0.7,
+      "basis": "convention: RDL ~70% of deadlift; no peer-reviewed ratio"
+     },
+     "Barbell_Bench_Press_-_Medium_Grip": {
+      "anchor": "bench",
+      "factor": 1.0,
+      "basis": "anchor"
+     },
+     "Barbell_Incline_Bench_Press_-_Medium_Grip": {
+      "anchor": "bench",
+      "factor": 0.8,
+      "basis": "convention: incline ~80% of flat; no peer-reviewed ratio"
+     },
+     "Close-Grip_Barbell_Bench_Press": {
+      "anchor": "bench",
+      "factor": 0.9,
+      "basis": "convention: close grip ~90% of flat"
+     },
+     "Smith_Machine_Bench_Press": {
+      "anchor": "bench",
+      "factor": 0.9,
+      "basis": "tr.global.swap_starting_load (barbell -> Smith, push_h)"
+     },
+     "Dumbbell_Bench_Press": {
+      "anchor": "bench",
+      "factor": 0.41,
+      "basis": "tr.global.swap_starting_load (barbell -> dumbbell, per hand)"
+     },
+     "Incline_Dumbbell_Press": {
+      "anchor": "bench",
+      "factor": 0.328,
+      "basis": "incline convention x barbell -> dumbbell per hand"
+     },
+     "Standing_Military_Press": {
+      "anchor": "ohp",
+      "factor": 1.0,
+      "basis": "anchor"
+     },
+     "Dumbbell_Shoulder_Press": {
+      "anchor": "ohp",
+      "factor": 0.41,
+      "basis": "tr.global.swap_starting_load (barbell -> dumbbell, per hand)"
+     },
+     "Seated_Dumbbell_Press": {
+      "anchor": "ohp",
+      "factor": 0.41,
+      "basis": "tr.global.swap_starting_load (barbell -> dumbbell, per hand)"
+     },
+     "Wide-Grip_Lat_Pulldown": {
+      "anchor": "lat_pulldown",
+      "factor": 1.0,
+      "basis": "anchor",
+      "stack_dependent": true
+     },
+     "Close-Grip_Front_Lat_Pulldown": {
+      "anchor": "lat_pulldown",
+      "factor": 1.0,
+      "basis": "convention: same stack and pattern",
+      "stack_dependent": true
+     },
+     "V-Bar_Pulldown": {
+      "anchor": "lat_pulldown",
+      "factor": 1.0,
+      "basis": "convention: same stack and pattern",
+      "stack_dependent": true
+     },
+     "Bent_Over_Barbell_Row": {
+      "anchor": "row",
+      "factor": 1.0,
+      "basis": "anchor"
+     },
+     "Seated_Cable_Rows": {
+      "anchor": "row",
+      "factor": 1.0,
+      "basis": "StrengthLevel cable row ~ barbell row",
+      "stack_dependent": true
+     },
+     "One-Arm_Dumbbell_Row": {
+      "anchor": "row",
+      "factor": 0.4,
+      "basis": "tr.global.swap_starting_load (bilateral -> unilateral, per side)"
+     }
+    },
+    "stack_dependent": "pulldown and cable-row estimates depend on the machine's stack and pulleys. Show them as a rough guide and expect set 1 to correct them.",
+    "calibrate_instead": {
+     "staples": {
+      "Arnold_Dumbbell_Press": "no reliable ratio to a barbell anchor for this movement",
+      "Barbell_Curl": "no reliable ratio to an anchor lift (isolation, lunge, bridge or thrust)",
+      "Barbell_Glute_Bridge": "no reliable ratio to an anchor lift (isolation, lunge, bridge or thrust)",
+      "Barbell_Hip_Thrust": "no reliable ratio to an anchor lift (isolation, lunge, bridge or thrust)",
+      "Barbell_Lunge": "no reliable ratio to an anchor lift (isolation, lunge, bridge or thrust)",
+      "Barbell_Shrug": "no reliable ratio to an anchor lift (isolation, lunge, bridge or thrust)",
+      "Barbell_Walking_Lunge": "no reliable ratio to an anchor lift (isolation, lunge, bridge or thrust)",
+      "Butterfly": "machine: stack or lever ratios differ between makers (leg press norms don't transfer, Brown 1998)",
+      "Cable_Crossover": "cable: stack and pulley ratios differ between gyms",
+      "Cable_Crunch": "cable: stack and pulley ratios differ between gyms",
+      "Cable_Rear_Delt_Fly": "cable: stack and pulley ratios differ between gyms",
+      "Cable_Seated_Lateral_Raise": "cable: stack and pulley ratios differ between gyms",
+      "Dumbbell_Bicep_Curl": "no reliable ratio to a barbell anchor for this movement",
+      "Dumbbell_Flyes": "no reliable ratio to a barbell anchor for this movement",
+      "Dumbbell_Incline_Row": "no reliable ratio to a barbell anchor for this movement",
+      "Dumbbell_Lunges": "no reliable ratio to a barbell anchor for this movement",
+      "Dumbbell_Rear_Lunge": "no reliable ratio to a barbell anchor for this movement",
+      "Dumbbell_Shrug": "no reliable ratio to a barbell anchor for this movement",
+      "Dumbbell_Squat": "no reliable ratio to a barbell anchor for this movement",
+      "Dumbbell_Step_Ups": "no reliable ratio to a barbell anchor for this movement",
+      "EZ-Bar_Curl": "isolation: no reliable ratio to an anchor lift",
+      "EZ-Bar_Skullcrusher": "isolation: no reliable ratio to an anchor lift",
+      "Face_Pull": "cable: stack and pulley ratios differ between gyms",
+      "Farmers_Walk": "no reliable ratio to an anchor lift",
+      "Goblet_Squat": "no reliable ratio to a barbell anchor",
+      "Good_Morning": "no reliable ratio to an anchor lift (isolation, lunge, bridge or thrust)",
+      "Hack_Squat": "machine: stack or lever ratios differ between makers (leg press norms don't transfer, Brown 1998)",
+      "Hammer_Curls": "no reliable ratio to a barbell anchor for this movement",
+      "Incline_Dumbbell_Curl": "no reliable ratio to a barbell anchor for this movement",
+      "Kettlebell_One-Legged_Deadlift": "no reliable ratio to a barbell anchor",
+      "Landmine_Linear_Jammer": "no reliable ratio to an anchor lift (isolation, lunge, bridge or thrust)",
+      "Leg_Extensions": "machine: stack or lever ratios differ between makers (leg press norms don't transfer, Brown 1998)",
+      "Leg_Press": "machine: stack or lever ratios differ between makers (leg press norms don't transfer, Brown 1998)",
+      "Leverage_Chest_Press": "machine: stack or lever ratios differ between makers (leg press norms don't transfer, Brown 1998)",
+      "Leverage_Iso_Row": "machine: stack or lever ratios differ between makers (leg press norms don't transfer, Brown 1998)",
+      "Lying_Leg_Curls": "machine: stack or lever ratios differ between makers (leg press norms don't transfer, Brown 1998)",
+      "Machine_Bench_Press": "machine: stack or lever ratios differ between makers (leg press norms don't transfer, Brown 1998)",
+      "Machine_Shoulder_Military_Press": "machine: stack or lever ratios differ between makers (leg press norms don't transfer, Brown 1998)",
+      "One-Arm_Kettlebell_Swings": "no reliable ratio to a barbell anchor",
+      "Pallof_Press": "cable: stack and pulley ratios differ between gyms",
+      "Preacher_Curl": "no reliable ratio to an anchor lift (isolation, lunge, bridge or thrust)",
+      "Pull_Through": "cable: stack and pulley ratios differ between gyms",
+      "Reverse_Flyes": "no reliable ratio to a barbell anchor for this movement",
+      "Seated_Calf_Raise": "machine: stack or lever ratios differ between makers (leg press norms don't transfer, Brown 1998)",
+      "Seated_Leg_Curl": "machine: stack or lever ratios differ between makers (leg press norms don't transfer, Brown 1998)",
+      "Side_Lateral_Raise": "no reliable ratio to a barbell anchor for this movement",
+      "Split_Squat_with_Dumbbells": "no reliable ratio to a barbell anchor for this movement",
+      "Standing_Calf_Raises": "machine: stack or lever ratios differ between makers (leg press norms don't transfer, Brown 1998)",
+      "Stiff-Legged_Dumbbell_Deadlift": "no reliable ratio to a barbell anchor for this movement",
+      "Straight-Arm_Pulldown": "cable: stack and pulley ratios differ between gyms",
+      "T-Bar_Row_with_Handle": "no reliable ratio to an anchor lift (isolation, lunge, bridge or thrust)",
+      "Thigh_Abductor": "machine: stack or lever ratios differ between makers (leg press norms don't transfer, Brown 1998)",
+      "Thigh_Adductor": "machine: stack or lever ratios differ between makers (leg press norms don't transfer, Brown 1998)",
+      "Triceps_Overhead_Extension_with_Rope": "cable: stack and pulley ratios differ between gyms",
+      "Triceps_Pushdown": "cable: stack and pulley ratios differ between gyms",
+      "Triceps_Pushdown_-_Rope_Attachment": "cable: stack and pulley ratios differ between gyms"
+     },
+     "also": [
+      "bodyweight, bodyweight_plus and assisted exercises",
+      "cardio",
+      "any exercise not in `staples`",
+      "age outside 18-75",
+      "missing bodyweight or level",
+      "frailty_falls or medical_clearance_first without clearance (safety_rules.json)"
+     ],
+     "method": "tr.global.swap_starting_load -> calibrate_instead"
+    },
+    "first_session": {
+     "target_effort": "Easy or OK on every set (RPE <= 7); never Hard",
+     "after_set_1": {
+      "easy": "raise 5-10% (one or two kit steps) for the next set",
+      "ok": "keep the load",
+      "hard": "drop 10% and keep it there",
+      "pain": "safety rules first (pain_during_exercise)"
+     },
+     "max_changes": "adjust at most twice in the first session; from session 2 the normal progression rule takes over from the logged load",
+     "label": "Starting weight: an estimate from your body stats. Change it freely."
+    },
+    "screening": "Screening results with max_rpe (sf.screening) still apply; the first session target is already below them.",
+    "user_editable": true,
+    "worked_examples": [
+     {
+      "input": {
+       "name": "35-year-old beginner man, 92 kg, 180 cm, 10 reps",
+       "sex": "male",
+       "age": 35,
+       "bodyweight": 92,
+       "height_cm": 180,
+       "level": "beginner",
+       "target_reps": 10
+      },
+      "expected": {
+       "Barbell_Squat": {
+        "unrounded_kg": 41.6,
+        "suggested_kg": 40.0,
+        "outcome": "estimate",
+        "kit_step_kg": 2.5,
+        "lightest_kg": 20.0
+       },
+       "Barbell_Bench_Press_-_Medium_Grip": {
+        "unrounded_kg": 30.6,
+        "suggested_kg": 30.0,
+        "outcome": "estimate",
+        "kit_step_kg": 2.5,
+        "lightest_kg": 20.0
+       },
+       "Barbell_Deadlift": {
+        "unrounded_kg": 48.1,
+        "suggested_kg": 47.5,
+        "outcome": "estimate",
+        "kit_step_kg": 2.5,
+        "lightest_kg": 20.0
+       },
+       "Standing_Military_Press": {
+        "unrounded_kg": 17.5,
+        "suggested_kg": 20.0,
+        "outcome": "lightest_load",
+        "kit_step_kg": 2.5,
+        "lightest_kg": 20.0
+       },
+       "Wide-Grip_Lat_Pulldown": {
+        "unrounded_kg": 24.1,
+        "suggested_kg": 20.0,
+        "outcome": "estimate",
+        "kit_step_kg": 5.0,
+        "lightest_kg": 5.0
+       },
+       "Dumbbell_Bench_Press": {
+        "unrounded_kg": 12.6,
+        "suggested_kg": 12.0,
+        "outcome": "estimate",
+        "kit_step_kg": 2.0,
+        "lightest_kg": 2.0
+       }
+      }
+     },
+     {
+      "input": {
+       "name": "Same man without a height (no reference-mass cap)",
+       "sex": "male",
+       "age": 35,
+       "bodyweight": 92,
+       "height_cm": null,
+       "level": "beginner",
+       "target_reps": 10
+      },
+      "expected": {
+       "Barbell_Squat": {
+        "unrounded_kg": 47.2,
+        "suggested_kg": 45.0,
+        "outcome": "estimate",
+        "kit_step_kg": 2.5,
+        "lightest_kg": 20.0
+       },
+       "Barbell_Bench_Press_-_Medium_Grip": {
+        "unrounded_kg": 34.8,
+        "suggested_kg": 32.5,
+        "outcome": "estimate",
+        "kit_step_kg": 2.5,
+        "lightest_kg": 20.0
+       },
+       "Barbell_Deadlift": {
+        "unrounded_kg": 54.6,
+        "suggested_kg": 52.5,
+        "outcome": "estimate",
+        "kit_step_kg": 2.5,
+        "lightest_kg": 20.0
+       },
+       "Standing_Military_Press": {
+        "unrounded_kg": 19.9,
+        "suggested_kg": 20.0,
+        "outcome": "lightest_load",
+        "kit_step_kg": 2.5,
+        "lightest_kg": 20.0
+       },
+       "Wide-Grip_Lat_Pulldown": {
+        "unrounded_kg": 27.3,
+        "suggested_kg": 25.0,
+        "outcome": "estimate",
+        "kit_step_kg": 5.0,
+        "lightest_kg": 5.0
+       },
+       "Dumbbell_Bench_Press": {
+        "unrounded_kg": 14.3,
+        "suggested_kg": 14.0,
+        "outcome": "estimate",
+        "kit_step_kg": 2.0,
+        "lightest_kg": 2.0
+       }
+      }
+     },
+     {
+      "input": {
+       "name": "55-year-old intermediate woman, 65 kg, 165 cm, 10 reps",
+       "sex": "female",
+       "age": 55,
+       "bodyweight": 65,
+       "height_cm": 165,
+       "level": "intermediate",
+       "target_reps": 10
+      },
+      "expected": {
+       "Barbell_Squat": {
+        "unrounded_kg": 26.3,
+        "suggested_kg": 25.0,
+        "outcome": "estimate",
+        "kit_step_kg": 2.5,
+        "lightest_kg": 20.0
+       },
+       "Barbell_Bench_Press_-_Medium_Grip": {
+        "unrounded_kg": 16.5,
+        "suggested_kg": null,
+        "outcome": "suggest_lighter_kit_or_calibrate",
+        "kit_step_kg": 2.5,
+        "lightest_kg": 20.0
+       },
+       "Barbell_Deadlift": {
+        "unrounded_kg": 31.3,
+        "suggested_kg": 30.0,
+        "outcome": "estimate",
+        "kit_step_kg": 2.5,
+        "lightest_kg": 20.0
+       },
+       "Standing_Military_Press": {
+        "unrounded_kg": 10.9,
+        "suggested_kg": null,
+        "outcome": "suggest_lighter_kit_or_calibrate",
+        "kit_step_kg": 2.5,
+        "lightest_kg": 20.0
+       },
+       "Wide-Grip_Lat_Pulldown": {
+        "unrounded_kg": 16.5,
+        "suggested_kg": 15.0,
+        "outcome": "estimate",
+        "kit_step_kg": 5.0,
+        "lightest_kg": 5.0
+       },
+       "Dumbbell_Bench_Press": {
+        "unrounded_kg": 6.7,
+        "suggested_kg": 6.0,
+        "outcome": "estimate",
+        "kit_step_kg": 2.0,
+        "lightest_kg": 2.0
+       }
+      }
+     },
+     {
+      "input": {
+       "name": "68-year-old beginner, sex not given, 80 kg, 172 cm, 12 reps",
+       "sex": "prefer_not_to_say",
+       "age": 68,
+       "bodyweight": 80,
+       "height_cm": 172,
+       "level": "beginner",
+       "target_reps": 12
+      },
+      "expected": {
+       "Barbell_Squat": {
+        "unrounded_kg": 10.8,
+        "suggested_kg": null,
+        "outcome": "suggest_lighter_kit_or_calibrate",
+        "kit_step_kg": 2.5,
+        "lightest_kg": 20.0
+       },
+       "Barbell_Bench_Press_-_Medium_Grip": {
+        "unrounded_kg": 6.9,
+        "suggested_kg": null,
+        "outcome": "suggest_lighter_kit_or_calibrate",
+        "kit_step_kg": 2.5,
+        "lightest_kg": 20.0
+       },
+       "Barbell_Deadlift": {
+        "unrounded_kg": 12.8,
+        "suggested_kg": null,
+        "outcome": "suggest_lighter_kit_or_calibrate",
+        "kit_step_kg": 2.5,
+        "lightest_kg": 20.0
+       },
+       "Standing_Military_Press": {
+        "unrounded_kg": 3.9,
+        "suggested_kg": null,
+        "outcome": "suggest_lighter_kit_or_calibrate",
+        "kit_step_kg": 2.5,
+        "lightest_kg": 20.0
+       },
+       "Wide-Grip_Lat_Pulldown": {
+        "unrounded_kg": 6.9,
+        "suggested_kg": 5.0,
+        "outcome": "estimate",
+        "kit_step_kg": 5.0,
+        "lightest_kg": 5.0
+       },
+       "Dumbbell_Bench_Press": {
+        "unrounded_kg": 2.8,
+        "suggested_kg": 2.0,
+        "outcome": "estimate",
+        "kit_step_kg": 2.0,
+        "lightest_kg": 2.0
+       }
+      }
+     }
+    ],
+    "worked_examples_kit": {
+     "barbell": {
+      "step_kg": 2.5,
+      "lightest_kg": 20.0
+     },
+     "dumbbell": {
+      "step_kg": 2.0,
+      "lightest_kg": 2.0
+     },
+     "stack": {
+      "step_kg": 5.0,
+      "lightest_kg": 5.0
+     }
+    }
+   },
+   "detail": "Review conclusions. (1) Bodyweight predicts strength, but not in proportion: fat mass adds little, and fat-free mass is the best scaler (Jaric 2002; Folland 2008; Zoeller 2008; Tomlinson 2016: people with obesity are about a third weaker per kg on leg tests). Height adds nothing on its own once lean mass is known, but here it lets us cap bodyweight at a BMI of 25, which is our synthesis, not a tested method. (2) Women have roughly 50-60% of men's upper-body and 65-70% of lower-body strength (Miller 1993; Janssen 2000: 40% less upper-body and 33% less lower-body muscle), so ratios are by sex. (3) Strength changes little to about 40-50, then falls about 1-1.5% a year in the 50s and 2-3% a year after 60 (Keller 2013; Fragala 2019: 0.8-3.6% a year; Goodpaster 2006: 2.6-4.1% a year in the 70s). Our age bands sit in the middle of those ranges. (4) Novices may start at 50-60% of 1RM or less (ACSM 2009); older adults start at a tolerated load, around 40-55% (Fragala 2019). (5) No peer-reviewed norms cover free-weight squat, deadlift, press and row by sex and level. The ratios lean on crowd-sourced standards (low evidence), checked against Cooper bench norms and untrained-trial baselines (Ma 2025; Pedersen 2022; Johnson 2009 for pulldown). A 1RM estimate in a novice is unstable (Helms 2016), so the result is a first guess that set 1 corrects.",
+   "engine_default": true,
+   "sources": [
+    {
+     "title": "Progression Models in Resistance Training for Healthy Adults (Position Stand)",
+     "org": "American College of Sports Medicine (MSSE)",
+     "url": "https://journals.lww.com/acsm-msse/fulltext/2009/03000/progression_models_in_resistance_training_for.26.aspx",
+     "year": 2009
+    },
+    {
+     "title": "Resistance Training for Older Adults: Position Statement From the National Strength and Conditioning Association",
+     "org": "Fragala et al., J Strength Cond Res",
+     "url": "https://doi.org/10.1519/JSC.0000000000003230",
+     "year": 2019
+    },
+    {
+     "title": "Strength and muscle mass loss with aging process. Age and strength loss",
+     "org": "Keller, Engelhardt, Muscles Ligaments Tendons J",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3940510/",
+     "year": 2013
+    },
+    {
+     "title": "The loss of skeletal muscle strength, mass, and quality in older adults: the Health, Aging and Body Composition Study",
+     "org": "Goodpaster et al., J Gerontol A Biol Sci Med Sci",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/17077199/",
+     "year": 2006
+    },
+    {
+     "title": "Gender differences in strength and muscle fiber characteristics",
+     "org": "Miller, MacDougall, Tarnopolsky, Sale, Eur J Appl Physiol",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/8477683/",
+     "year": 1993
+    },
+    {
+     "title": "Skeletal muscle mass and distribution in 468 men and women aged 18-88 yr",
+     "org": "Janssen, Heymsfield, Wang, Ross, J Appl Physiol",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/10904038/",
+     "year": 2000
+    },
+    {
+     "title": "Muscle strength testing: use of normalisation for body size",
+     "org": "Jaric, Sports Medicine",
+     "url": "https://doi.org/10.2165/00007256-200232100-00002",
+     "year": 2002
+    },
+    {
+     "title": "Allometric scaling of strength measurements to body size",
+     "org": "Folland, McCauley, Williams, Eur J Appl Physiol",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/18172672/",
+     "year": 2008
+    },
+    {
+     "title": "Allometric scaling of isometric biceps strength in adult females and the effect of body mass index",
+     "org": "Zoeller et al., Eur J Appl Physiol",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4107660/",
+     "year": 2008
+    },
+    {
+     "title": "The impact of obesity on skeletal muscle strength and structure through adolescence to old age",
+     "org": "Tomlinson, Erskine, Morse, Winwood, Onambele-Pearson, Biogerontology",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4889641/",
+     "year": 2016
+    },
+    {
+     "title": "1-RM bench press to body weight norms by age and sex (Cooper Institute data, as reprinted in ACE's 1-RM Bench-Press Assessment Protocol)",
+     "org": "The Cooper Institute / American Council on Exercise",
+     "url": "https://contentcdn.eacefitness.com/assets/certification/ace-answers/forms/pt/38_Bench-Press_Assessment_Protocol.pdf",
+     "year": 2020
+    },
+    {
+     "title": "Normative data for strength and flexibility of women throughout life",
+     "org": "Brown, Miller, Eur J Appl Physiol",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/9660160/",
+     "year": 1998
+    },
+    {
+     "title": "Effect of cluster set resistance training combined with HIIT in untrained young men (baseline 1RMs)",
+     "org": "Ma et al., PeerJ",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12721101/",
+     "year": 2025
+    },
+    {
+     "title": "Split-body vs full-body resistance training in non-resistance-trained women (baseline 1RMs)",
+     "org": "Pedersen et al., BMC Sports Sci Med Rehabil",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9107721/",
+     "year": 2022
+    },
+    {
+     "title": "Relationship of lat-pull repetitions and pull-ups to maximal lat-pull and pull-up strength in men and women",
+     "org": "Johnson, Lynch, Nash, Cygan, Mayhew, J Strength Cond Res",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/19387371/",
+     "year": 2009
+    },
+    {
+     "title": "Strength standards (crowd-sourced, self-reported lifts; practitioner data, low evidence)",
+     "org": "Strength Level",
+     "url": "https://strengthlevel.com/strength-standards",
+     "year": 2026
+    },
+    {
+     "title": "Application of the Repetitions in Reserve-Based Rating of Perceived Exertion Scale for Resistance Training",
+     "org": "Helms et al., Strength & Conditioning Journal",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4961270/",
+     "year": 2016
+    },
+    {
+     "title": "Poundage Chart. In: Boyd Epley Workout",
+     "org": "Epley B., Body Enterprises",
+     "url": "https://en.wikipedia.org/wiki/One-repetition_maximum",
+     "year": 1985
     }
    ],
    "evidence_strength": "weak",

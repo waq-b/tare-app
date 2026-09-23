@@ -1,4 +1,4 @@
-# Virtual PT: P1 dataset (v0.1.2)
+# Virtual PT: P1 dataset (v0.1.3)
 
 Evidence-based data for the workout app's rules engine and weekly AI call. It covers training, progression, safety and the exercise library. Cardio, nutrition and fasting are out of scope for now.
 
@@ -10,7 +10,7 @@ Evidence-based data for the workout app's rules engine and weekly AI call. It co
 | `data/training_rules.json` | Per-goal parameters (`tr.goal.*`), global rules, minimum/maintenance doses, source conflicts |
 | `data/progression_rules.json` | Progression methods, volume progression, stall steps, deload, new-user ramp (`pr.*`) |
 | `data/safety_rules.json` | 21 red-flag rules, UK `services` contacts, and onboarding screening (`sf.screening`), including the `cleared_by_gp` path |
-| `data/rule_ids.json` | Every rule ID (65), for validating AI citations |
+| `data/rule_ids.json` | Every rule ID (67), for validating AI citations |
 | `data/sources.json` | Source registry, with a `verification` level per source |
 | `build_exercises.py`, `build_rules.py`, `staples.py` | Rebuild everything. `staples.py` holds the hand-curated swaps and cues. `raw/` holds the upstream dataset |
 
@@ -82,7 +82,30 @@ These are also published inside `exercises.json` → `enums`, and the build asse
 
 The 111 staples have 2–4 short cues each, in our own wording. **The other 765 exercises have empty `cues`**, though every exercise still has the upstream `instructions`.
 
-## New rules (v0.1.2)
+## New rules (v0.1.3)
+
+| ID | What | Evidence |
+|---|---|---|
+| `tr.global.starting_load` | A conservative first working load from sex, age, bodyweight, height (optional) and level. See the formula below. 24 loaded staples have an estimate; the other 56 loaded staples, and all bodyweight moves, calibrate from an Easy first set | weak, engine_default |
+| `pr.personal_adjustment` | Bounds for adapting suggestions to how the user lifts: at most ±10% in total and 5% a week, after 4+ sessions and a consistent gap of 5% or more. Lifting lighter while logging Easy never lowers a suggestion. Never past goal ranges, increment ranges, screening caps, pain flags or safety rules | weak, engine_default |
+
+**Starting load formula:**
+
+```
+reference_mass = min(bodyweight, 25 × height_m²)      (bodyweight if no height)
+estimated_1RM  = reference_mass × ratio_1rm[sex][level][anchor] × age_factor(age) × staple_factor
+working_load   = estimated_1RM × min(1 / (1 + (target_reps + 4) / 30), cap) × 0.9  → round DOWN to the kit step
+```
+
+- **Anchors:** squat, bench, deadlift, OHP, lat pulldown, row.
+- **Sex:** "prefer not to say" uses the female ratios.
+- **Caps:** 0.60 for beginners, 0.70 for intermediates and 0.50 from age 65.
+- **Age factor:** 1.0 up to 40, 0.90 at 50, 0.75 at 60 and 0.45 at 75. Over 75, calibrate instead.
+- **Below the lightest option** (e.g. the empty bar): use the lightest option only if it's ≤70% of the estimated 1RM. Otherwise suggest lighter kit or calibrate.
+- **Worked examples:** pinned by build asserts, in `value.worked_examples`. For example, a 35-year-old beginner man, 92 kg and 180 cm, doing 10 reps gets a 40 kg squat, 30 kg bench, 47.5 kg deadlift, an empty-bar OHP and 12 kg dumbbells for DB bench.
+- **Evidence:** the ratios lean on crowd-sourced standards (low evidence), checked against Cooper bench norms and the baselines of untrained people in trials. Say so in the "why" UI.
+
+## Rules added in v0.1.2
 
 | ID | What | Evidence |
 |---|---|---|
@@ -122,7 +145,7 @@ Every rule has a `services` list of keys to offer. The app owns the label per ac
 
 ## Verification
 
-`sources.json` marks each source as `full_text` (36), `abstract_only` (5) or `secondary_only` (12). v0.1.2 added 22 sources.
+`sources.json` marks each source as `full_text` (47), `abstract_only` (14) or `secondary_only` (13). v0.1.2 added 22 sources; v0.1.3 added 21.
 
 In v0.1.1 these were re-checked against the primary source:
 

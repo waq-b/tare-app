@@ -1,6 +1,7 @@
 """Build data/exercises.json (contract shape) from free-exercise-db (Unlicense).
 
 v0.1.1: staples (111) get hand-curated swaps + cues from staples.py.
+v0.1.3: version bump only (no exercise changes).
 v0.1.2: display names, body areas, kit detail, skill tags, trimmed muscles, stabilisers.
 Everything else: heuristic movement pattern + ranked swaps, flagged in `derived`.
 """
@@ -351,7 +352,7 @@ AREA_MAP = {a: {"primary": sorted(e["id"] for e in out if {"area": a, "load": "p
                 "secondary": sorted(e["id"] for e in out if {"area": a, "load": "secondary"} in e["body_areas"])}
             for a in BODY_AREAS}
 
-json.dump({"version": "0.1.2", "generated": "2026-09-22", "count": len(out),
+json.dump({"version": "0.1.3", "generated": "2026-09-23", "count": len(out),
            "enums": {"muscles": MUSCLES, "equipment": EQUIPMENT,
                      "movement_pattern": ["squat", "hinge", "lunge", "push_h", "push_v", "pull_h", "pull_v", "carry", "core",
                                           "isolation", "cardio", "plyometric", "olympic", "mobility"],

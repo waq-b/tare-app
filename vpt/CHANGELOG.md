@@ -1,5 +1,49 @@
 # Changelog
 
+## v0.1.3 (2026-09-23)
+
+This release covers two requests from the app build (Tare): starting weights from body stats, and bounds for learning a user's style. All changes are additive: no IDs, fields or enum values were removed or renamed. Numbers below refer to `docs/data-issues.md`.
+
+### Added
+- **#20 `tr.global.starting_load`.** It gives a conservative first working load per staple, worked out from sex, age, bodyweight, height (optional) and level. It includes:
+  - A formula: reference mass × 1RM ratio × age factor × staple factor × first-session % × 0.9. The result is rounded down to the kit step.
+  - 1RM ratios for 6 anchors (squat, bench, deadlift, OHP, lat pulldown, row), by sex (`male`, `female`; `prefer_not_to_say` uses the female ratios) and level (`beginner`, `intermediate`).
+  - Age bands: flat to 40, then −1% a year to 50, −1.5% a year to 60 and −2% a year to 75. Over 75, calibrate instead.
+  - First-session intensity: the inverse of Epley (`tr.global.e1rm`) at 4 reps in reserve. It's capped at 60% of estimated 1RM for beginners, 70% for intermediates and 50% from age 65.
+  - Height is used only to cap bodyweight at a BMI of 25, because extra weight above that carries little extra strength.
+  - 24 staples map to an anchor, with a factor and its basis. Per-hand dumbbell moves reuse 0.41 from `tr.global.swap_starting_load`, and the one-arm row reuses 0.4. Pulldown and cable row are marked `stack_dependent`.
+  - The other 56 loaded staples (machines, cables, isolation moves, lunges, thrusts, kettlebells) are listed in `calibrate_instead` with a reason. So are all bodyweight moves.
+  - First-session guidance: Easy or OK on every set. After set 1: Easy → +5–10%, OK → keep, Hard → −10%.
+  - A rule for when the estimate is below the lightest option (e.g. the empty bar).
+  - 4 worked examples (24 results), pinned by build asserts for the app's tests.
+- **`pr.personal_adjustment`** (brief item 2, GitHub #93). It sets how far suggestions may drift towards how the user lifts:
+  - Per exercise, after 4 or more sessions in a 6-session window, when 75% of them agree and the median gap is 5% or more.
+  - At most ±10% in total and 5% a week.
+  - Suggestions move up only if the heavier sets were logged Easy or OK with no pain flags.
+  - Suggestions move down only if the suggested load was logged Hard or the reps fell short. Lifting lighter while logging Easy never lowers a suggestion.
+  - Pace can slow by at most one extra session, or speed up to the top of the rule's increment range.
+  - It never goes past goal ranges, increment ranges, screening `max_rpe`, pain flags, deloads, the new-user ramp or safety rules.
+  - It resets on a pain flag, a swap, a break of 3 weeks or more, or when the user taps reset. It's always labelled and resettable.
+- 21 new sources (74 in total). Verification is now 47 full_text, 14 abstract_only and 13 secondary_only.
+- New build asserts:
+  - every loaded staple is either mapped or in `calibrate_instead`
+  - per-hand staples carry a per-hand factor
+  - female ratios are below male, and beginner below intermediate
+  - the age factor never rises and its bands join up
+  - the worked examples match their pinned values and round down
+  - personal-adjustment steps stay within the total cap
+
+### Evidence calls
+- **There are no peer-reviewed free-weight norms by sex and level for squat, deadlift, OHP and row.** The ratios lean on StrengthLevel crowd data (low evidence), set at its Beginner row (5th percentile) and Novice row (20th percentile). They sit at or below the Cooper bench norms (20th–40th percentile) and the untrained-trial baselines (Ma 2025, Pedersen 2022, Johnson 2009). Both rules are `weak` and `engine_default`.
+- **Height adds nothing on its own once lean mass is known** (Folland 2008). The BMI-25 cap is our synthesis of the allometry and obesity evidence (Jaric 2002, Zoeller 2008, Tomlinson 2016). No study tests it directly.
+- **Age decline** figures vary widely (0.8–3.6% a year in Fragala 2019; 1.5–3% a year after 50 in Keller 2013). The bands sit mid-range. No NHS figure was found.
+- **Leg press, hack squat and other machines** calibrate instead. Machine norms don't transfer between makers (Brown 1998).
+- **Personal-adjustment thresholds:** 4 sessions and a 5% gap are our defaults. 1RM varies about 4–5.5% between sessions (Grgic 2020), and no source gives a number of sessions.
+
+### Couldn't do / deviations
+- The ACSM leg press norms and the Kilgore/Rippetoe standards weren't used: the leg press table couldn't be found, and the Kilgore/Rippetoe standards couldn't be verified.
+- "Dias 2018" (self-selected loads) was not found. Steele 2022 (a meta-analysis) covers the same point.
+
 ## v0.1.2 (2026-09-22)
 
 Requests from the app build (Tare). All changes are additive: no IDs, fields or enum values were removed or renamed. Numbers below refer to `docs/data-issues.md`.

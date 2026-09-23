@@ -507,6 +507,257 @@ safety["screening"]["cleared_by_gp"] = {
  "evidence_strength": "strong", "sources": s("riebe2015"), "licence": LIC}
 safety["screening"]["recheck"] = safety["screening"]["recheck"] + " Clearance is recorded with a date; it does not skip the recheck."
 
+# ================================================================ v0.1.3 additions
+SRC.update({
+ "keller2013": {"title": "Strength and muscle mass loss with aging process. Age and strength loss",
+                "org": "Keller, Engelhardt, Muscles Ligaments Tendons J", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3940510/", "year": 2013},
+ "goodpaster2006": {"title": "The loss of skeletal muscle strength, mass, and quality in older adults: the Health, Aging and Body Composition Study",
+                    "org": "Goodpaster et al., J Gerontol A Biol Sci Med Sci", "url": "https://pubmed.ncbi.nlm.nih.gov/17077199/", "year": 2006},
+ "fragala2019": {"title": "Resistance Training for Older Adults: Position Statement From the National Strength and Conditioning Association",
+                 "org": "Fragala et al., J Strength Cond Res", "url": "https://doi.org/10.1519/JSC.0000000000003230", "year": 2019},
+ "grgic2020": {"title": "Test-Retest Reliability of the One-Repetition Maximum (1RM) Strength Assessment: a Systematic Review",
+               "org": "Grgic et al., Sports Medicine – Open", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7367986/", "year": 2020},
+ "cooper_bench": {"title": "1-RM bench press to body weight norms by age and sex (Cooper Institute data, as reprinted in ACE's 1-RM Bench-Press Assessment Protocol)",
+                  "org": "The Cooper Institute / American Council on Exercise", "url": "https://contentcdn.eacefitness.com/assets/certification/ace-answers/forms/pt/38_Bench-Press_Assessment_Protocol.pdf", "year": 2020},
+ "brown1998": {"title": "Normative data for strength and flexibility of women throughout life",
+               "org": "Brown, Miller, Eur J Appl Physiol", "url": "https://pubmed.ncbi.nlm.nih.gov/9660160/", "year": 1998},
+ "ma2025": {"title": "Effect of cluster set resistance training combined with HIIT in untrained young men (baseline 1RMs)",
+            "org": "Ma et al., PeerJ", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12721101/", "year": 2025},
+ "pedersen2022": {"title": "Split-body vs full-body resistance training in non-resistance-trained women (baseline 1RMs)",
+                  "org": "Pedersen et al., BMC Sports Sci Med Rehabil", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9107721/", "year": 2022},
+ "johnson2009": {"title": "Relationship of lat-pull repetitions and pull-ups to maximal lat-pull and pull-up strength in men and women",
+                 "org": "Johnson, Lynch, Nash, Cygan, Mayhew, J Strength Cond Res", "url": "https://pubmed.ncbi.nlm.nih.gov/19387371/", "year": 2009},
+ "strengthlevel": {"title": "Strength standards (crowd-sourced, self-reported lifts; practitioner data, low evidence)",
+                   "org": "Strength Level", "url": "https://strengthlevel.com/strength-standards", "year": 2026},
+ "miller1993": {"title": "Gender differences in strength and muscle fiber characteristics",
+                "org": "Miller, MacDougall, Tarnopolsky, Sale, Eur J Appl Physiol", "url": "https://pubmed.ncbi.nlm.nih.gov/8477683/", "year": 1993},
+ "janssen2000": {"title": "Skeletal muscle mass and distribution in 468 men and women aged 18-88 yr",
+                 "org": "Janssen, Heymsfield, Wang, Ross, J Appl Physiol", "url": "https://pubmed.ncbi.nlm.nih.gov/10904038/", "year": 2000},
+ "jaric2002": {"title": "Muscle strength testing: use of normalisation for body size",
+               "org": "Jaric, Sports Medicine", "url": "https://doi.org/10.2165/00007256-200232100-00002", "year": 2002},
+ "folland2008": {"title": "Allometric scaling of strength measurements to body size",
+                 "org": "Folland, McCauley, Williams, Eur J Appl Physiol", "url": "https://pubmed.ncbi.nlm.nih.gov/18172672/", "year": 2008},
+ "zoeller2008": {"title": "Allometric scaling of isometric biceps strength in adult females and the effect of body mass index",
+                 "org": "Zoeller et al., Eur J Appl Physiol", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4107660/", "year": 2008},
+ "tomlinson2016": {"title": "The impact of obesity on skeletal muscle strength and structure through adolescence to old age",
+                   "org": "Tomlinson, Erskine, Morse, Winwood, Onambele-Pearson, Biogerontology", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4889641/", "year": 2016},
+ "steele2022": {"title": "Are Trainees Lifting Heavy Enough? Self-Selected Loads in Resistance Exercise: A Scoping Review and Exploratory Meta-analysis",
+                "org": "Steele et al., Sports Medicine", "url": "https://pubmed.ncbi.nlm.nih.gov/35790622/", "year": 2022},
+ "glass2004": {"title": "Self-selected resistance training intensity in novice weightlifters",
+               "org": "Glass, Stanton, J Strength Cond Res", "url": "https://journals.lww.com/nsca-jscr/abstract/2004/05000/self_selected_resistance_training_intensity_in.22.aspx", "year": 2004},
+ "halperin2022": {"title": "Accuracy in Predicting Repetitions to Task Failure in Resistance Exercise: A Scoping Review and Exploratory Meta-analysis",
+                  "org": "Halperin et al., Sports Medicine", "url": "https://pubmed.ncbi.nlm.nih.gov/34542869/", "year": 2022},
+ "helms2018": {"title": "RPE vs. Percentage 1RM Loading in Periodized Programs Matched for Sets and Repetitions",
+               "org": "Helms et al., Frontiers in Physiology", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5877330/", "year": 2018},
+ "greig2020": {"title": "Autoregulation in Resistance Training: Addressing the Inconsistencies",
+               "org": "Greig et al., Sports Medicine", "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7575491/", "year": 2020},
+})
+
+# ---- tr.global.starting_load: conservative first working load from body stats
+ANCHORS = ["squat", "bench", "deadlift", "ohp", "lat_pulldown", "row"]
+# Estimated 1RM as a fraction of reference mass. Beginner ~ StrengthLevel "Beginner" (5th pct of logged lifters),
+# intermediate ~ its "Novice" (20th pct, >= 6 months). Both sit at or below the Cooper 20th-40th pct bench rows and the
+# baselines of untrained people in trials, so they aim low on purpose.
+RATIO_1RM = {
+ "male":   {"beginner":     {"squat": 0.95, "bench": 0.70, "deadlift": 1.10, "ohp": 0.40, "lat_pulldown": 0.55, "row": 0.60},
+            "intermediate": {"squat": 1.25, "bench": 0.95, "deadlift": 1.45, "ohp": 0.55, "lat_pulldown": 0.75, "row": 0.80}},
+ "female": {"beginner":     {"squat": 0.55, "bench": 0.35, "deadlift": 0.65, "ohp": 0.20, "lat_pulldown": 0.35, "row": 0.30},
+            "intermediate": {"squat": 0.80, "bench": 0.50, "deadlift": 0.95, "ohp": 0.33, "lat_pulldown": 0.50, "row": 0.45}},
+}
+AGE_BANDS = [  # piecewise-linear factor on the 1RM estimate; ratios describe adults up to ~40
+ {"from": 18, "to": 40, "factor_at_start": 1.00, "per_year": 0.0},
+ {"from": 40, "to": 50, "factor_at_start": 1.00, "per_year": -0.010},
+ {"from": 50, "to": 60, "factor_at_start": 0.90, "per_year": -0.015},
+ {"from": 60, "to": 75, "factor_at_start": 0.75, "per_year": -0.020},
+]
+AGE_MAX = 75
+FIRST_SESSION_RIR = 4          # effort Easy boundary (tr.global.effort_set_map)
+PCT_CAP = {"beginner": 0.60, "intermediate": 0.70, "age_65_plus": 0.50}
+SAFETY_MARGIN = 0.9
+REF_BMI = 25
+PER_HAND_DB = 0.41             # tr.global.swap_starting_load barbell -> dumbbell, per hand
+UNILATERAL = 0.4               # tr.global.swap_starting_load bilateral -> unilateral, per side
+
+def m(anchor, factor, basis, **kw): return {"anchor": anchor, "factor": factor, "basis": basis, **kw}
+STAPLE_MAP = {
+ "Barbell_Squat": m("squat", 1.0, "anchor"),
+ "Box_Squat": m("squat", 1.0, "convention: same bar and load path as the back squat"),
+ "Barbell_Full_Squat": m("squat", 0.95, "convention: deeper range, a little lighter"),
+ "Front_Squat_Clean_Grip": m("squat", 0.80, "convention: front squat ~80% of back squat; no peer-reviewed ratio"),
+ "Smith_Machine_Squat": m("squat", 0.95, "tr.global.swap_starting_load (barbell -> Smith, squat)"),
+ "Barbell_Deadlift": m("deadlift", 1.0, "anchor"),
+ "Sumo_Deadlift": m("deadlift", 1.0, "convention: similar 1RM to conventional"),
+ "Trap_Bar_Deadlift": m("deadlift", 1.0, "convention: trap bar 1RM is usually equal or higher; kept at 1.0"),
+ "Romanian_Deadlift": m("deadlift", 0.70, "convention: RDL ~70% of deadlift; no peer-reviewed ratio"),
+ "Barbell_Bench_Press_-_Medium_Grip": m("bench", 1.0, "anchor"),
+ "Barbell_Incline_Bench_Press_-_Medium_Grip": m("bench", 0.80, "convention: incline ~80% of flat; no peer-reviewed ratio"),
+ "Close-Grip_Barbell_Bench_Press": m("bench", 0.90, "convention: close grip ~90% of flat"),
+ "Smith_Machine_Bench_Press": m("bench", 0.90, "tr.global.swap_starting_load (barbell -> Smith, push_h)"),
+ "Dumbbell_Bench_Press": m("bench", PER_HAND_DB, "tr.global.swap_starting_load (barbell -> dumbbell, per hand)"),
+ "Incline_Dumbbell_Press": m("bench", round(0.80 * PER_HAND_DB, 3), "incline convention x barbell -> dumbbell per hand"),
+ "Standing_Military_Press": m("ohp", 1.0, "anchor"),
+ "Dumbbell_Shoulder_Press": m("ohp", PER_HAND_DB, "tr.global.swap_starting_load (barbell -> dumbbell, per hand)"),
+ "Seated_Dumbbell_Press": m("ohp", PER_HAND_DB, "tr.global.swap_starting_load (barbell -> dumbbell, per hand)"),
+ "Wide-Grip_Lat_Pulldown": m("lat_pulldown", 1.0, "anchor", stack_dependent=True),
+ "Close-Grip_Front_Lat_Pulldown": m("lat_pulldown", 1.0, "convention: same stack and pattern", stack_dependent=True),
+ "V-Bar_Pulldown": m("lat_pulldown", 1.0, "convention: same stack and pattern", stack_dependent=True),
+ "Bent_Over_Barbell_Row": m("row", 1.0, "anchor"),
+ "Seated_Cable_Rows": m("row", 1.0, "StrengthLevel cable row ~ barbell row", stack_dependent=True),
+ "One-Arm_Dumbbell_Row": m("row", UNILATERAL, "tr.global.swap_starting_load (bilateral -> unilateral, per side)"),
+}
+
+def age_factor(age):
+    for b in AGE_BANDS:
+        if b["from"] <= age < b["to"] or (age == AGE_MAX and b["to"] == AGE_MAX):
+            return b["factor_at_start"] + b["per_year"] * (age - b["from"])
+    return None
+
+def starting_load(sex, age, bodyweight, height_cm, level, target_reps, staple, step, min_load):
+    """Reference implementation. Returns (unrounded, suggested, outcome)."""
+    ratios = RATIO_1RM["female" if sex not in ("male", "female") else sex][level]
+    ref = min(bodyweight, REF_BMI * (height_cm / 100) ** 2) if height_cm else bodyweight
+    mp = STAPLE_MAP[staple]
+    e1rm = ref * ratios[mp["anchor"]] * age_factor(age) * mp["factor"]
+    pct = min(1 / (1 + (target_reps + FIRST_SESSION_RIR) / 30), PCT_CAP["age_65_plus" if age >= 65 else level])
+    raw = e1rm * pct * SAFETY_MARGIN
+    rounded = (raw + 1e-9) // step * step
+    if rounded >= min_load: return round(raw, 1), rounded, "estimate"
+    if min_load <= PCT_CAP["intermediate"] * e1rm: return round(raw, 1), min_load, "lightest_load"
+    return round(raw, 1), None, "suggest_lighter_kit_or_calibrate"
+
+KIT = {"barbell": (2.5, 20.0), "dumbbell": (2.0, 2.0), "stack": (5.0, 5.0)}
+EX_LIFTS = [("Barbell_Squat", "barbell"), ("Barbell_Bench_Press_-_Medium_Grip", "barbell"), ("Barbell_Deadlift", "barbell"),
+            ("Standing_Military_Press", "barbell"), ("Wide-Grip_Lat_Pulldown", "stack"), ("Dumbbell_Bench_Press", "dumbbell")]
+EX_PEOPLE = [
+ {"name": "35-year-old beginner man, 92 kg, 180 cm, 10 reps", "sex": "male", "age": 35, "bodyweight": 92, "height_cm": 180, "level": "beginner", "target_reps": 10},
+ {"name": "Same man without a height (no reference-mass cap)", "sex": "male", "age": 35, "bodyweight": 92, "height_cm": None, "level": "beginner", "target_reps": 10},
+ {"name": "55-year-old intermediate woman, 65 kg, 165 cm, 10 reps", "sex": "female", "age": 55, "bodyweight": 65, "height_cm": 165, "level": "intermediate", "target_reps": 10},
+ {"name": "68-year-old beginner, sex not given, 80 kg, 172 cm, 12 reps", "sex": "prefer_not_to_say", "age": 68, "bodyweight": 80, "height_cm": 172, "level": "beginner", "target_reps": 12},
+]
+EXAMPLES = []
+for p in EX_PEOPLE:
+    rows = {}
+    for sid, kit in EX_LIFTS:
+        raw, load, outcome = starting_load(p["sex"], p["age"], p["bodyweight"], p["height_cm"], p["level"], p["target_reps"], sid, *KIT[kit])
+        rows[sid] = {"unrounded_kg": raw, "suggested_kg": load, "outcome": outcome, "kit_step_kg": KIT[kit][0], "lightest_kg": KIT[kit][1]}
+    EXAMPLES.append({"input": p, "expected": rows})
+
+CALIBRATE_REASONS = {
+ "machine": "machine: stack or lever ratios differ between makers (leg press norms don't transfer, Brown 1998)",
+ "cable": "cable: stack and pulley ratios differ between gyms",
+ "kettlebell": "no reliable ratio to a barbell anchor",
+ "dumbbell": "no reliable ratio to a barbell anchor for this movement",
+ "barbell": "no reliable ratio to an anchor lift (isolation, lunge, bridge or thrust)",
+ "ez_bar": "isolation: no reliable ratio to an anchor lift",
+ "other": "no reliable ratio to an anchor lift",
+}
+_ex = json.load(open("data/exercises.json"))["exercises"]
+LOADED = [e for e in _ex if e["staple"] and e["load_convention"] in ("total", "per_hand", "per_side") and e["movement_pattern"] != "cardio"]
+CALIBRATE = {e["id"]: CALIBRATE_REASONS[e["equipment"][0]] for e in LOADED if e["id"] not in STAPLE_MAP}
+
+STARTING_LOAD = {"rule": "starting_load", "value": {
+  "formula": "starting working load = reference_mass x ratio_1rm[sex][level][anchor] x age_factor(age) x staple_factor "
+             "x first_session_pct x safety_margin, then round DOWN to the kit step",
+  "inputs": {
+   "sex": {"enum": ["male", "female", "prefer_not_to_say"], "prefer_not_to_say": "use the female ratios (the lower of the two)"},
+   "age": {"unit": "years", "applies": [18, AGE_MAX], "outside": "calibrate_instead"},
+   "bodyweight": {"unit": "kg"},
+   "height": {"unit": "cm", "optional": True, "used_for": "reference_mass only"},
+   "level": {"enum": ["beginner", "intermediate"], "matches": "tr.goal.* weekly_sets_per_muscle levels",
+             "definition": {"beginner": "under ~6 months of regular lifting", "intermediate": "~6 months to 2 years"}},
+   "target_reps": {"from": "the plan's target reps for that exercise (normally the bottom of the goal's rep range)"}},
+  "reference_mass": {"expression": "min(bodyweight, 25 x height_m^2)", "without_height": "bodyweight",
+                     "why": "strength follows lean mass; weight above a BMI of 25 adds little strength, so capping it avoids overestimating"},
+  "ratio_1rm": RATIO_1RM,
+  "ratio_note": "Estimated 1RM divided by reference mass, for the anchor lift. Beginner rows sit near the 5th percentile of logged lifters "
+                "and intermediate rows near the 20th, both at or below population and untrained-trial data, so they aim low.",
+  "age_factor": {"bands": AGE_BANDS, "method": "factor_at_start + per_year x (age - from)", "at_75": round(age_factor(75), 3)},
+  "first_session_pct": {"expression": "min(1 / (1 + (target_reps + 4) / 30), cap)",
+                        "why": "inverse of the Epley formula (tr.global.e1rm) at 4 reps in reserve, i.e. effort Easy",
+                        "cap": PCT_CAP, "cap_rule": "age >= 65 uses age_65_plus; otherwise the level's cap"},
+  "safety_margin": SAFETY_MARGIN,
+  "rounding": "round DOWN to the user's kit step (barbell: smallest plate pair; dumbbells: the next rack weight down; stack: the next pin down)",
+  "below_lightest_load": {"rule": "if the rounded load is below the lightest option (e.g. the empty bar), use the lightest option "
+                                  "only if it is <= 70% of the estimated 1RM; otherwise suggest a lighter-kit swap from `swaps` or calibrate",
+                          "outcomes": ["estimate", "lightest_load", "suggest_lighter_kit_or_calibrate"]},
+  "load_convention": "per_hand staples carry the per-hand conversion in their factor (e.g. 0.41); the result is the weight of each dumbbell. "
+                     "Anchor-lift loads are total loads (bar included).",
+  "anchors": ANCHORS,
+  "staples": STAPLE_MAP,
+  "stack_dependent": "pulldown and cable-row estimates depend on the machine's stack and pulleys. Show them as a rough guide and expect set 1 to correct them.",
+  "calibrate_instead": {"staples": CALIBRATE,
+                        "also": ["bodyweight, bodyweight_plus and assisted exercises", "cardio", "any exercise not in `staples`",
+                                 "age outside 18-75", "missing bodyweight or level",
+                                 "frailty_falls or medical_clearance_first without clearance (safety_rules.json)"],
+                        "method": "tr.global.swap_starting_load -> calibrate_instead"},
+  "first_session": {"target_effort": "Easy or OK on every set (RPE <= 7); never Hard",
+                    "after_set_1": {"easy": "raise 5-10% (one or two kit steps) for the next set", "ok": "keep the load",
+                                    "hard": "drop 10% and keep it there", "pain": "safety rules first (pain_during_exercise)"},
+                    "max_changes": "adjust at most twice in the first session; from session 2 the normal progression rule takes over from the logged load",
+                    "label": "Starting weight: an estimate from your body stats. Change it freely."},
+  "screening": "Screening results with max_rpe (sf.screening) still apply; the first session target is already below them.",
+  "user_editable": True,
+  "worked_examples": EXAMPLES,
+  "worked_examples_kit": {k: {"step_kg": v[0], "lightest_kg": v[1]} for k, v in KIT.items()}},
+ "detail": "Review conclusions. (1) Bodyweight predicts strength, but not in proportion: fat mass adds little, and fat-free mass is the best scaler "
+           "(Jaric 2002; Folland 2008; Zoeller 2008; Tomlinson 2016: people with obesity are about a third weaker per kg on leg tests). "
+           "Height adds nothing on its own once lean mass is known, but here it lets us cap bodyweight at a BMI of 25, which is our synthesis, "
+           "not a tested method. (2) Women have roughly 50-60% of men's upper-body and 65-70% of lower-body strength (Miller 1993; Janssen 2000: "
+           "40% less upper-body and 33% less lower-body muscle), so ratios are by sex. (3) Strength changes little to about 40-50, then falls about "
+           "1-1.5% a year in the 50s and 2-3% a year after 60 (Keller 2013; Fragala 2019: 0.8-3.6% a year; Goodpaster 2006: 2.6-4.1% a year in "
+           "the 70s). Our age bands sit in the middle of those ranges. (4) Novices may start at 50-60% of 1RM or less (ACSM 2009); older adults "
+           "start at a tolerated load, around 40-55% (Fragala 2019). (5) No peer-reviewed norms cover free-weight squat, deadlift, press and "
+           "row by sex and level. The ratios lean on crowd-sourced standards (low evidence), checked against Cooper bench norms and "
+           "untrained-trial baselines (Ma 2025; Pedersen 2022; Johnson 2009 for pulldown). A 1RM estimate in a novice is unstable (Helms 2016), "
+           "so the result is a first guess that set 1 corrects.",
+ "engine_default": True,
+ "sources": s("acsm2009", "fragala2019", "keller2013", "goodpaster2006", "miller1993", "janssen2000", "jaric2002", "folland2008",
+              "zoeller2008", "tomlinson2016", "cooper_bench", "brown1998", "ma2025", "pedersen2022", "johnson2009", "strengthlevel",
+              "helms2016", "epley1985"),
+ "evidence_strength": "weak", "licence": LIC}
+
+# ---- pr.personal_adjustment: bounds for learning the user's style
+PERSONAL_ADJUSTMENT = {
+ "rule": "Suggestions may shift towards how the user actually lifts, per exercise, but only within tight bounds. The rules engine and safety rules stay in charge.",
+ "value": {
+  "load_bias": {
+   "signal": "per exercise: lifted working load / suggested working load - 1, on working sets only (never warm-ups or deload sets)",
+   "min_sessions": 4, "window_sessions": 6,
+   "min_consistent_share": 0.75,
+   "min_median_gap_pct": 5,
+   "max_total_pct": {"up": 10, "down": 10},
+   "max_step_pct_per_week": 5,
+   "applies_up_only_if": "the heavier sets were logged Easy or OK with the target reps done, and there were no pain flags for the exercise's body areas in the window",
+   "applies_down_only_if": "the suggested load was logged Hard or reps fell short on it; lifting lighter while logging Easy does NOT lower suggestions"},
+  "pace": {
+   "signal": "share of suggested load increases the user declined or undid",
+   "slower": "if 2 of the last 3 suggested increases were declined, require one extra qualifying session before the next increase (max +1 session)",
+   "faster": "if every increase in the window was accepted and the next sets were logged Easy, use the top of the rule's increment range; never a bigger step",
+   "min_sessions": 4},
+  "never": ["outside the goal's allowed_rep_range or allowed ranges (tr.goal.*)",
+            "above the rule's increment range (pr.* methods)",
+            "above a screening max_rpe (sf.screening)",
+            "on an exercise or body area with an open pain flag or safety action",
+            "during a deload (pr.deload) or the new-user ramp (pr.new_user_ramp)",
+            "to change any safety rule or message"],
+  "reset_on": ["pain flag for the exercise's body areas", "swap to a different exercise", "a break of 3+ weeks", "the user taps reset"],
+  "visibility": {"label": "Adjusted to how you usually lift", "show": "the size of the adjustment and the rule it adjusts", "resettable": True}},
+ "detail": "Evidence is thin; these bounds are our synthesis. Why they are tight: 1RM varies about 4-5.5% between sessions (Grgic 2020), so a "
+           "smaller gap is noise, and several sessions are needed before a trend means anything (no source gives a number; 4 is our default). "
+           "RPE-based systems move load about 2% per half RPE point, about 8% at the extremes (Helms 2018), and ACSM 2009 uses 2-10% steps, so "
+           "a 10% ceiling and 5% steps stay inside normal practice. People choose loads below what builds strength, about 53% of 1RM on "
+           "average (Steele 2022; Glass 2004), and misjudge reps in reserve by about 1 rep (Halperin 2022), so a habit of lifting lighter never "
+           "pulls suggestions down on its own. Autoregulated programmes do as well as or better than fixed ones (Greig 2020), which supports "
+           "bounded personal adjustment.",
+ "engine_default": True,
+ "sources": s("grgic2020", "helms2018", "acsm2009", "steele2022", "glass2004", "halperin2022", "greig2020"),
+ "evidence_strength": "weak", "licence": LIC}
+
+training["global"].append(STARTING_LOAD)
+NEW_GLOBAL_IDS["starting_load"] = "tr.global.starting_load"
+progression["personal_adjustment"] = PERSONAL_ADJUSTMENT
+training["notes"].append("v0.1.3: tr.global.starting_load estimates a conservative first working load from body stats; pr.personal_adjustment bounds learning the user's style.")
+
 # ---------------------------------------------------------------- stable ids (v0.1.1)
 def with_id(d, id_):
     assert "id" not in d or d["id"] == id_
@@ -523,7 +774,7 @@ training["minimum_doses"] = [with_id(r, f"tr.dose.{r['rule']}") for r in trainin
 training["conflicts"] = [with_id(c, f"tr.conflict.{c['topic']}") for c in training["conflicts"]]
 
 progression["methods"] = [with_id(m, f"pr.{m['method']}") for m in progression["methods"]]
-for k in ("volume_progression", "stall", "deload", "new_user_ramp"):
+for k in ("volume_progression", "stall", "deload", "new_user_ramp", "personal_adjustment"):
     progression[k] = with_id(progression[k], f"pr.{k}")
 progression["stall"]["steps"] = [with_id(st, f"pr.stall.step{st['step']}") for st in progression["stall"]["steps"]]
 
@@ -535,12 +786,12 @@ ID_SCHEME = ("id_scheme: every rule has a permanent `id`. IDs never change or ge
              "(questions cited as sf.screening.<question id>); "
              "safety red-flag rules keep their bare snake_case ids from v0.1.0. AI suggestions must cite ids, e.g. 'pr.stall.step2'.")
 for f in (training, progression, safety):
-    f["version"] = "0.1.2"
+    f["version"] = "0.1.3"
     f["notes"].insert(0, ID_SCHEME)
 
 ALL_IDS = ([r["id"] for r in training["global"] + training["goals"] + training["minimum_doses"] + training["conflicts"]]
            + [m["id"] for m in progression["methods"]]
-           + [progression[k]["id"] for k in ("volume_progression", "stall", "deload", "new_user_ramp")]
+           + [progression[k]["id"] for k in ("volume_progression", "stall", "deload", "new_user_ramp", "personal_adjustment")]
            + [st["id"] for st in progression["stall"]["steps"]]
            + [r["id"] for r in safety["rules"]] + [safety["screening"]["id"]] + [f"sf.screening.{q['id']}" for q in safety["screening"]["questions"]] + ["sf.screening.cleared_by_gp"])
 assert len(ALL_IDS) == len(set(ALL_IDS))
@@ -550,8 +801,34 @@ assert all("message" in v for v in safety["screening"]["matrix"].values()), "scr
 assert set(safety["screening"]["result_messages"]) >= {v["result"] for v in safety["screening"]["matrix"].values()}
 assert all(set(r["services"]) <= set(SERVICES) for r in safety["rules"])
 for rr in training["global"] + training["goals"] + training["minimum_doses"] + progression["methods"] + safety["rules"] + \
-          [progression[k] for k in ("volume_progression", "stall", "deload", "new_user_ramp")]:
+          [progression[k] for k in ("volume_progression", "stall", "deload", "new_user_ramp", "personal_adjustment")]:
     assert rr["id"] and rr["sources"] and rr["evidence_strength"] and rr["licence"], rr.get("id")
+# v0.1.3 asserts: starting loads
+sl = next(r for r in training["global"] if r["id"] == "tr.global.starting_load")["value"]
+assert set(STAPLE_MAP) <= {e["id"] for e in LOADED}, set(STAPLE_MAP) - {e["id"] for e in LOADED}
+assert set(STAPLE_MAP).isdisjoint(CALIBRATE) and set(STAPLE_MAP) | set(CALIBRATE) == {e["id"] for e in LOADED}, "loaded staple not mapped or calibrated"
+assert all(v["anchor"] in ANCHORS and 0 < v["factor"] <= 1 for v in STAPLE_MAP.values())
+_conv = {e["id"]: e["load_convention"] for e in LOADED}
+assert all((v["factor"] <= 0.5) == (_conv[k] == "per_hand") for k, v in STAPLE_MAP.items()), "per_hand staples need a per-hand factor"
+for lv in ("beginner", "intermediate"):
+    assert all(RATIO_1RM["female"][lv][a] < RATIO_1RM["male"][lv][a] for a in ANCHORS)
+for sx in RATIO_1RM:
+    assert all(RATIO_1RM[sx]["beginner"][a] < RATIO_1RM[sx]["intermediate"][a] for a in ANCHORS)
+_ages = [age_factor(a) for a in range(18, AGE_MAX + 1)]
+assert all(x >= y for x, y in zip(_ages, _ages[1:])) and _ages[0] == 1.0 and _ages[-1] > 0, "age factor must not rise"
+assert all(abs(age_factor(b["to"] - 1e-9) - nb["factor_at_start"]) < 1e-6 for b, nb in zip(AGE_BANDS, AGE_BANDS[1:])), "age bands must join up"
+EXPECTED = {  # (person index, staple): suggested kg. Recomputed above; pinned here so a change is deliberate.
+ (0, "Barbell_Squat"): 40.0, (0, "Barbell_Bench_Press_-_Medium_Grip"): 30.0, (0, "Barbell_Deadlift"): 47.5, (0, "Standing_Military_Press"): 20.0, (0, "Wide-Grip_Lat_Pulldown"): 20.0, (0, "Dumbbell_Bench_Press"): 12.0,
+ (1, "Barbell_Squat"): 45.0, (1, "Barbell_Bench_Press_-_Medium_Grip"): 32.5, (1, "Barbell_Deadlift"): 52.5, (1, "Standing_Military_Press"): 20.0, (1, "Wide-Grip_Lat_Pulldown"): 25.0, (1, "Dumbbell_Bench_Press"): 14.0,
+ (2, "Barbell_Squat"): 25.0, (2, "Barbell_Bench_Press_-_Medium_Grip"): None, (2, "Barbell_Deadlift"): 30.0, (2, "Standing_Military_Press"): None, (2, "Wide-Grip_Lat_Pulldown"): 15.0, (2, "Dumbbell_Bench_Press"): 6.0,
+ (3, "Barbell_Squat"): None, (3, "Barbell_Bench_Press_-_Medium_Grip"): None, (3, "Barbell_Deadlift"): None, (3, "Standing_Military_Press"): None, (3, "Wide-Grip_Lat_Pulldown"): 5.0, (3, "Dumbbell_Bench_Press"): 2.0,
+}
+for (i, sid), kg in EXPECTED.items():
+    assert sl["worked_examples"][i]["expected"][sid]["suggested_kg"] == kg, (i, sid, sl["worked_examples"][i]["expected"][sid])
+assert all(r["suggested_kg"] is None or r["suggested_kg"] <= r["unrounded_kg"] or r["outcome"] == "lightest_load"
+           for ex in sl["worked_examples"] for r in ex["expected"].values()), "must round down"
+pa = progression["personal_adjustment"]["value"]
+assert pa["load_bias"]["max_total_pct"]["up"] <= 10 and pa["load_bias"]["max_step_pct_per_week"] <= pa["load_bias"]["max_total_pct"]["up"]
 print("rule ids:", len(ALL_IDS))
 
 VERIFY = {  # how each source was checked during research (v0.1.1)
@@ -559,13 +836,17 @@ VERIFY = {  # how each source was checked during research (v0.1.1)
                "who2020", "cmo2019", "hprc", "nhs_chest", "nhs_angina", "nhs_999", "nhs_sprain", "nhs_periods", "bhf_safe",
                "cddft", "cc_doms", "cc_sick", "parq",
                "nhs_back_ex", "nhs_physio", "nhs_msk", "nhs_gp", "nhs_111", "nhs_111_wales", "nhs24", "ni_ooh", "reynolds2006",
-               "cotterman2005", "kolber2014", "ribeiro2020", "day2004", "haddad2017", "martinfuentes2020"],
- "abstract_only": ["coleman2024", "spiering2021", "lesuer1997", "saeterbakken2011", "ribeiro2014"],
- "secondary_only": ["nsca", "schoenfeld2017", "robinson2024", "refalo2024", "ak2020", "bell2024", "ioc_reds", "riebe2015", "silbernagel2007", "epley1985", "foster2001", "csp_find"],
+               "cotterman2005", "kolber2014", "ribeiro2020", "day2004", "haddad2017", "martinfuentes2020",
+               "keller2013", "fragala2019", "grgic2020", "cooper_bench", "ma2025", "pedersen2022", "strengthlevel", "zoeller2008",
+               "tomlinson2016", "helms2018", "greig2020"],
+ "abstract_only": ["coleman2024", "spiering2021", "lesuer1997", "saeterbakken2011", "ribeiro2014",
+                   "goodpaster2006", "brown1998", "johnson2009", "miller1993", "janssen2000", "jaric2002", "folland2008", "steele2022", "halperin2022"],
+ "secondary_only": ["nsca", "schoenfeld2017", "robinson2024", "refalo2024", "ak2020", "bell2024", "ioc_reds", "riebe2015", "silbernagel2007", "epley1985", "foster2001", "csp_find",
+                    "glass2004"],
 }
 assert sorted(sum(VERIFY.values(), [])) == sorted(SRC), set(SRC) ^ set(sum(VERIFY.values(), []))
 SRC_OUT = {k: {**v, "verification": next(st for st, ks in VERIFY.items() if k in ks)} for k, v in SRC.items()}
-registry = {"version": "0.1.2",
+registry = {"version": "0.1.3",
             "notes": ["verification: full_text = figures checked against the paper/page; abstract_only = abstract or publisher summary; "
                       "secondary_only = figures from reviews/summaries citing it (paywall or rate-limited). Spot-check secondary_only before launch."],
             "sources": SRC_OUT}

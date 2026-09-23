@@ -1,5 +1,5 @@
 {
- "version": "0.1.2",
+ "version": "0.1.3",
  "notes": [
   "verification: full_text = figures checked against the paper/page; abstract_only = abstract or publisher summary; secondary_only = figures from reviews/summaries citing it (paywall or rate-limited). Spot-check secondary_only before launch."
  ],
@@ -372,6 +372,153 @@
    "title": "Electromyographic activity in deadlift exercise and its variants. A systematic review",
    "org": "Martin-Fuentes, Oliva-Lozano, Muyor, PLoS One",
    "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0229507",
+   "year": 2020,
+   "verification": "full_text"
+  },
+  "keller2013": {
+   "title": "Strength and muscle mass loss with aging process. Age and strength loss",
+   "org": "Keller, Engelhardt, Muscles Ligaments Tendons J",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3940510/",
+   "year": 2013,
+   "verification": "full_text"
+  },
+  "goodpaster2006": {
+   "title": "The loss of skeletal muscle strength, mass, and quality in older adults: the Health, Aging and Body Composition Study",
+   "org": "Goodpaster et al., J Gerontol A Biol Sci Med Sci",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/17077199/",
+   "year": 2006,
+   "verification": "abstract_only"
+  },
+  "fragala2019": {
+   "title": "Resistance Training for Older Adults: Position Statement From the National Strength and Conditioning Association",
+   "org": "Fragala et al., J Strength Cond Res",
+   "url": "https://doi.org/10.1519/JSC.0000000000003230",
+   "year": 2019,
+   "verification": "full_text"
+  },
+  "grgic2020": {
+   "title": "Test-Retest Reliability of the One-Repetition Maximum (1RM) Strength Assessment: a Systematic Review",
+   "org": "Grgic et al., Sports Medicine – Open",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7367986/",
+   "year": 2020,
+   "verification": "full_text"
+  },
+  "cooper_bench": {
+   "title": "1-RM bench press to body weight norms by age and sex (Cooper Institute data, as reprinted in ACE's 1-RM Bench-Press Assessment Protocol)",
+   "org": "The Cooper Institute / American Council on Exercise",
+   "url": "https://contentcdn.eacefitness.com/assets/certification/ace-answers/forms/pt/38_Bench-Press_Assessment_Protocol.pdf",
+   "year": 2020,
+   "verification": "full_text"
+  },
+  "brown1998": {
+   "title": "Normative data for strength and flexibility of women throughout life",
+   "org": "Brown, Miller, Eur J Appl Physiol",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/9660160/",
+   "year": 1998,
+   "verification": "abstract_only"
+  },
+  "ma2025": {
+   "title": "Effect of cluster set resistance training combined with HIIT in untrained young men (baseline 1RMs)",
+   "org": "Ma et al., PeerJ",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12721101/",
+   "year": 2025,
+   "verification": "full_text"
+  },
+  "pedersen2022": {
+   "title": "Split-body vs full-body resistance training in non-resistance-trained women (baseline 1RMs)",
+   "org": "Pedersen et al., BMC Sports Sci Med Rehabil",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9107721/",
+   "year": 2022,
+   "verification": "full_text"
+  },
+  "johnson2009": {
+   "title": "Relationship of lat-pull repetitions and pull-ups to maximal lat-pull and pull-up strength in men and women",
+   "org": "Johnson, Lynch, Nash, Cygan, Mayhew, J Strength Cond Res",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/19387371/",
+   "year": 2009,
+   "verification": "abstract_only"
+  },
+  "strengthlevel": {
+   "title": "Strength standards (crowd-sourced, self-reported lifts; practitioner data, low evidence)",
+   "org": "Strength Level",
+   "url": "https://strengthlevel.com/strength-standards",
+   "year": 2026,
+   "verification": "full_text"
+  },
+  "miller1993": {
+   "title": "Gender differences in strength and muscle fiber characteristics",
+   "org": "Miller, MacDougall, Tarnopolsky, Sale, Eur J Appl Physiol",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/8477683/",
+   "year": 1993,
+   "verification": "abstract_only"
+  },
+  "janssen2000": {
+   "title": "Skeletal muscle mass and distribution in 468 men and women aged 18-88 yr",
+   "org": "Janssen, Heymsfield, Wang, Ross, J Appl Physiol",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/10904038/",
+   "year": 2000,
+   "verification": "abstract_only"
+  },
+  "jaric2002": {
+   "title": "Muscle strength testing: use of normalisation for body size",
+   "org": "Jaric, Sports Medicine",
+   "url": "https://doi.org/10.2165/00007256-200232100-00002",
+   "year": 2002,
+   "verification": "abstract_only"
+  },
+  "folland2008": {
+   "title": "Allometric scaling of strength measurements to body size",
+   "org": "Folland, McCauley, Williams, Eur J Appl Physiol",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/18172672/",
+   "year": 2008,
+   "verification": "abstract_only"
+  },
+  "zoeller2008": {
+   "title": "Allometric scaling of isometric biceps strength in adult females and the effect of body mass index",
+   "org": "Zoeller et al., Eur J Appl Physiol",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4107660/",
+   "year": 2008,
+   "verification": "full_text"
+  },
+  "tomlinson2016": {
+   "title": "The impact of obesity on skeletal muscle strength and structure through adolescence to old age",
+   "org": "Tomlinson, Erskine, Morse, Winwood, Onambele-Pearson, Biogerontology",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4889641/",
+   "year": 2016,
+   "verification": "full_text"
+  },
+  "steele2022": {
+   "title": "Are Trainees Lifting Heavy Enough? Self-Selected Loads in Resistance Exercise: A Scoping Review and Exploratory Meta-analysis",
+   "org": "Steele et al., Sports Medicine",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/35790622/",
+   "year": 2022,
+   "verification": "abstract_only"
+  },
+  "glass2004": {
+   "title": "Self-selected resistance training intensity in novice weightlifters",
+   "org": "Glass, Stanton, J Strength Cond Res",
+   "url": "https://journals.lww.com/nsca-jscr/abstract/2004/05000/self_selected_resistance_training_intensity_in.22.aspx",
+   "year": 2004,
+   "verification": "secondary_only"
+  },
+  "halperin2022": {
+   "title": "Accuracy in Predicting Repetitions to Task Failure in Resistance Exercise: A Scoping Review and Exploratory Meta-analysis",
+   "org": "Halperin et al., Sports Medicine",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/34542869/",
+   "year": 2022,
+   "verification": "abstract_only"
+  },
+  "helms2018": {
+   "title": "RPE vs. Percentage 1RM Loading in Periodized Programs Matched for Sets and Repetitions",
+   "org": "Helms et al., Frontiers in Physiology",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5877330/",
+   "year": 2018,
+   "verification": "full_text"
+  },
+  "greig2020": {
+   "title": "Autoregulation in Resistance Training: Addressing the Inconsistencies",
+   "org": "Greig et al., Sports Medicine",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7575491/",
    "year": 2020,
    "verification": "full_text"
   }

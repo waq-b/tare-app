@@ -1,5 +1,5 @@
 {
- "version": "0.1.2",
+ "version": "0.1.3",
  "notes": [
   "id_scheme: every rule has a permanent `id`. IDs never change or get reused between versions; a retired rule keeps its id with `retired: true`. Prefixes: tr.* = training_rules, pr.* = progression_rules, sf.* = screening (questions cited as sf.screening.<question id>); safety red-flag rules keep their bare snake_case ids from v0.1.0. AI suggestions must cite ids, e.g. 'pr.stall.step2'.",
   "ACSM 2026: progression isn't needed for health benefit, only for continued gains. Periodisation matters less than once thought.",
@@ -328,6 +328,99 @@
    }
   ],
   "evidence_strength": "moderate",
+  "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
+ },
+ "personal_adjustment": {
+  "id": "pr.personal_adjustment",
+  "rule": "Suggestions may shift towards how the user actually lifts, per exercise, but only within tight bounds. The rules engine and safety rules stay in charge.",
+  "value": {
+   "load_bias": {
+    "signal": "per exercise: lifted working load / suggested working load - 1, on working sets only (never warm-ups or deload sets)",
+    "min_sessions": 4,
+    "window_sessions": 6,
+    "min_consistent_share": 0.75,
+    "min_median_gap_pct": 5,
+    "max_total_pct": {
+     "up": 10,
+     "down": 10
+    },
+    "max_step_pct_per_week": 5,
+    "applies_up_only_if": "the heavier sets were logged Easy or OK with the target reps done, and there were no pain flags for the exercise's body areas in the window",
+    "applies_down_only_if": "the suggested load was logged Hard or reps fell short on it; lifting lighter while logging Easy does NOT lower suggestions"
+   },
+   "pace": {
+    "signal": "share of suggested load increases the user declined or undid",
+    "slower": "if 2 of the last 3 suggested increases were declined, require one extra qualifying session before the next increase (max +1 session)",
+    "faster": "if every increase in the window was accepted and the next sets were logged Easy, use the top of the rule's increment range; never a bigger step",
+    "min_sessions": 4
+   },
+   "never": [
+    "outside the goal's allowed_rep_range or allowed ranges (tr.goal.*)",
+    "above the rule's increment range (pr.* methods)",
+    "above a screening max_rpe (sf.screening)",
+    "on an exercise or body area with an open pain flag or safety action",
+    "during a deload (pr.deload) or the new-user ramp (pr.new_user_ramp)",
+    "to change any safety rule or message"
+   ],
+   "reset_on": [
+    "pain flag for the exercise's body areas",
+    "swap to a different exercise",
+    "a break of 3+ weeks",
+    "the user taps reset"
+   ],
+   "visibility": {
+    "label": "Adjusted to how you usually lift",
+    "show": "the size of the adjustment and the rule it adjusts",
+    "resettable": true
+   }
+  },
+  "detail": "Evidence is thin; these bounds are our synthesis. Why they are tight: 1RM varies about 4-5.5% between sessions (Grgic 2020), so a smaller gap is noise, and several sessions are needed before a trend means anything (no source gives a number; 4 is our default). RPE-based systems move load about 2% per half RPE point, about 8% at the extremes (Helms 2018), and ACSM 2009 uses 2-10% steps, so a 10% ceiling and 5% steps stay inside normal practice. People choose loads below what builds strength, about 53% of 1RM on average (Steele 2022; Glass 2004), and misjudge reps in reserve by about 1 rep (Halperin 2022), so a habit of lifting lighter never pulls suggestions down on its own. Autoregulated programmes do as well as or better than fixed ones (Greig 2020), which supports bounded personal adjustment.",
+  "engine_default": true,
+  "sources": [
+   {
+    "title": "Test-Retest Reliability of the One-Repetition Maximum (1RM) Strength Assessment: a Systematic Review",
+    "org": "Grgic et al., Sports Medicine – Open",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7367986/",
+    "year": 2020
+   },
+   {
+    "title": "RPE vs. Percentage 1RM Loading in Periodized Programs Matched for Sets and Repetitions",
+    "org": "Helms et al., Frontiers in Physiology",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5877330/",
+    "year": 2018
+   },
+   {
+    "title": "Progression Models in Resistance Training for Healthy Adults (Position Stand)",
+    "org": "American College of Sports Medicine (MSSE)",
+    "url": "https://journals.lww.com/acsm-msse/fulltext/2009/03000/progression_models_in_resistance_training_for.26.aspx",
+    "year": 2009
+   },
+   {
+    "title": "Are Trainees Lifting Heavy Enough? Self-Selected Loads in Resistance Exercise: A Scoping Review and Exploratory Meta-analysis",
+    "org": "Steele et al., Sports Medicine",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/35790622/",
+    "year": 2022
+   },
+   {
+    "title": "Self-selected resistance training intensity in novice weightlifters",
+    "org": "Glass, Stanton, J Strength Cond Res",
+    "url": "https://journals.lww.com/nsca-jscr/abstract/2004/05000/self_selected_resistance_training_intensity_in.22.aspx",
+    "year": 2004
+   },
+   {
+    "title": "Accuracy in Predicting Repetitions to Task Failure in Resistance Exercise: A Scoping Review and Exploratory Meta-analysis",
+    "org": "Halperin et al., Sports Medicine",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/34542869/",
+    "year": 2022
+   },
+   {
+    "title": "Autoregulation in Resistance Training: Addressing the Inconsistencies",
+    "org": "Greig et al., Sports Medicine",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7575491/",
+    "year": 2020
+   }
+  ],
+  "evidence_strength": "weak",
   "licence": "Facts/figures cited from source; wording is ours. No source text reproduced."
  }
 }
