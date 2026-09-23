@@ -1,23 +1,18 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { RouterProvider } from 'react-router';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { createAppData, DbProvider } from '../src/data/DbContext.tsx';
+import { createAppData } from '../src/data/DbContext.tsx';
 import { exportAll, TareDb } from '../src/db/index.ts';
-import { createTestRouter } from '../src/routes.tsx';
+import { renderApp } from './render.tsx';
 
-function renderSettings() {
-  const data = createAppData(new TareDb(`settings-${Math.random()}`));
-  render(
-    <DbProvider data={data}>
-      <RouterProvider router={createTestRouter('/settings')} />
-    </DbProvider>,
-  );
+async function renderSettings() {
+  const { data } = await renderApp('/settings');
+  await screen.findByText('Export all data');
   return data;
 }
 
 describe('Settings → Data', () => {
   it('exports a backup file', async () => {
-    const data = renderSettings();
+    const data = await renderSettings();
     await data.r.weighIns.add({ date: '2026-09-01', time: '07:00', kg: 92, waistCm: null });
     URL.createObjectURL = vi.fn(() => 'blob:x');
     URL.revokeObjectURL = vi.fn();
@@ -31,7 +26,7 @@ describe('Settings → Data', () => {
     const source = createAppData(new TareDb(`src-${Math.random()}`));
     await source.r.weighIns.add({ date: '2026-09-01', time: '07:00', kg: 92, waistCm: null });
     const file = new File([JSON.stringify(await exportAll(source.db))], 'b.json');
-    const data = renderSettings();
+    const data = await renderSettings();
     fireEvent.change(screen.getByLabelText('Backup file'), { target: { files: [file] } });
     expect(await screen.findByText('Backup restored')).toBeTruthy();
     expect(screen.getByText('1 added, 0 updated, 0 already here.')).toBeTruthy();
@@ -39,10 +34,17 @@ describe('Settings → Data', () => {
   });
 
   it('says so when the file isn’t a backup', async () => {
-    renderSettings();
+    await renderSettings();
     const file = new File(['not json'], 'x.json');
     fireEvent.change(screen.getByLabelText('Backup file'), { target: { files: [file] } });
     expect(await screen.findByText('Couldn’t restore that file')).toBeTruthy();
     expect(screen.getByText('It isn’t a Tare backup.')).toBeTruthy();
+  });
+
+  it('sign out forgets the account on this phone and goes to sign-in', async () => {
+    const { data, router } = await renderApp('/settings');
+    fireEvent.click(await screen.findByRole('button', { name: /Sign out/ }));
+    await waitFor(() => expect(router.state.location.pathname).toBe('/sign-in'));
+    expect(await data.db.meta.get('account')).toBeUndefined();
   });
 });

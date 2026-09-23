@@ -4,6 +4,7 @@ import { BottomNav, type Tab } from '@tare/ui';
 import { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import s from './shell.module.css';
+import { Gate } from './Gate.tsx';
 import { UpdatePrompt } from './UpdatePrompt.tsx';
 
 const TAB_PATHS: Record<Tab, string> = {
@@ -53,7 +54,9 @@ export function AppShell() {
     <div className={s['app']}>
       <UpdatePrompt />
       <div className={s['screen']}>
-        <Outlet />
+        <Gate>
+          <Outlet />
+        </Gate>
       </div>
       {tab ? <BottomNav active={tab} hrefFor={(t) => TAB_PATHS[t]} /> : null}
     </div>

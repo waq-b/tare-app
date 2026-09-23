@@ -265,6 +265,14 @@ All hand-rolled SVG. Every chart has a table one tap away.
 - The pain-flag sheet (area, timing, red-flag follow-ups routed to real rules) and `BodyMap` are designed in code (decision #44); a design pass is filed as #49
 - `Button` renders links (`tel:`, NHS pages) and has an `emergency-outline` variant for the red screen
 
+### 3.8 Added in P0
+
+Components the app needed that no board shows. Each gets a story like the rest.
+
+| Component   | Variants                                                  | Used in | Data |
+| ----------- | --------------------------------------------------------- | ------- | ---- |
+| `TextField` | `default` / `code` (big centred mono digits); hint, error | Sign-in | —    |
+
 ## 4. Screen inventory
 
 All 60 boards. **Status:** _build_ = a D1 story composed from components; _theme twin_ = the same story in light (every story renders in both themes anyway); _reference_ = not built, a D1 docs page links the board; _system_ = a D1 docs story (tokens, icons, components); _prototype_ = a composed interactive D1 story. **Phase** = when it's wired into the app.

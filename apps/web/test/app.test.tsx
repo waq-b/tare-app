@@ -1,20 +1,9 @@
 import { rawVpt, vpt } from '@tare/data';
-import { act, render, screen } from '@testing-library/react';
-import { RouterProvider } from 'react-router';
+import { act, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { createAppData, DbProvider } from '../src/data/DbContext.tsx';
-import { TareDb } from '../src/db/index.ts';
-import { createTestRouter } from '../src/routes.tsx';
+import { renderApp } from './render.tsx';
 
-function renderAt(path: string) {
-  const router = createTestRouter(path);
-  render(
-    <DbProvider data={createAppData(new TareDb(`app-${Math.random()}`))}>
-      <RouterProvider router={router} />
-    </DbProvider>,
-  );
-  return router;
-}
+const renderAt = (path: string) => renderApp(path);
 
 describe('app shell', () => {
   it.each([
@@ -22,28 +11,29 @@ describe('app shell', () => {
     ['/plan', 'Plan'],
     ['/progress', 'Progress'],
     ['/coach', 'Coach'],
-  ])('%s shows the %s tab as current', (path, label) => {
-    renderAt(path);
-    const nav = screen.getByRole('navigation', { name: 'Main' });
+  ])('%s shows the %s tab as current', async (path, label) => {
+    await renderAt(path);
+    const nav = await screen.findByRole('navigation', { name: 'Main' });
     const current = nav.querySelector('[aria-current="page"]');
     expect(current?.textContent).toBe(label);
   });
 
-  it('drill-ins and flows have no bottom nav', () => {
-    renderAt('/workout');
+  it('drill-ins and flows have no bottom nav', async () => {
+    await renderAt('/workout');
+    await screen.findByText('Workout is on its way');
     expect(screen.queryByRole('navigation', { name: 'Main' })).toBeNull();
   });
 
   it('nav links route in the app without a page load', async () => {
-    const router = renderAt('/');
-    const plan = screen.getByRole('link', { name: 'Plan' });
+    const { router } = await renderAt('/');
+    const plan = await screen.findByRole('link', { name: 'Plan' });
     await act(async () => plan.click());
     expect(router.state.location.pathname).toBe('/plan');
   });
 
-  it('an unknown address says so and links home', () => {
-    renderAt('/nope');
-    expect(screen.getByText('There’s nothing here')).toBeTruthy();
+  it('an unknown address says so and links home', async () => {
+    await renderAt('/nope');
+    expect(await screen.findByText('There’s nothing here')).toBeTruthy();
     expect(screen.getByRole('link', { name: 'Go to Today' }).getAttribute('href')).toBe('/');
   });
 });

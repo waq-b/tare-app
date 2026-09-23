@@ -12,6 +12,7 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.117.1",
     "@tare/data": "^0.1.0",
     "@tare/engine": "^0.1.0",
     "@tare/icons": "^0.1.0",

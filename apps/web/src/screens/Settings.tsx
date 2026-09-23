@@ -3,6 +3,7 @@ import { vpt } from '@tare/data';
 import { Icon } from '@tare/icons';
 import { Banner, ListRow, SectionLabel, TopBar } from '@tare/ui';
 import { useEffect, useRef, useState } from 'react';
+import { useAuth } from '../auth/AuthContext.tsx';
 import { useAppData } from '../data/DbContext.tsx';
 import { exportAll, importAll } from '../db/index.ts';
 import s from './screens.module.css';
@@ -13,6 +14,7 @@ const today = () => new Date().toISOString().slice(0, 10);
 
 export function Settings() {
   const { db } = useAppData();
+  const { state, signOut } = useAuth();
   const file = useRef<HTMLInputElement>(null);
   const [status, setStatus] = useState<Status>(null);
   const [persisted, setPersisted] = useState<boolean | null>(null);
@@ -59,6 +61,20 @@ export function Settings() {
             {status.body}
           </Banner>
         ) : null}
+        <div>
+          <SectionLabel>Account</SectionLabel>
+          <ListRow
+            variant="compact"
+            title="Signed in as"
+            value={state.status === 'signedIn' ? state.email : '—'}
+          />
+          <ListRow
+            leading={<Icon name="lock" size={22} />}
+            title="Sign out"
+            subtitle="Your logs stay on this phone"
+            onClick={() => void signOut()}
+          />
+        </div>
         <div>
           <SectionLabel>Data</SectionLabel>
           <ListRow

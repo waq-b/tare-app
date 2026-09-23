@@ -60,6 +60,7 @@ export * from './components/StepProgress/StepProgress';
 export * from './components/SwapRow/SwapRow';
 export * from './components/Switch/Switch';
 export * from './components/Tag/Tag';
+export * from './components/TextField/TextField';
 export * from './components/TextLink/TextLink';
 export * from './components/TopBar/TopBar';
 export * from './components/WeekStrip/WeekStrip';

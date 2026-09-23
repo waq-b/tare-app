@@ -5,6 +5,7 @@ import { AppShell } from './shell/AppShell.tsx';
 import { Placeholder } from './screens/Placeholder.tsx';
 import { NotFound } from './screens/NotFound.tsx';
 import { Settings } from './screens/Settings.tsx';
+import { SignIn } from './screens/SignIn.tsx';
 
 export const routes: RouteObject[] = [
   {
@@ -22,7 +23,7 @@ export const routes: RouteObject[] = [
       { path: 'workout', element: <Placeholder title="Workout" back="/" /> },
       { path: 'workout/finish', element: <Placeholder title="Finish" back="/workout" /> },
       { path: 'safety/:ruleId', element: <Placeholder title="Safety" back="/" /> },
-      { path: 'sign-in', element: <Placeholder title="Sign in" /> },
+      { path: 'sign-in', element: <SignIn /> },
       { path: 'onboarding/*', element: <Placeholder title="Set up" /> },
       { path: '*', element: <NotFound /> },
     ],
