@@ -8,10 +8,12 @@ import { raw } from '#vpt-source';
 /** The unvalidated files behind vpt() (for building the app bundle in tests and scripts). */
 export const rawVpt = raw;
 import { loadVpt, type RuleEntry, type Vpt } from './load.ts';
+import { parseStartingLoad, type StartingLoadRule } from './startingLoad.ts';
 import type * as S from './schemas.ts';
 
 export { loadVpt, labelFromId, MIN_VPT_VERSION, versionAtLeast } from './load.ts';
 export { slimForApp } from './slim.ts';
+export { parseStartingLoad, type StartingLoadRule } from './startingLoad.ts';
 export type { RawVpt, RuleEntry, RuleFile, Vpt } from './load.ts';
 
 export type Exercise = z.infer<typeof S.Exercise>;
@@ -113,4 +115,12 @@ export function exercisesLoading(area: string, load: 'primary' | 'secondary'): r
   const a = vpt().bodyAreaMap[area];
   if (!a) throw new Error(`vpt: unknown body area "${area}"`);
   return a[load];
+}
+
+let startingLoadCache: StartingLoadRule | undefined;
+
+/** tr.global.starting_load, validated (throws if the data changes shape). */
+export function startingLoadRule(): StartingLoadRule {
+  startingLoadCache ??= parseStartingLoad(rule('tr.global.starting_load').raw['value']);
+  return startingLoadCache;
 }

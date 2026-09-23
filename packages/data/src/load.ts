@@ -12,7 +12,7 @@ import {
 } from './schemas.ts';
 
 /** Oldest vpt version this app understands. Bump when the app starts relying on new data. */
-export const MIN_VPT_VERSION = '0.1.2';
+export const MIN_VPT_VERSION = '0.1.3';
 
 export interface RawVpt {
   exercises: unknown;

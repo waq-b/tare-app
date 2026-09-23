@@ -12,6 +12,10 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 - GitHub Actions CI: install → lint → typecheck → test
 - Housekeeping: project README replaces the stale dataset copy; app changelog moved here; `docs/plans/` created
 
+### P1 — Rules engine (building; ships to the phone after the P0 two weeks, #90)
+
+- **vpt v0.1.3 upgrade (#75):** `MIN_VPT_VERSION` 0.1.3. `tr.global.starting_load` is validated with its own schema and exposed as `startingLoadRule()`. Three constants that exist only inside formula text (BMI cap, first-session reps in reserve, lightest-load share) are parsed loudly, marked `FALLBACK(vpt-issue #21)`. `pr.personal_adjustment` loads (unbuilt: #93 is later). No other fallbacks were resolved (#5 display names is unchanged by design). The app bundle is now 100 KB gzipped
+
 ### P0 — Logging app (in progress)
 
 - **After the first run on the phone (2026-09-23):**
