@@ -1,0 +1,9 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-height: 0;
+  gap: var(--space-4);
+  padding: 0 var(--space-5) var(--space-6);
+  overflow-y: auto;
+}
