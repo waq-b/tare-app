@@ -14,6 +14,7 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### P1 — Rules engine (building; ships to the phone after the P0 two weeks, #90)
 
+- **Engine for T7 (#82, #73):** `returnAfterFlag` gives the first session back after a flag clears: `pain_during_exercise` at the rule's share of the previous load (rounded down to the kit), `suspected_sprain_strain` at its share of the sets. `noHardSets` covers `doms_normal`. A property test over all 21 safety rules proves a return never adds load or sets. The shares are text-only in the data (`FALLBACK(vpt-issue #23)`)
 - **Engine for T3–T6 (#78–#81):**
   - `blockOf`: training week since the first workout, the ramp weeks (`pr.new_user_ramp`), a planned deload after every `default_every_n_weeks`, and the first week of each new block. `rampSets`: the low end of the goal's sets per exercise during the ramp.
   - `deloadDue`: planned, or early on the rule's structured triggers (stalled lifts in a week, Wrecked sessions in 14 days, mostly Tough/Wrecked over 2 weeks; never during the ramp unless planned). `deloadPrescription`: sets cut by the rule, load held, effort eased by `rir_increase`.
