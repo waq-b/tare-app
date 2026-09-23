@@ -2,6 +2,15 @@
 
 Decisions Waqar has made. Newest first. When a `decision` issue is answered, add it here and close the issue. Each line gives the decision and why, briefly.
 
+## 2026-09-23 — P0 decisions
+
+- **Supabase** (#66): create a free project "tare" in London (EU). Daily use keeps a free project from pausing
+- **Web address** (#67): `tare.example.com` (web) and `api.tare.example.com` (API) from day one, via Cloudflare CNAMEs, because the phone's data is tied to the address
+- **Sign-in** (#68): email code sign-in **like pip**, on first launch, then remembered offline. Supabase Auth OTP, an **8-digit code** typed into the app (so the session lands in the installed PWA, not the browser), with the email's magic link as a desktop fallback. The code is checked once, automatically, when complete; pasted text is stripped to digits. Sign-ups off (`shouldCreateUser: false`) with accounts from an allowlist, and no account enumeration. The API verifies Supabase JWTs with `jose` against the JWKS. Pip's pattern: `apps/web/src/lib/auth-client.ts`, `screens/sign-in.tsx`, `apps/api/src/auth/jwt.ts` in the pip repo
+- **Plan and starting weights** (#69): seed the D1 plan structure; a starting-weights step, blank = an easy calibration set
+- **Weights before P1** (#70): no automatic progression in P0; the Ledger prefills the last working weight
+- **Engine subset in P0** (#71): `packages/engine` with only what P0 needs; P1 extends it
+
 ## 2026-09-23 — D1 done
 
 - **D1 signed off** (#50), after the layout fixes: the Storybook design library at https://tare-storybook.onrender.com. Polish stays in `later` issues #45–#49. P0 planning starts
