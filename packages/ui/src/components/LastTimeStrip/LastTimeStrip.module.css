@@ -1,16 +1,19 @@
 .strip {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: grid;
+  gap: 2px;
   margin: 0;
   padding: 10px var(--space-3);
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
   background: var(--surface-1);
 }
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
 .label {
-  flex-shrink: 0;
-  white-space: nowrap;
   font-size: var(--type-label-size);
   font-weight: var(--type-label-weight);
   letter-spacing: var(--type-label-tracking);
@@ -18,18 +21,13 @@
   color: var(--text-3);
 }
 .sets {
-  min-width: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   font-family: var(--font-mono);
   font-size: var(--type-num-m-size);
   font-variant-numeric: tabular-nums;
   color: var(--text-2);
+  overflow-wrap: anywhere;
 }
 .meta {
-  margin-left: auto;
   font-size: var(--type-caption-size);
   color: var(--text-3);
-  white-space: nowrap;
 }

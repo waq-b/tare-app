@@ -29,3 +29,23 @@ export const TouchCheckCatchesSmallTargets: StoryObj = {
     await expect(smallTargets(canvasElement).join()).toMatch(/"Go" is 32×32/);
   },
 };
+
+/** The layout check catches content spilling out of the frame and overlapping text. */
+export const LayoutCheckCatchesSpillsAndOverlaps: StoryObj = {
+  parameters: { layoutCheck: false },
+  render: () => (
+    <div data-testid="frame" style={{ width: 390, position: 'relative' }}>
+      <div style={{ width: 500 }}>Too wide</div>
+      <span style={{ position: 'absolute', top: 0, left: 0 }}>Overlapping</span>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const { layoutProblems } = await import('../.storybook/layout');
+    const [frame] = canvasElement.querySelectorAll<HTMLElement>('[data-testid="frame"]');
+    const found = layoutProblems(frame!).join('\n');
+    await expect(found).toMatch(/"Too wide" spills 110px past the frame/);
+    await expect(found).toMatch(
+      /"Too wide" overlaps .*"Overlapping"|"Overlapping" overlaps .*"Too wide"/,
+    );
+  },
+};

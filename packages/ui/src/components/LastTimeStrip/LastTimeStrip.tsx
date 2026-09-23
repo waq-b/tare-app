@@ -13,12 +13,14 @@ export interface LastTimeStripProps {
 export function LastTimeStrip({ sets, date, effort }: LastTimeStripProps) {
   return (
     <p className={styles['strip']}>
-      <span className={styles['label']}>Last time</span>
-      <span className={styles['sets']}>{sets}</span>
-      <span className={styles['meta']}>
-        {date}
-        {effort ? ` · ${effort}` : ''}
+      <span className={styles['head']}>
+        <span className={styles['label']}>Last time</span>
+        <span className={styles['meta']}>
+          {date}
+          {effort ? ` · ${effort}` : ''}
+        </span>
       </span>
+      <span className={styles['sets']}>{sets}</span>
     </p>
   );
 }

@@ -14,6 +14,9 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### D1 — Storybook design library (built and deployed 2026-09-23; sign-off pending)
 
+- **Layout fixes after review (2026-09-23):** Waqar spotted sideways scrolling on the Coach screens. Cause: `DiffChip` never wrapped, so long diffs ("2 sets in Session A from the next block") pushed up to 155px past the 390px frame.
+  - New layout check after every story test: nothing may spill past the story frame, nothing may scroll sideways (except labelled table regions and deliberate "…" truncation), and visible text may not overlap. Text is clipped to its scroll area first, and content behind an open sheet is skipped. A guard story proves it catches both a spill and an overlap.
+  - It found and fixed: `DiffChip` (now wraps), the "Last time" strip (sets were cut off; now on their own line), full-width buttons (long labels like NI's "GP out of hours service…" now wrap), and the Tokens page (long names ran into the next column)
 - **T17 close-out (#41):** demo note and "built vs plan" in `docs/plans/D1.md`, DESIGN.md §3.7 (what D1 added beyond the canvas), polish filed as `later` issues #45–#49
 - **T16 deploy (#40):** Storybook is live at https://tare-storybook.onrender.com, a free Render static site that auto-deploys from `main` (build `npm ci && npm run build && npm run build-storybook -w @tare/ui`, `NODE_VERSION=24`). It's public, with `noindex` in the manager and preview and a `robots.txt` blocking crawlers. Fixture fix: "Warm-up sets included" now only shows on the first exercise of each movement pattern, as in the logs
 - **T15 quality gates (#39):**

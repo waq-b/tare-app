@@ -45,6 +45,10 @@
 .full {
   display: flex;
   width: 100%;
+  padding-top: var(--space-2);
+  padding-bottom: var(--space-2);
+  text-align: center;
+  white-space: normal;
 }
 
 .primary {

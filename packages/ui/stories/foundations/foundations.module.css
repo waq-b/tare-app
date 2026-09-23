@@ -34,13 +34,14 @@
 .mono {
   font-family: var(--font-mono);
   font-size: var(--type-caption-size);
+  overflow-wrap: anywhere;
 }
 .dim {
   color: var(--text-2);
 }
 .row {
   display: grid;
-  grid-template-columns: 110px 1fr;
+  grid-template-columns: minmax(110px, auto) 1fr;
   gap: var(--space-3);
   align-items: baseline;
   padding: var(--space-2) 0;

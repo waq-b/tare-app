@@ -2,6 +2,7 @@ import type { Decorator, Preview } from '@storybook/react-vite';
 import { useEffect } from 'react';
 import '../src/styles/global.css';
 import './storybook.css';
+import { layoutProblems } from './layout';
 import { smallTargets, TOUCH_MIN } from './touch';
 
 type ThemeGlobal = 'dark' | 'light' | 'both';
@@ -52,6 +53,11 @@ const preview: Preview = {
     if (!TEST_THEME || parameters['touchTargets'] === false) return;
     const small = smallTargets(canvasElement);
     if (small.length) throw new Error(`Touch targets under ${TOUCH_MIN}px:\n${small.join('\n')}`);
+    if (parameters['layoutCheck'] === false) return;
+    // Each themed copy is its own frame.
+    const roots = [...canvasElement.querySelectorAll<HTMLElement>('.sb-root')];
+    const layout = (roots.length ? roots : [canvasElement]).flatMap((r) => layoutProblems(r));
+    if (layout.length) throw new Error(`Layout problems:\n${[...new Set(layout)].join('\n')}`);
   },
   globalTypes: {
     theme: {
