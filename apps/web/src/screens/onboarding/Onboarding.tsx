@@ -1,26 +1,31 @@
 // Onboarding (boards Onb-Welcome, Onb-Health, Onb-GP, Onb-Goals, Onb-Kit) plus the
 // starting-weights step (#69). Screening questions and messages are the data's, word for word;
 // the result is the engine's (evaluateScreening). One route per step, so Back works.
-import { exercise, displayName, screening, services, vpt } from '@tare/data';
-import { evaluateScreening, type ScreeningOutcome } from '@tare/engine';
+import { exercise, displayName, goal, rule, screening, services, vpt } from '@tare/data';
+import { evaluateScreening, weeklySets, type ScreeningOutcome } from '@tare/engine';
 import { Icon } from '@tare/icons';
 import {
   Banner,
   Button,
+  Card,
   Checkbox,
   ChoiceChip,
   DisclaimerCard,
+  ListRow,
   MiniquestTag,
   QuestionRow,
   RankedChoice,
+  SectionHeader,
   SectionLabel,
   SegmentedControl,
   serviceActions,
   StatusHero,
   Tag,
+  TargetBandBar,
   TextField,
   TextLink,
   TopBar,
+  WhyCard,
   Wordmark,
   type ServiceData,
 } from '@tare/ui';
@@ -32,14 +37,14 @@ import s from '../screens.module.css';
 import { completeOnboarding, goalIdOf, saveScreening } from './complete.ts';
 import { loadDraft, saveDraft, type Draft, type Region } from './draft.ts';
 
-const STEPS = ['welcome', 'health', 'result', 'goals', 'kit', 'weights'] as const;
+const STEPS = ['welcome', 'health', 'result', 'goals', 'kit', 'plan'] as const;
 type Step = (typeof STEPS)[number];
 const PROGRESS: Partial<Record<Step, number>> = {
   health: 1,
   result: 1,
   goals: 2,
   kit: 3,
-  weights: 4,
+  plan: 4,
 };
 const progress = (step: Step) => {
   const n = PROGRESS[step];
@@ -138,20 +143,20 @@ export function Onboarding() {
   // Steps after the result need a result that lets setup go on.
   const outcome = outcomeOf(draft);
   const blocked = !outcome || outcome.result === 'medical_clearance_first';
-  if ((st === 'goals' || st === 'kit' || st === 'weights') && blocked) {
+  if ((st === 'goals' || st === 'kit' || st === 'plan') && blocked) {
     return <Navigate to={outcome ? '/onboarding/result' : '/onboarding/health'} replace />;
   }
 
   return (
     <>
       {st === 'welcome' ? null : <TopBar back={{ href: prev(st) }} {...progress(st)} />}
-      <main className={s['body']} style={{ gap: 20, paddingTop: st === 'welcome' ? 72 : 0 }}>
+      <main className={`${s['body']} ${st === 'welcome' ? s['noTopBar'] : ''}`} style={{ gap: 20 }}>
         {st === 'welcome' ? <Welcome {...props} /> : null}
         {st === 'health' ? <Health {...props} /> : null}
         {st === 'result' ? <Result {...props} /> : null}
         {st === 'goals' ? <Goals {...props} /> : null}
         {st === 'kit' ? <Kit {...props} /> : null}
-        {st === 'weights' ? <Weights {...props} /> : null}
+        {st === 'plan' ? <YourPlan {...props} /> : null}
       </main>
     </>
   );
@@ -512,7 +517,7 @@ function Kit({ draft, update }: StepProps) {
         </p>
       </div>
       <div className={s['foot']}>
-        <Button size={60} fullWidth onClick={() => void navigate('/onboarding/weights')}>
+        <Button size={60} fullWidth onClick={() => void navigate('/onboarding/plan')}>
           Build my plan
         </Button>
       </div>
@@ -531,12 +536,34 @@ function draftSeed(d: Draft) {
   });
 }
 
-function Weights({ draft, update }: StepProps) {
+const DAY = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+
+/** The plan the answers built, and why: the goal's ranges, weekly sets per muscle against the
+ * target band, what was changed for kit or a flagged area, and the rules behind it. Starting
+ * weights are optional; without them, each exercise starts with an easy set to find its weight. */
+function YourPlan({ draft, update }: StepProps) {
   const navigate = useNavigate();
   const data = useAppData();
   const [busy, setBusy] = useState(false);
+  const [showWeights, setShowWeights] = useState(Object.keys(draft.startLoads).length > 0);
   const { plan, changes } = draftSeed(draft);
   const ids = uniqueExercises(plan);
+  const goalId = goalIdOf(draft.goalsRanked[0] ?? 'general');
+  const g = goal(goalId) as unknown as {
+    goal: string;
+    rep_range: [number, number];
+    rest_seconds: [number, number];
+    weekly_sets_per_muscle?: Record<string, { min: number; optimal: number; max: number }>;
+  };
+  const band = g.weekly_sets_per_muscle?.[draft.level];
+  const perMuscle = Object.entries(
+    weeklySets(
+      plan.sessions.flatMap((sess) =>
+        sess.exercises.map((e) => ({ exerciseId: e.exerciseId, sets: e.sets })),
+      ),
+    ).perMuscle,
+  ).sort((a, b) => b[1] - a[1]);
   const [text, setText] = useState<Record<string, string>>(() =>
     Object.fromEntries(ids.map((id) => [id, draft.startLoads[id]?.toString() ?? ''])),
   );
@@ -562,13 +589,14 @@ function Weights({ draft, update }: StepProps) {
     void navigate('/', { replace: true });
   }
 
+  const goalName = GOALS.find((x) => x.value === g.goal)?.label ?? g.goal;
   return (
     <>
       <div className={s['stack']}>
-        <h1 className={s['h1']}>Starting weights</h1>
+        <h1 className={s['h1']}>Your plan</h1>
         <p className={s['lede']}>
-          What you can lift for the reps, with a couple in reserve. Not sure? Leave it blank and
-          start with an easy set to find it.
+          {goalName}, {plan.sessions.length} full-body sessions a week, {draft.level}. Every number
+          below comes from the rules, not a guess.
         </p>
       </div>
       {(['area', 'kit'] as const).map((why) => {
@@ -593,22 +621,79 @@ function Weights({ draft, update }: StepProps) {
           </Banner>
         );
       })}
-      <div className={s['stack']}>
-        {ids.map((id) => {
-          const ex = exercise(id);
-          if (ex.load_convention === 'bodyweight') return null;
-          const perHand = ex.load_convention === 'per_hand';
-          return (
-            <TextField
-              key={id}
-              label={`${displayName(ex)} · kg${perHand ? ' per hand' : ''}`}
-              inputMode="decimal"
-              placeholder="Easy first set"
-              value={text[id] ?? ''}
-              onChange={(v) => setLoad(id, v)}
+      {plan.sessions.map((sess) => (
+        <Card key={sess.key}>
+          <SectionHeader title={sess.name} meta={DAY[sess.weekday]} as="h2" />
+          <div>
+            {sess.exercises.map((e) => (
+              <ListRow
+                key={e.exerciseId}
+                variant="compact"
+                title={displayName(exercise(e.exerciseId))}
+                value={`${e.sets} × ${e.repRange[0]}–${e.repRange[1]}`}
+                valueMono
+              />
+            ))}
+          </div>
+        </Card>
+      ))}
+      {band ? (
+        <Card>
+          <SectionHeader
+            title="Sets per week"
+            meta={`Target ${band.min}–${band.max} per muscle`}
+            as="h2"
+          />
+          {perMuscle.map(([m, v]) => (
+            <TargetBandBar
+              key={m}
+              label={cap(m)}
+              value={v}
+              band={band}
+              scaleMax={Math.max(band.max + 4, ...perMuscle.map((x) => x[1]))}
             />
-          );
-        })}
+          ))}
+        </Card>
+      ) : null}
+      <WhyCard rules={[rule(goalId), rule('tr.global.set_counting'), rule('tr.global.warm_up')]}>
+        {g.rep_range[0]}–{g.rep_range[1]} reps and {g.rest_seconds[0] / 60}–{g.rest_seconds[1] / 60}{' '}
+        minutes’ rest come from your goal. A set counts fully for the muscle it mainly works and
+        half for the helpers. Big lifts start with warm-up sets. Your first session finds your
+        weights with an easy set on each exercise.
+      </WhyCard>
+      <div className={s['stack']}>
+        <Button
+          variant="ghost"
+          size={52}
+          icon={<Icon name={showWeights ? 'chev-d' : 'chev-r'} size={18} />}
+          onClick={() => setShowWeights(!showWeights)}
+          aria-expanded={showWeights}
+        >
+          Starting weights · optional
+        </Button>
+        {showWeights ? (
+          <>
+            <p className={s['lede']}>
+              If you already know them: what you can lift for the reps with a couple in reserve.
+              Leave any blank to find it in your first session.
+            </p>
+            {ids.map((id) => {
+              const ex = exercise(id);
+              if (ex.load_convention === 'bodyweight') return null;
+              const perHand = ex.load_convention === 'per_hand';
+              return (
+                <TextField
+                  key={id}
+                  label={`${displayName(ex)} · kg${perHand ? ' per hand' : ''}`}
+                  inputMode="decimal"
+                  placeholder="Easy first set"
+                  value={text[id] ?? ''}
+                  onChange={(v) => setLoad(id, v)}
+                />
+              );
+            })}
+          </>
+        ) : null}
       </div>
       <div className={s['foot']}>
         <Button size={60} fullWidth disabled={busy} onClick={() => void finish()}>

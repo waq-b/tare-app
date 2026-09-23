@@ -56,6 +56,8 @@ test('onboard, a whole workout offline, reload mid-way, sync, export and restore
   await page.getByRole('button', { name: 'Continue setup' }).click();
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await page.getByRole('button', { name: 'Build my plan' }).click();
+  await expect(page.getByRole('heading', { name: 'Your plan' })).toBeVisible();
+  await page.getByRole('button', { name: /Starting weights · optional/ }).click();
   for (const [label, kg] of [
     ['Back squat · kg', '70'],
     ['Lat pulldown · kg', '45'],
@@ -66,7 +68,8 @@ test('onboard, a whole workout offline, reload mid-way, sync, export and restore
     await page.getByLabel(label).fill(kg);
   }
   await page.getByRole('button', { name: 'Start training' }).click();
-  await expect(page.getByText('Session A · Squat + pull')).toBeVisible();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.getByRole('button', { name: 'Start workout' })).toBeVisible();
 
   // Let the service worker take control, then lose the network.
   await page.evaluate(() => navigator.serviceWorker.ready);

@@ -14,6 +14,11 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### P0 — Logging app (in progress)
 
+- **After the first run on the phone (2026-09-23):**
+  - **PWA spacing:** the notch and home-bar gaps were padded twice (the shell and the top bar and nav each added them), leaving a big gap at the top and an odd strip under the nav in the installed app. Now only the components pad, and screens without a top bar (Welcome, Sign in) pad for the notch themselves.
+  - **Sync sooner:** changes now sync about 3 seconds after they're made. It used to wait for the next 5-minute pass, which an installed app in the background can miss.
+  - **"Your plan":** onboarding ends on a review of what was built and why: each session's exercises with sets × reps, sets per week per muscle against your goal's target band, what changed for your kit or a flagged area, and the rules behind it. Starting weights are optional, tucked under "Starting weights · optional". Weights from body stats wait on the data session (#75).
+  - **Onboarding finishes all or nothing:** a reload or closed app part-way can no longer leave a profile without a plan
 - **T13 end-to-end + data-loss tests (#63):** Playwright on a phone viewport against the built PWA (`npm run e2e -w @tare/web`, in CI; traces uploaded on failure).
   - One run covers: sign in, onboard with starting weights, a whole 14-set workout with the network off, a reload mid-workout that comes back on the same set, finish, then reconnect and sync by itself (every record reaches the API). It then exports a backup and restores it on a fresh phone with no API.
   - The E2E build (`vite --mode e2e`) uses a fake sign-in and `e2e/mock-api.ts`, which has the API's push/pull rules; production builds never take that branch.

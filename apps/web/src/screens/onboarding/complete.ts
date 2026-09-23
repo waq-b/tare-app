@@ -37,6 +37,14 @@ export async function completeOnboarding(
   plan: SeedPlan,
   now = Date.now(),
 ) {
+  const { db } = data;
+  // All or nothing: a reload or a closed app mid-way must never leave a profile without a plan.
+  await db.transaction('rw', [db.screening, db.profile, db.plans, db.outbox, db.meta], async () => {
+    await saveAll(data, d, o, plan, now);
+  });
+}
+
+async function saveAll(data: AppData, d: Draft, o: ScreeningOutcome, plan: SeedPlan, now: number) {
   await saveScreening(data, d, o, now);
   await data.r.profile.save({
     goalId: goalIdOf(d.goalsRanked[0] ?? 'general'),

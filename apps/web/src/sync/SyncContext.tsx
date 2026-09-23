@@ -8,6 +8,8 @@ import { readStatus, STATUS_KEY, syncOnce, type SyncStatus } from './engine.ts';
 import type { SyncTransport } from './transport.ts';
 
 const EVERY_MS = 5 * 60_000;
+/** After a change on the phone, sync this soon (a burst of changes is sent together). */
+const AFTER_CHANGE_MS = 3_000;
 const BACKOFF_MS = [30_000, 60_000, 120_000, 300_000];
 
 const Ctx = createContext<(() => void) | null>(null);
@@ -51,6 +53,7 @@ export function SyncProvider({
     }
     return {
       run,
+      soon: () => schedule(AFTER_CHANGE_MS),
       stop: () => {
         stopped = true;
         clearTimeout(timer);
@@ -69,6 +72,13 @@ export function SyncProvider({
       document.removeEventListener('visibilitychange', onVisible);
     };
   }, [scheduler]);
+
+  // Send changes a few seconds after they're made, not only on the 5-minute pass (an installed
+  // app's timers can be paused in the background, so waiting risks missing the window).
+  const pending = useLiveQuery(() => db.outbox.count(), [db]);
+  useEffect(() => {
+    if (pending) scheduler.soon();
+  }, [pending, scheduler]);
 
   return <Ctx.Provider value={scheduler.run}>{children}</Ctx.Provider>;
 }

@@ -4,8 +4,8 @@
   height: 100dvh;
   max-width: 480px;
   margin: 0 auto;
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
+  /* No safe-area padding here: TopBar, BottomNav, WorkoutTopBar/Footer, Sheet and SafetyScreen
+     each pad for the notch and home bar themselves. Padding here too doubled the gaps. */
   background: var(--bg);
 }
 .screen {

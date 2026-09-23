@@ -2,6 +2,11 @@
 
 Decisions Waqar has made. Newest first. When a `decision` issue is answered, add it here and close the issue. Each line gives the decision and why, briefly.
 
+## 2026-09-23 — After the first run on the phone
+
+- **Starting weights are optional** (changes #69): onboarding ends on a "Your plan" screen that shows what the answers built and why (sessions, sets per week against the target band, the rules). Starting weights are tucked under "Starting weights · optional"; blank means an easy first set finds the weight
+- **Weights from body stats** (height, weight, age, sex): wanted, but needs sourced rules from the data session first (data issue 20). Onboarding won't ask for body stats until something uses them
+
 ## 2026-09-23 — Render addresses for now (changes #67)
 
 - Render's custom-domain allowance is used up, so Tare stays on Render's own addresses for now: the app at `https://tare-web.example.com`, the API at `https://tare-api.example.com`. `tare.example.com` comes later

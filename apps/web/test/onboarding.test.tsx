@@ -38,7 +38,14 @@ describe('onboarding', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
     await screen.findByText('Your gym');
     fireEvent.click(screen.getByRole('button', { name: 'Build my plan' }));
-    await screen.findByText('Starting weights');
+    expect(await screen.findByRole('heading', { name: 'Your plan' })).toBeTruthy();
+    // What went into it: the sessions, sets per week against the target, and the rules.
+    expect(screen.getByText('Session A · Squat + pull')).toBeTruthy();
+    expect(screen.getByText(/Target 4–12 per muscle/)).toBeTruthy();
+    expect(document.body.textContent).toContain('tr.goal.fat_loss');
+    // Starting weights are optional and tucked away.
+    expect(screen.queryByLabelText('Back squat · kg')).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: /Starting weights · optional/ }));
     fireEvent.change(screen.getByLabelText('Back squat · kg'), { target: { value: '70,5' } });
     fireEvent.click(screen.getByRole('button', { name: 'Start training' }));
     await waitFor(() => expect(router.state.location.pathname).toBe('/'));
@@ -142,5 +149,34 @@ describe('onboarding', () => {
         'true',
       );
     }
+  });
+
+  it('finishing onboarding is all or nothing', async () => {
+    const { createAppData } = await import('../src/data/DbContext.tsx');
+    const { TareDb } = await import('../src/db/index.ts');
+    const { completeOnboarding } = await import('../src/screens/onboarding/complete.ts');
+    const { DEFAULT_DRAFT } = await import('../src/screens/onboarding/draft.ts');
+    const { seedPlan } = await import('../src/seed/plan.ts');
+    const { evaluateScreening } = await import('@tare/engine');
+    const data = createAppData(new TareDb(`atomic-${Math.random()}`));
+    const d = {
+      ...DEFAULT_DRAFT,
+      answers: Object.fromEntries(sc.questions.map((q) => [q.id, 'no' as const])),
+    };
+    const o = evaluateScreening({ answers: d.answers })!;
+    const { plan } = seedPlan({
+      goalId: 'tr.goal.fat_loss',
+      daysPerWeek: 3,
+      kit: d.kit,
+      cantDo: d.cantDo,
+      startedOn: '2026-09-22',
+    });
+    // The plan write fails part-way: nothing from this onboarding may stick.
+    data.db.plans.hook('creating', () => {
+      throw new Error('disk full');
+    });
+    await expect(completeOnboarding(data, d, o, plan)).rejects.toThrow('disk full');
+    expect(await data.r.profile.get()).toBeUndefined();
+    expect(await data.r.screening.latest()).toBeUndefined();
   });
 });

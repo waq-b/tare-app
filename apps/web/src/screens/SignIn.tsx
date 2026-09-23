@@ -47,7 +47,7 @@ export function SignIn() {
   }
 
   return (
-    <main className={s['body']} style={{ paddingTop: 56, gap: 24 }}>
+    <main className={`${s['body']} ${s['noTopBar']}`} style={{ gap: 24 }}>
       <div className={s['stack']}>
         <MiniquestTag />
         <Wordmark size={52} />
