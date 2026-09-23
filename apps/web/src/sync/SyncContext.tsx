@@ -12,7 +12,13 @@ const EVERY_MS = 5 * 60_000;
 const AFTER_CHANGE_MS = 3_000;
 const BACKOFF_MS = [30_000, 60_000, 120_000, 300_000];
 
-const Ctx = createContext<(() => void) | null>(null);
+interface SyncApi {
+  /** Ask for a pass soon. */
+  run: () => void;
+  /** Run a pass now and wait for it. */
+  now: () => Promise<SyncStatus>;
+}
+const Ctx = createContext<SyncApi | null>(null);
 
 export function SyncProvider({
   transport,
@@ -34,6 +40,13 @@ export function SyncProvider({
       clearTimeout(timer);
       if (!stopped) timer = setTimeout(run, ms);
     };
+    async function now(): Promise<SyncStatus> {
+      while (running) await running;
+      running = syncOnce(db, transport);
+      const status = (await running) as SyncStatus;
+      running = null;
+      return status;
+    }
     function run() {
       if (running) {
         again = true;
@@ -53,6 +66,7 @@ export function SyncProvider({
     }
     return {
       run,
+      now,
       soon: () => schedule(AFTER_CHANGE_MS),
       stop: () => {
         stopped = true;
@@ -80,12 +94,18 @@ export function SyncProvider({
     if (pending) scheduler.soon();
   }, [pending, scheduler]);
 
-  return <Ctx.Provider value={scheduler.run}>{children}</Ctx.Provider>;
+  const api = useMemo(() => ({ run: scheduler.run, now: scheduler.now }), [scheduler]);
+  return <Ctx.Provider value={api}>{children}</Ctx.Provider>;
 }
 
 /** Ask for a sync pass now (a no-op where sync isn't running, e.g. in tests). */
 export function useSyncNow(): () => void {
-  return useContext(Ctx) ?? noop;
+  return useContext(Ctx)?.run ?? noop;
+}
+
+/** An awaitable pass, or null where sync isn't running (tests, e2e without an API). */
+export function useSyncPass(): (() => Promise<SyncStatus>) | null {
+  return useContext(Ctx)?.now ?? null;
 }
 const noop = () => {};
 

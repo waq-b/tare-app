@@ -6,6 +6,8 @@ import { fakeAuthClient, type FakeAuth } from '../src/auth/fake.ts';
 import { createAppData, DbProvider, type AppData } from '../src/data/DbContext.tsx';
 import { TareDb } from '../src/db/index.ts';
 import { createTestRouter } from '../src/routes.tsx';
+import { SyncProvider } from '../src/sync/SyncContext.tsx';
+import type { SyncTransport } from '../src/sync/transport.ts';
 
 export const testProfile = {
   goalId: 'tr.goal.fat_loss',
@@ -29,6 +31,8 @@ export interface RenderOptions {
   onboarded?: boolean;
   auth?: FakeAuth;
   data?: AppData;
+  /** Run background sync against this transport (off by default). */
+  transport?: SyncTransport;
 }
 
 export async function renderApp(path: string, opts: RenderOptions = {}) {
@@ -43,7 +47,13 @@ export async function renderApp(path: string, opts: RenderOptions = {}) {
   render(
     <DbProvider data={data}>
       <AuthProvider client={auth}>
-        <RouterProvider router={router} />
+        {opts.transport ? (
+          <SyncProvider transport={opts.transport}>
+            <RouterProvider router={router} />
+          </SyncProvider>
+        ) : (
+          <RouterProvider router={router} />
+        )}
       </AuthProvider>
     </DbProvider>,
   );

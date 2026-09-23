@@ -1,10 +1,10 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { createAppData, type AppData } from '../src/data/DbContext.tsx';
 import { TareDb } from '../src/db/index.ts';
 import { readStatus, squash, syncOnce } from '../src/sync/engine.ts';
 import { SyncHttpError, type SyncChange, type SyncTransport } from '../src/sync/transport.ts';
-import { renderApp } from './render.tsx';
+import { renderApp, testProfile } from './render.tsx';
 
 /** The API's rules in memory: last write wins per record, a global change sequence. */
 function memServer() {
@@ -191,6 +191,47 @@ describe('sync', () => {
       ['a', 3],
       ['b', 1],
     ]);
+  });
+});
+
+describe('a new phone or a second install', () => {
+  it('after sign-in, restores from the server instead of onboarding again', async () => {
+    const server = memServer();
+    const first = device();
+    await first.r.profile.save({ ...testProfile, onboardedAt: 1 });
+    await first.r.weighIns.add({ date: '2026-09-22', time: '07:00', kg: 91.4, waistCm: null });
+    await syncOnce(first.db, server.transport);
+
+    const second = device();
+    const { router } = await renderApp('/', {
+      data: second,
+      onboarded: false,
+      transport: server.transport,
+    });
+    await waitFor(() => expect(router.state.location.pathname).toBe('/'));
+    expect(await screen.findByRole('heading', { name: 'Today' })).toBeTruthy();
+    expect((await second.r.profile.get())?.onboardedAt).toBe(1);
+    expect(router.state.location.pathname).not.toMatch(/onboarding/);
+  });
+
+  it('with nothing on the server, onboarding starts as normal', async () => {
+    const server = memServer();
+    const { router } = await renderApp('/', {
+      data: device(),
+      onboarded: false,
+      transport: server.transport,
+    });
+    await waitFor(() => expect(router.state.location.pathname).toBe('/onboarding/welcome'));
+  });
+
+  it('two phones each made an active plan: the newest one is used', async () => {
+    const d = device();
+    const base = { name: 'Starter plan', startedOn: '2026-09-22', sessions: [] };
+    const older = await d.store.put('plans', { ...base, active: true });
+    await new Promise((r) => setTimeout(r, 5));
+    const newer = await d.store.put('plans', { ...base, active: true });
+    expect(older.id).not.toBe(newer.id);
+    expect((await d.r.plans.active())?.id).toBe(newer.id);
   });
 });
 

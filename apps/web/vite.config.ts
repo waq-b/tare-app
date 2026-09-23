@@ -5,10 +5,11 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 const dark = tokens.color.dark;
 
-/** index.html takes its theme colour from the tokens, not a copy. */
+/** index.html takes its colours from the tokens, not a copy. */
 const themeColour = (): Plugin => ({
   name: 'tare-theme-colour',
-  transformIndexHtml: (html) => html.replaceAll('%THEME_COLOUR%', dark.bg),
+  transformIndexHtml: (html) =>
+    html.replaceAll('%THEME_COLOUR%', dark.bg).replaceAll('%ACCENT%', dark.accent),
 });
 
 export default defineConfig({

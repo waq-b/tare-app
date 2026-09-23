@@ -12,8 +12,26 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>Tare</title>
   </head>
-  <body>
-    <div id="root"></div>
+  <body style="margin: 0; background: %THEME_COLOUR%">
+    <!-- Shown until the app draws its first screen, so a cold start isn't a blank flash. -->
+    <div id="root">
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 100dvh;
+          color: %ACCENT%;
+          font:
+            600 44px ui-monospace,
+            Menlo,
+            monospace;
+          letter-spacing: -0.02em;
+        "
+      >
+        tare
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

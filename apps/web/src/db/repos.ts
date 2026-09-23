@@ -32,7 +32,11 @@ export function repos(store: Store) {
     },
 
     plans: {
-      active: async () => live(await db.plans.toArray()).find((p) => p.active),
+      /** The active plan. Two phones can each make one before they sync: the newest wins. */
+      active: async () =>
+        live(await db.plans.toArray())
+          .filter((p) => p.active)
+          .sort((a, b) => b.updatedAt - a.updatedAt)[0],
       /** Saves a plan as the active one; any other active plan is switched off. */
       activate: (p: {
         id?: string;
