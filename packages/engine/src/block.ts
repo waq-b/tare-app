@@ -96,8 +96,8 @@ export function deloadDue(input: {
   return { due: false, why: null, ruleIds };
 }
 
-/** pr.deload: a deload week's sets and load. Volume goes first: sets cut by the low end of the
- * rule's range; load held (the low end of its intensity cut). */
+/** pr.deload for one exercise: sets cut by the low end of the rule's range (use deloadSets for a
+ * whole session); load held (the low end of its intensity cut). */
 export function deloadPrescription(sets: number, load: number | null, step: number) {
   const d = deloadRule();
   const [cut] = d.volume_cut_pct;
@@ -108,4 +108,18 @@ export function deloadPrescription(sets: number, load: number | null, step: numb
     rirIncrease: d.rir_increase,
     ruleIds: ['pr.deload'],
   };
+}
+
+/** pr.deload for a whole session: total sets cut to the middle of volume_cut_pct, at least one
+ * set per exercise, the extra sets kept on the earlier (compound) exercises. Cutting each
+ * exercise alone can't land in the rule's range (3 sets − 40% rounds back to 2). */
+export function deloadSets(sets: readonly number[]): number[] {
+  const [lo, hi] = deloadRule().volume_cut_pct;
+  const total = sets.reduce((n, x) => n + x, 0);
+  let budget = Math.round(total * (1 - (lo + hi) / 2 / 100)) - sets.length;
+  return sets.map((n) => {
+    const extra = Math.max(0, Math.min(budget, n - 1));
+    budget -= extra;
+    return 1 + extra;
+  });
 }

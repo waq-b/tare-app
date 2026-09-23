@@ -140,9 +140,10 @@ export function exerciseTarget(t: TargetInput): ExerciseTarget {
     (c) => c.kind === 'deload' && c.status === 'accepted' && c.date >= t.weekStart,
   );
   if (deload) {
+    // Load per the rule here; the sets are cut across the whole session (deloadSets), where the
+    // session is known (sessionItems).
     const d = deloadPrescription(sets, load, t.kit.step);
     diff = { kind: 'deload', from: { load, sets }, ruleIds: d.ruleIds };
-    sets = d.sets;
     load = d.load;
     notes.push('deload');
     ruleIds.add('pr.deload');

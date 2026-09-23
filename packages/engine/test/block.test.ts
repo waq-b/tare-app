@@ -4,6 +4,7 @@ import {
   blockOf,
   deloadDue,
   deloadPrescription,
+  deloadSets,
   isStalled,
   rampSets,
   stallStep,
@@ -213,5 +214,24 @@ describe('pr.volume_progression', () => {
     expect(volumeProposal({ goalId: 'tr.goal.fat_loss', level: 'beginner', week }).changes).toEqual(
       [],
     );
+  });
+});
+
+describe('deloadSets (a whole session)', () => {
+  it('lands inside the rule’s volume cut, keeping a set on every exercise', () => {
+    const [lo, hi] = deloadRule().volume_cut_pct;
+    for (const plan of [
+      [3, 3, 3, 3, 2],
+      [3, 3, 3, 2, 2, 2],
+      [4, 3, 3],
+      [2, 2],
+    ]) {
+      const out = deloadSets(plan);
+      const before = plan.reduce((a, b) => a + b, 0);
+      const cut = 100 * (1 - out.reduce((a, b) => a + b, 0) / before);
+      expect(cut, String(plan)).toBeGreaterThanOrEqual(lo);
+      expect(cut, String(plan)).toBeLessThanOrEqual(hi);
+      expect(out.every((n) => n >= 1)).toBe(true);
+    }
   });
 });

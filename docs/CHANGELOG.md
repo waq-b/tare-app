@@ -14,6 +14,10 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### P1 — Rules engine (building; ships to the phone after the P0 two weeks, #90)
 
+- **T10 simulation and stories on the engine (#85):**
+  - **The simulation:** an 8-week run through the engine, with a model lifter who gets stronger for 3 weeks, has one Hard session, then plateaus. It's checked against a golden snapshot (progression steps, the Hard-set hold, a stall reaching step 2, the planned deload in week 6), plus invariants: loads only go up, and only after two top-of-range sessions at the same load.
+  - **Storybook on the engine:** the fixtures now use the engine's increase and deload instead of their own.
+  - **Found and fixed:** cutting each exercise's sets on its own can't land in the deload's 40–50% range (3 sets − 40% rounds back to 2), so `deloadSets` now cuts across the whole session, keeping the extra sets on the earlier compound lifts, and the app uses it too
 - **T9 Coach tab (#84):** before the ramp rule's 4 weeks of logs: "Not enough data yet" (board Coach-Early), with a week tracker, the ramp rule word for word, and the rules running now. After that: a rules-only summary (weight increases in 4 weeks, lifts stalled now, the next planned deload, changes you decided) until your Claude connects in P2. Every tab is now a real screen, so the placeholder is gone
 - **T8 changes in the app (#83; completes T3–T7):** Today, Plan and the workout take each exercise's target from the engine, in this order:
   1. progression from your log (or the plan's start weight, or a body-stats estimate);

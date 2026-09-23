@@ -150,7 +150,16 @@ describe('changes the rules make (P1 T8)', () => {
     expect(await screen.findByRole('button', { name: 'Start deload session' })).toBeTruthy();
     const card = screen.getByRole('link', { name: /Back squat/ });
     expect(card.textContent).toContain('Deload');
-    expect(card.textContent).toMatch(/^.*2 × /);
+    // The whole session's sets are cut within the rule's range (pr.deload volume_cut_pct).
+    const [lo, hi] = deloadRule().volume_cut_pct;
+    const plan = (await data.r.plans.active())!;
+    const planned = plan.sessions[0]!.exercises.reduce((t, e) => t + e.sets, 0);
+    const now = screen
+      .getAllByRole('link', { name: / × / })
+      .reduce((t, l) => t + Number(/(\d+) × /.exec(l.textContent ?? '')?.[1] ?? 0), 0);
+    const cut = 100 * (1 - now / planned);
+    expect(cut).toBeGreaterThanOrEqual(lo);
+    expect(cut).toBeLessThanOrEqual(hi);
   });
 
   it('a new block with good recovery: extra sets offered; Accept updates the plan', async () => {

@@ -61,6 +61,15 @@ export function qualifies(effort: Effort, target: number): boolean {
 }
 
 const clamp = (n: number, [lo, hi]: readonly [number, number]) => Math.min(hi, Math.max(lo, n));
+
+/** pr.double_progression's increase: increment_pct for the lift's class, at least
+ * increment_kg_min, rounded up to the kit step. */
+export function increasedLoad(exerciseId: string, load: number, step: number): number {
+  const r = doubleProgressionRule();
+  const cls = exercise(exerciseId).increment_class === 'lower' ? 'lower' : 'upper';
+  const inc = Math.max((load * r.increment_pct[cls]) / 100, r.increment_kg_min[cls]);
+  return Math.ceil((load + inc) / step - 1e-9) * step;
+}
 const ceilTo = (n: number, step: number) => Math.ceil(n / step - 1e-9) * step;
 const topLoad = (s: LoggedSession) => Math.max(...s.sets.map((x) => x.load));
 

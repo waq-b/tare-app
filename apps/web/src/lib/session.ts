@@ -1,7 +1,7 @@
 // What a planned session looks like on screen: name, pattern, prescription and subline per
 // exercise. Loads come in from the caller (last working load, else start load, #70).
 import { displayName, exercise } from '@tare/data';
-import { needsWarmUp } from '@tare/engine';
+import { deloadSets, needsWarmUp } from '@tare/engine';
 import type { MovementPattern } from '@tare/icons';
 import { conventionSuffix, rxText, type LoadConvention } from '@tare/ui';
 import type { ExerciseTarget } from '../plan/targets.ts';
@@ -55,9 +55,17 @@ export function sessionItems(
   targets: Readonly<Record<string, ExerciseTarget>>,
 ): SessionItem[] {
   const warmed = new Set<string>();
+  // A deload week cuts sets across the whole session (pr.deload), not exercise by exercise.
+  const deloading = session.exercises.filter((pe) =>
+    targets[pe.exerciseId]?.notes.includes('deload'),
+  );
+  const cut = deloadSets(deloading.map((pe) => targets[pe.exerciseId]?.sets ?? pe.sets));
+  const deloadSetsOf = new Map(deloading.map((pe, i) => [pe.exerciseId, cut[i]]));
   return session.exercises.flatMap((pe) => {
-    const t = targets[pe.exerciseId];
-    if (!t) return [];
+    const base = targets[pe.exerciseId];
+    if (!base) return [];
+    const cutTo = deloadSetsOf.get(pe.exerciseId);
+    const t = cutTo === undefined ? base : { ...base, sets: cutTo };
     const ex = exercise(pe.exerciseId);
     const convention = ex.load_convention as LoadConvention;
     const bodyweight = convention === 'bodyweight';
