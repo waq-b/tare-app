@@ -2,11 +2,17 @@ import { rawVpt, vpt } from '@tare/data';
 import { act, render, screen } from '@testing-library/react';
 import { RouterProvider } from 'react-router';
 import { describe, expect, it } from 'vitest';
+import { createAppData, DbProvider } from '../src/data/DbContext.tsx';
+import { TareDb } from '../src/db/index.ts';
 import { createTestRouter } from '../src/routes.tsx';
 
 function renderAt(path: string) {
   const router = createTestRouter(path);
-  render(<RouterProvider router={router} />);
+  render(
+    <DbProvider data={createAppData(new TareDb(`app-${Math.random()}`))}>
+      <RouterProvider router={router} />
+    </DbProvider>,
+  );
   return router;
 }
 

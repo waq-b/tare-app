@@ -24,7 +24,12 @@ export default tseslint.config(
     },
   },
   {
-    files: ['packages/*/src/**/*.tsx', 'packages/*/stories/**/*.tsx'],
+    files: [
+      'packages/*/src/**/*.tsx',
+      'packages/*/stories/**/*.tsx',
+      'apps/*/src/**/*.tsx',
+      'apps/*/test/**/*.tsx',
+    ],
     languageOptions: { globals: { ...globals.browser } },
     ...reactHooks.configs.flat['recommended-latest'],
   },
