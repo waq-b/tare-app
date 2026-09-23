@@ -7,7 +7,7 @@ async function toCodeStep() {
   const auth = fakeAuthClient(null);
   const r = await renderApp('/', { account: null, auth });
   await waitFor(() => expect(r.router.state.location.pathname).toBe('/sign-in'));
-  fireEvent.change(screen.getByLabelText('Email'), { target: { value: ' test@example.com ' } });
+  fireEvent.change(await screen.findByLabelText('Email'), { target: { value: ' test@example.com ' } });
   fireEvent.click(screen.getByRole('button', { name: 'Email me a code' }));
   await screen.findByText('Enter the code from your email');
   return { ...r, auth };
