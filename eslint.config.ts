@@ -64,6 +64,36 @@ export default tseslint.config(
     },
   },
   {
+    // The engine is pure: rules in, results out. No I/O, clocks or randomness.
+    files: ['packages/engine/src/**/*.ts'],
+    rules: {
+      'no-restricted-globals': [
+        'error',
+        ...[
+          'fetch',
+          'localStorage',
+          'sessionStorage',
+          'indexedDB',
+          'XMLHttpRequest',
+          'WebSocket',
+        ].map((name) => ({ name, message: 'The engine is pure: pass data in (P0 plan T1).' })),
+      ],
+      'no-restricted-properties': [
+        'error',
+        { object: 'Date', property: 'now', message: 'The engine is pure: pass the date in.' },
+        { object: 'Math', property: 'random', message: 'The engine is pure: no randomness.' },
+      ],
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            { group: ['**/vpt/**'], message: 'Only @tare/data reads vpt/ (CLAUDE.md §9).' },
+          ],
+        },
+      ],
+    },
+  },
+  {
     // Stories and tests index fixture data that's known to exist.
     files: ['**/*.stories.tsx', '**/stories/**/*.{ts,tsx}', '**/test/**/*.{ts,tsx}'],
     rules: { '@typescript-eslint/no-non-null-assertion': 'off' },

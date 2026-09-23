@@ -1,6 +1,7 @@
 // Boards: Onb-Welcome, Onb-Health, Onb-GP (one story per result), Onb-Goals, Onb-Kit.
 // Questions and messages come word for word from safety_rules.json → screening.
 import { screening, services, vpt } from '@tare/data';
+import { evaluateScreening, type ScreeningAnswers } from '@tare/engine';
 import { Icon } from '@tare/icons';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
@@ -153,7 +154,25 @@ const RESULT: Record<
   continue_progress_as_tolerated: { title: 'You’re all set.', tone: 'accent', icon: 'check' },
 };
 
-function Result({ result }: { result: string }) {
+/** Screening answers that lead to each result; the engine decides, the stories don't. */
+const no = {
+  currently_active: 'no',
+  known_disease: 'no',
+  symptoms: 'no',
+  msk_issue: 'no',
+  supervised_only: 'no',
+} as const;
+const ANSWERS: Record<string, ScreeningAnswers> = {
+  medical_clearance_first: { answers: { ...no, symptoms: 'yes' } },
+  modify: { answers: screeningAnswers, mskAreas: [screeningArea.area] },
+  start_light_to_moderate: { answers: no },
+  continue_moderate: { answers: { ...no, currently_active: 'yes', known_disease: 'yes' } },
+  continue_progress_as_tolerated: { answers: { ...no, currently_active: 'yes' } },
+};
+
+function Result({ answers }: { answers: ScreeningAnswers }) {
+  const outcome = evaluateScreening(answers)!;
+  const result = outcome.result;
   const r = RESULT[result]!;
   const gpFirst = result === 'medical_clearance_first';
   return (
@@ -161,7 +180,7 @@ function Result({ result }: { result: string }) {
       <TopBar back={{ href: '#' }} progress={steps(1)} />
       <ScreenBody gap={20}>
         <StatusHero icon={<Icon name={r.icon} size={28} />} tone={r.tone} title={r.title}>
-          {sc.result_messages[result]}
+          {outcome.message}
         </StatusHero>
         {result === 'modify' ? (
           <div className={s['row']}>
@@ -188,23 +207,23 @@ function Result({ result }: { result: string }) {
 
 export const ResultMedicalClearance: Story = {
   name: 'Screening result · medical_clearance_first',
-  render: () => <Result result="medical_clearance_first" />,
+  render: () => <Result answers={ANSWERS['medical_clearance_first']!} />,
 };
 export const ResultModify: Story = {
   name: 'Screening result · modify',
-  render: () => <Result result="modify" />,
+  render: () => <Result answers={ANSWERS['modify']!} />,
 };
 export const ResultStartLight: Story = {
   name: 'Screening result · start_light_to_moderate',
-  render: () => <Result result="start_light_to_moderate" />,
+  render: () => <Result answers={ANSWERS['start_light_to_moderate']!} />,
 };
 export const ResultModerate: Story = {
   name: 'Screening result · continue_moderate',
-  render: () => <Result result="continue_moderate" />,
+  render: () => <Result answers={ANSWERS['continue_moderate']!} />,
 };
 export const ResultAllSet: Story = {
   name: 'Screening result · continue_progress_as_tolerated',
-  render: () => <Result result="continue_progress_as_tolerated" />,
+  render: () => <Result answers={ANSWERS['continue_progress_as_tolerated']!} />,
 };
 
 export const ClearedByGpYes: Story = {

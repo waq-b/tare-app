@@ -22,7 +22,7 @@ import { TopBar } from '../../src/components/TopBar/TopBar';
 import { WorkoutTopBar } from '../../src/components/WorkoutTopBar/WorkoutTopBar';
 import type { ServiceData } from '../../src/lib/services';
 import { bench, musclesLine, name, pattern, sessionB } from './data';
-import { routePainFlag, SIGNS, TIMINGS, type PainSign, type PainTiming } from './painRouting';
+import { routePainFlag, SIGNS, TIMINGS, type PainSign, type PainTiming } from '@tare/engine';
 import { ScreenBody, ScreenFrame } from './Screen';
 import s from './screen.module.css';
 import { vpt, exercisesLoading } from '@tare/data';

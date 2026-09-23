@@ -1,6 +1,7 @@
-// Story helper: routes pain-flag answers to a safety_rules.json rule, most urgent first.
-// The real safety engine is P1; this only demonstrates the sheet. The questions are our
-// wording of each rule's red flag; the answer is always a rule ID from the data.
+// Pain flag: routes the answers to a safety_rules.json rule, most urgent first, and works out
+// which exercises to skip. The questions are our wording of each rule's red flag; the answer is
+// always a rule ID from the data, and its message is shown verbatim by the app.
+import { exercisesLoading, safetyRule } from '@tare/data';
 
 export type PainTiming = 'during' | 'after' | 'week' | 'six_weeks';
 export type PainSign = 'severe' | 'cant_bear_weight' | 'sprain' | 'calf_hot';
@@ -74,4 +75,33 @@ export function routePainFlag(a: PainAnswers): string | null {
   if (has('sprain')) return 'suspected_sprain_strain';
   if (!a.area || !a.timing) return null;
   return TIMINGS.find((t) => t.value === a.timing)?.rule ?? null;
+}
+
+export interface PainModification {
+  /** The exercise to stop now, if the flag came mid-exercise. */
+  stop: string | null;
+  /** Remaining exercises that load the area as primary: skip them today. */
+  skip: string[];
+  /** Remaining exercises to carry on with. */
+  keep: string[];
+  ruleIds: string[];
+}
+
+/** pain_during_exercise → engine_action: stop the current exercise and skip the rest of the
+ * session's exercises that load the flagged area as primary (body_area_map). Side-agnostic. */
+export function modifyForPainFlag(input: {
+  area: string;
+  current: string | null;
+  remaining: readonly string[];
+}): PainModification {
+  const ruleId = 'pain_during_exercise';
+  safetyRule(ruleId); // throws if the rule ever disappears
+  const loads = new Set(exercisesLoading(input.area, 'primary'));
+  const rest = input.remaining.filter((id) => id !== input.current);
+  return {
+    stop: input.current,
+    skip: rest.filter((id) => loads.has(id)),
+    keep: rest.filter((id) => !loads.has(id)),
+    ruleIds: [ruleId],
+  };
 }

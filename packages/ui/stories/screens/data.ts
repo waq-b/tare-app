@@ -1,6 +1,7 @@
 // View-model helpers for screen stories: fixtures + vpt data → what each screen shows.
-// Stories only. The app computes these in P0/P1 with the real engine.
-import { displayName, exercise, rule, safetyRule } from '@tare/data';
+// Stories only. Rules come from @tare/engine, the same code the app runs.
+import { displayName, exercise, safetyRule } from '@tare/data';
+import { swapOptions, swapStartLoad } from '@tare/engine';
 import type { MovementPattern } from '@tare/icons';
 import {
   addDays,
@@ -122,55 +123,22 @@ export const SWAP_REASON: Record<string, string> = {
   same_muscle: 'Works the same muscles',
 };
 
-/** Estimated start load for a swap, per tr.global.swap_starting_load, or a calibration set. */
+/** Start load for a swap as the sheet shows it (the engine's tr.global.swap_starting_load). */
 export function swapStart(fromId: string, toId: string, workingLoad: number): string {
-  const rule0 = rule('tr.global.swap_starting_load').raw['value'] as {
-    safety_margin: number;
-    ratios: {
-      from: string;
-      to: string;
-      ratio_per_hand?: number;
-      ratio?: number;
-      patterns?: string[];
-    }[];
-  };
-  const from = exercise(fromId);
-  const to = exercise(toId);
-  if (to.load_convention === 'bodyweight') return 'BW';
-  const toKit = to.equipment_detail.includes('smith_machine')
-    ? 'smith_machine'
-    : to.load_convention === 'per_hand'
-      ? 'dumbbell'
-      : to.equipment[0];
-  const r = rule0.ratios.find(
-    (x) =>
-      x.from === from.equipment[0] &&
-      x.to === toKit &&
-      (!x.patterns || x.patterns.includes(to.movement_pattern)),
-  );
-  if (!r) return 'Easy first set';
-  const factor = (r.ratio_per_hand ?? r.ratio ?? 1) * rule0.safety_margin;
-  const step = to.load_convention === 'per_hand' ? 2 : 2.5;
-  const load = Math.floor((workingLoad * factor) / step) * step;
-  return `${load} kg${to.load_convention === 'per_hand' ? ' per hand' : ''}`;
+  const r = swapStartLoad({ fromId, toId, workingLoad });
+  if (r.kind === 'bodyweight') return 'BW';
+  if (r.kind === 'calibrate') return 'Easy first set';
+  return `${r.load} kg${r.perHand ? ' per hand' : ''}`;
 }
 
 /** Swaps for an exercise, filtered by the user's kit and can't-do list, best first. */
 export function swapsFor(exerciseId: string) {
-  return exercise(exerciseId)
-    .swaps.filter((s) => {
-      const e = exercise(s.id);
-      return (
-        e.equipment_detail.every((t) => profile.kit.includes(t)) &&
-        !e.skill_tags.some((t) => profile.cantDo.includes(t))
-      );
-    })
-    .map((s) => ({
-      ...s,
-      name: name(s.id),
-      pattern: pattern(s.id),
-      reason: SWAP_REASON[s.reason] ?? s.reason,
-    }));
+  return swapOptions(exerciseId, profile).map((s) => ({
+    ...s,
+    name: name(s.id),
+    pattern: pattern(s.id),
+    reason: SWAP_REASON[s.reason] ?? s.reason,
+  }));
 }
 
 export { safetyRule, weekdayOf };

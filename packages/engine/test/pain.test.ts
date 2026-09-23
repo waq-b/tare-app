@@ -1,10 +1,17 @@
 import { safetyRule } from '@tare/data';
 import { describe, expect, it } from 'vitest';
-import { routePainFlag, SIGNS, TIMINGS, type PainAnswers } from '../stories/screens/painRouting';
+import { exercisesLoading, vpt } from '@tare/data';
+import {
+  modifyForPainFlag,
+  routePainFlag,
+  SIGNS,
+  TIMINGS,
+  type PainAnswers,
+} from '../src/index.ts';
 
 const base: PainAnswers = { area: 'shoulder', timing: 'during', signs: [], unsure: false };
 
-describe('pain-flag routing (story helper)', () => {
+describe('routePainFlag', () => {
   it('only ever returns real safety rules', () => {
     for (const r of [
       ...SIGNS.map((s) => s.rule),
@@ -51,5 +58,33 @@ describe('pain-flag routing (story helper)', () => {
     expect(routePainFlag({ area: null, timing: null, signs: ['severe'], unsure: false })).toBe(
       'injury_severe',
     );
+  });
+});
+
+describe('modifyForPainFlag', () => {
+  const session = [
+    'Barbell_Squat',
+    'Barbell_Bench_Press_-_Medium_Grip',
+    'Leg_Press',
+    'Wide-Grip_Lat_Pulldown',
+    'Dumbbell_Lunges',
+  ];
+
+  it('stops the current exercise and skips the rest that load the knee as primary', () => {
+    const m = modifyForPainFlag({ area: 'knee', current: 'Barbell_Squat', remaining: session });
+    expect(m.stop).toBe('Barbell_Squat');
+    expect(m.skip).toEqual(['Leg_Press', 'Dumbbell_Lunges']);
+    expect(m.keep).toEqual(['Barbell_Bench_Press_-_Medium_Grip', 'Wide-Grip_Lat_Pulldown']);
+    expect(m.ruleIds).toEqual(['pain_during_exercise']);
+  });
+
+  it('follows body_area_map exactly, for every area', () => {
+    const all = session;
+    for (const area of Object.keys(vpt().bodyAreaMap)) {
+      const primary = new Set(exercisesLoading(area, 'primary'));
+      const m = modifyForPainFlag({ area, current: null, remaining: all });
+      expect(m.skip, area).toEqual(all.filter((id) => primary.has(id)));
+      expect([...m.skip, ...m.keep].sort(), area).toEqual([...all].sort());
+    }
   });
 });

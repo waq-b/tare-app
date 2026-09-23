@@ -12,6 +12,14 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 - GitHub Actions CI: install → lint → typecheck → test
 - Housekeeping: project README replaces the stale dataset copy; app changelog moved here; `docs/plans/` created
 
+### P0 — Logging app (in progress)
+
+- **T1 engine (#51):** new `packages/engine`, pure functions over the vpt rules, each result citing the rule IDs it used:
+  - `evaluateScreening`: `sf.screening` matrix rows (all 32 answer combinations tested), with the most cautious row leading, the lowest effort cap kept, msk areas flagged, and the `cleared_by_gp` follow-up. Messages are shown verbatim
+  - `routePainFlag` (moved from the D1 story helper, same tests) and `modifyForPainFlag` (`pain_during_exercise`: stop the current exercise, skip the rest that load the area as primary per `body_area_map`)
+  - `e1rm`, `needsWarmUp`/`warmUpSets`, `swapStartLoad` (ratio × margin, rounded down, or a calibration set), `swapOptions` (kit + can't-do filter), `weeklySets` (fractional per muscle, display-only group roll-up)
+  - The D1 fixtures and screen stories now call the engine (one implementation); the onboarding result stories get their result from real answers. A lint rule keeps the engine free of I/O, clocks and randomness
+
 ### D1 — Storybook design library (built, deployed and signed off 2026-09-23)
 
 - **Layout fixes after review (2026-09-23):** Waqar spotted sideways scrolling on the Coach screens. Cause: `DiffChip` never wrapped, so long diffs ("2 sets in Session A from the next block") pushed up to 155px past the 390px frame.

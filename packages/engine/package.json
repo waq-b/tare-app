@@ -1,0 +1,16 @@
+{
+  "name": "@tare/engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Tare rules engine: pure functions over vpt rules. Every output cites the rule IDs it used.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@tare/data": "^0.1.0"
+  }
+}

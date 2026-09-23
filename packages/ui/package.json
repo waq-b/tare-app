@@ -26,6 +26,7 @@
     "@storybook/addon-vitest": "^10.6.0",
     "@storybook/react-vite": "^10.6.0",
     "@tare/data": "^0.1.0",
+    "@tare/engine": "^0.1.0",
     "@tare/icons": "^0.1.0",
     "@tare/tokens": "^0.1.0",
     "@testing-library/react": "^16.3.3",
