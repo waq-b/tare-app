@@ -1,0 +1,19 @@
+{
+  "name": "@tare/server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Tare API: sync (push/pull) for the local-first app. Fastify + Postgres (Supabase), RLS on.",
+  "scripts": {
+    "start": "node src/server.ts",
+    "migrate": "node src/migrate.ts",
+    "allow": "node src/cli.ts allow",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.3.0",
+    "fastify": "^5.12.5",
+    "jose": "^6.2.12",
+    "postgres": "^3.4.9"
+  }
+}

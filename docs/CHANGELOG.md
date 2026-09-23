@@ -14,6 +14,12 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### P0 — Logging app (in progress)
 
+- **T10 sync API (#60):** `apps/server`, Fastify on Node 24 (runs the TypeScript directly).
+  - `GET /health`; `POST /sync/push` applies an outbox batch (up to 500) last-write-wins by `updatedAt`, so replays and older copies change nothing; `GET /sync/pull?since=` returns changes after a cursor (a global sequence bumped on every change), paged.
+  - Postgres via one `DATABASE_URL`, with SQL migrations applied at start-up. One `records` table keyed by (user, table, id) holds the app's JSON. **RLS is on everywhere**: each request runs as `authenticated` with the caller's claims, so Postgres refuses other users' rows. The allowlist and migrations tables have no grants for app roles.
+  - Supabase tokens are verified with `jose` against the JWKS (issuer and audience checked, ES256/RS256 only), as in pip: 401 without a valid token, 403 if the email isn't allowlisted. CORS for the app's origins only.
+  - `npm run allow -w @tare/server -- <email>` adds someone to the allowlist and, with the Supabase secret key, creates their account.
+  - Tests run on a real Postgres (throwaway database per run; a service container in CI): round-trip, idempotent replay, last write wins, soft deletes, malformed batches, auth failures, and RLS proving one user can't read or forge another's rows
 - **T9 progress, history, body (#59):**
   - Progress → Lifts: headline-lift chips, the e1RM chart with its table one tap away ("not enough data yet" before two sessions), sets this week per muscle against the goal's band for your level (`tr.goal.*`, fractional counting via the engine), an all-lifts table (top set, e1RM, 6-week change, trend), and recent sessions.
   - History: every finished session, and a detail view with working sets, hardest effort and PR tags.
