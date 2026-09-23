@@ -24,4 +24,4 @@ Supabase's built-in mailer sends only a few emails an hour. Use Resend, as pip d
 
 ## Your account
 
-Until the allowlist command lands with the API (P0 T10): **Authentication → Users → Add user → Create new user** with your email, "Auto confirm" on. Then sign in on the app with a code.
+**Authentication → Users → Add user → Create new user** with your email, "Auto confirm" on (your email is already on the API's allowlist). Later, `npm run allow -w @tare/server` does both (see [`../deploy.md`](../deploy.md)).

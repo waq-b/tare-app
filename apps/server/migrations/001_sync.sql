@@ -27,8 +27,8 @@ alter table public.records enable row level security;
 drop policy if exists records_own on public.records;
 create policy records_own on public.records
   for all to authenticated
-  using (user_id = auth.uid())
-  with check (user_id = auth.uid());
+  using (user_id = (select auth.uid()))
+  with check (user_id = (select auth.uid()));
 
 -- Supabase grants new public tables to anon and authenticated by default: be explicit.
 revoke all on public.records from anon, authenticated;
