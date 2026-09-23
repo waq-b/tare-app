@@ -14,6 +14,11 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### P0 — Logging app (in progress)
 
+- **T9 progress, history, body (#59):**
+  - Progress → Lifts: headline-lift chips, the e1RM chart with its table one tap away ("not enough data yet" before two sessions), sets this week per muscle against the goal's band for your level (`tr.goal.*`, fractional counting via the engine), an all-lifts table (top set, e1RM, 6-week change, trend), and recent sessions.
+  - History: every finished session, and a detail view with working sets, hardest effort and PR tags.
+  - Progress → Body: the 7-day average bodyweight, a trend chart after two weigh-ins, rate (after 2 weeks), waist, sessions and weigh-ins, a 9-week consistency heatmap, the active pain flag with its rule's message verbatim ("Feels clear" clears it), and health answers. The weigh-in sheet logs at any time, with an optional waist.
+  - The numbers come from pure functions, tested against logged data
 - **T8 pain flag → safety (#58):**
   - Flag pain from the workout's top bar opens the D1 pain sheet: area and side, when, red-flag signs, "not sure", and a chest-pain shortcut. The engine routes the answers (`routePainFlag`), the flag is saved, and the safety screen shows the rule's `user_message` word for word with its services for your nation.
   - What comes next follows the action. `modify_exercise` applies the engine action to the session in progress: the current exercise stops, and the rest that load the area as primary (`body_area_map`) are skipped and listed. If nothing is left, the workout says "That's all for today". Stop-level results end the session; `reduce_or_rest` offers both; caution goes back to the workout.

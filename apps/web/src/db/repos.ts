@@ -102,6 +102,8 @@ export function repos(store: Store) {
       edit: (id: string, change: Partial<Pick<SetRecord, 'load' | 'reps' | 'effort' | 'kind'>>) =>
         store.update('sets', id, change),
       remove: (id: string) => store.remove('sets', id),
+      /** Every set (not deleted), for Progress. */
+      all: async () => live(await db.sets.toArray()),
       /** A workout's sets in the order they were logged. */
       forWorkout: async (workoutId: string) =>
         live(await db.sets.where('workoutId').equals(workoutId).sortBy('loggedAt')),
