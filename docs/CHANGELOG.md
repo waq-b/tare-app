@@ -14,6 +14,12 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### P0 — Logging app (in progress)
 
+- **T13 end-to-end + data-loss tests (#63):** Playwright on a phone viewport against the built PWA (`npm run e2e -w @tare/web`, in CI; traces uploaded on failure).
+  - One run covers: sign in, onboard with starting weights, a whole 14-set workout with the network off, a reload mid-workout that comes back on the same set, finish, then reconnect and sync by itself (every record reaches the API). It then exports a backup and restores it on a fresh phone with no API.
+  - The E2E build (`vite --mode e2e`) uses a fake sign-in and `e2e/mock-api.ts`, which has the API's push/pull rules; production builds never take that branch.
+  - Found and fixed on the way:
+    - **Double tap:** the workout footer changes meaning in place, so a quick second tap on "Next exercise" logged the next exercise's first set. Taps within 600 ms of the last are now ignored (with a test that fails without the guard).
+    - **Restore on a new phone:** a fresh phone can restore a backup from Welcome ("Restore from a backup"), before onboarding
 - **T11 sync client (#61):**
   - Background sync at start, on reconnect, on return to the app, after finishing a workout, and every 5 minutes, with backoff (30 s to 5 min) after a failure; logging never waits for it.
   - A pass pushes the outbox, squeezed to the latest copy of each record, in batches of 500. Rows queued during a push stay and go next. Then it pulls from the saved cursor, applying last-write-wins with the same schemas (a mismatching record is counted, not applied), and pulled records are never queued back.

@@ -19,6 +19,7 @@ import {
   StatusHero,
   Tag,
   TextField,
+  TextLink,
   TopBar,
   Wordmark,
   type ServiceData,
@@ -192,6 +193,9 @@ function Welcome({ update }: StepProps) {
         <p className={s['lede']} style={{ textAlign: 'center', fontSize: 13 }}>
           Takes about 2 minutes
         </p>
+        <div style={{ textAlign: 'center' }}>
+          <TextLink href="/restore">Restore from a backup</TextLink>
+        </div>
       </div>
     </>
   );

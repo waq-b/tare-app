@@ -8,5 +8,5 @@
     "types": ["node", "react", "react-dom", "vite/client", "vite-plugin-pwa/react"],
     "customConditions": ["tare-app"]
   },
-  "include": ["src", "test", "scripts", "*.ts"]
+  "include": ["src", "test", "scripts", "e2e", "*.ts"]
 }

@@ -38,6 +38,13 @@ jobs:
       - run: npm run typecheck
       # Unit tests plus every Storybook story as a browser test (render, play, axe in both themes).
       - run: npm test
+      # The whole P0 loop in a real browser against the built PWA (e2e/p0.spec.ts).
+      - run: npm run e2e -w @tare/web
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-traces
+          path: apps/web/test-results/
       - run: npm run build-storybook -w @tare/ui
       # Every board and every DESIGN.md component has a story.
       - run: npm run check:stories

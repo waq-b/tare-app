@@ -19,7 +19,7 @@ export function Gate({ children }: { children: ReactNode }) {
   // Local reads, so these last a frame or two.
   if (state.status === 'loading') return loading;
   if (state.status === 'signedOut') return <Navigate to="/sign-in" replace />;
-  const onboarding = pathname.startsWith('/onboarding');
+  const onboarding = pathname.startsWith('/onboarding') || pathname === '/restore';
   if (profile === undefined) return loading;
   if (!profile?.onboardedAt && !onboarding) return <Navigate to="/onboarding/welcome" replace />;
   if (profile?.onboardedAt && onboarding) return <Navigate to="/" replace />;

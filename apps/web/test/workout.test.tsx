@@ -5,6 +5,7 @@ import { TareDb, type WorkoutExercise } from '../src/db/index.ts';
 import { seedPlan } from '../src/seed/plan.ts';
 import { DEFAULT_DRAFT } from '../src/screens/onboarding/draft.ts';
 import type { Rest } from '../src/workout/rest.ts';
+import { setDoubleTapMs } from '../src/screens/Workout.tsx';
 import { renderApp, testProfile } from './render.tsx';
 
 const squat: WorkoutExercise = {
@@ -197,6 +198,30 @@ describe('the Ledger', () => {
     await waitFor(async () =>
       expect((await data.r.plans.active())?.sessions[0]?.exercises[0]?.exerciseId).toBe(now),
     );
+  });
+
+  it('a double tap on the footer acts once (Next exercise doesn’t log the next set)', async () => {
+    setDoubleTapMs(600);
+    try {
+      const { data, workout } = await start([
+        { ...squat, sets: 1 },
+        { ...squat, exerciseId: 'Leg_Press', load: 100 },
+      ]);
+      fireEvent.click(doneButton());
+      await screen.findByRole('dialog', { name: 'Rest' });
+      closeSheet();
+      await new Promise((r) => setTimeout(r, 650));
+      fireEvent.click(await screen.findByRole('button', { name: 'Next exercise' }));
+      await screen.findByRole('heading', { name: 'Leg press' });
+      // The second tap of a double tap lands on what is now Done.
+      fireEvent.click(doneButton());
+      await new Promise((r) => setTimeout(r, 100));
+      expect(screen.queryByRole('dialog', { name: 'Rest' })).toBeNull();
+      const legPress = (await sets(data, workout.id)).filter((x) => x.exerciseId === 'Leg_Press');
+      expect(legPress).toHaveLength(0);
+    } finally {
+      setDoubleTapMs(0);
+    }
   });
 
   it('with no workout in progress, /workout goes to Today', async () => {

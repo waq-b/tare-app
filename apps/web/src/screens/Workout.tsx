@@ -42,6 +42,23 @@ import s from './screens.module.css';
 
 const EFFORT_WORD: Record<string, string> = { easy: 'Easy', ok: 'OK', hard: 'Hard' };
 
+let doubleTapMs = 600;
+/** For tests, which tap faster than a person. */
+export function setDoubleTapMs(ms: number) {
+  doubleTapMs = ms;
+}
+
+/** Wraps handlers so a second call within `doubleTapMs` of the last one is ignored. */
+export function tapGuard() {
+  let last = -Infinity;
+  return (fn: () => void) => () => {
+    const t = performance.now();
+    if (t - last < doubleTapMs) return;
+    last = t;
+    fn();
+  };
+}
+
 const SWAP_REASON: Record<string, string> = {
   same_pattern_diff_kit: 'Same movement, different kit',
   easier_regression: 'An easier version',
@@ -83,6 +100,9 @@ function Ledger({ workout }: { workout: WorkoutRecord }) {
   const { rest, remaining } = useRest(workout.id);
   const now = useClock(1000);
   const [sheet, setSheet] = useState<SheetKind>(null);
+  // The footer button changes meaning in place (Done → Next exercise → Done), so a double
+  // tap would act twice: taps too soon after the last footer action are ignored.
+  const [guarded] = useState(tapGuard);
 
   if (!ex || !sets || !history) return <main aria-busy="true" aria-label="Loading" />;
   const last = lastSession(history);
@@ -114,17 +134,20 @@ function Ledger({ workout }: { workout: WorkoutRecord }) {
   const loggedCount = view.work.filter((w) => w.set).length;
   const needsWeight = cur !== null && cur.load === null && !bodyweight;
   const footer = view.complete
-    ? { label: isLast ? 'Finish workout' : 'Next exercise', onAction: () => void next() }
+    ? {
+        label: isLast ? 'Finish workout' : 'Next exercise',
+        onAction: guarded(() => void next()),
+      }
     : {
         label: needsWeight ? 'Enter weight' : 'Done',
         ...(cur && !needsWeight
           ? { value: bodyweight ? `${cur.reps} reps` : `${num(cur.load ?? 0)} × ${cur.reps}` }
           : {}),
-        onAction: () => {
+        onAction: guarded(() => {
           if (!cur) return;
           if (needsWeight) setSheet('edit');
           else void log(cur.load, cur.reps);
-        },
+        }),
       };
   const lastFirst = last[0];
   const lastEffort = last.at(-1)?.effort;

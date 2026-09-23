@@ -12,3 +12,8 @@ packages/icons/gallery/
 
 # Session briefs for other Claude sessions (local only)
 prompts/
+
+# Playwright end-to-end runs
+apps/web/dist-e2e/
+test-results/
+playwright-report/

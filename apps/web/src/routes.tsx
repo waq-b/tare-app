@@ -11,6 +11,7 @@ import { Progress } from './screens/Progress.tsx';
 import { Finish } from './screens/Finish.tsx';
 import { FlagPain, PainFlags } from './screens/Pain.tsx';
 import { Plan, PlanSession } from './screens/Plan.tsx';
+import { Restore } from './screens/Restore.tsx';
 import { Safety } from './screens/Safety.tsx';
 import { Settings } from './screens/Settings.tsx';
 import { Today } from './screens/Today.tsx';
@@ -38,6 +39,7 @@ export const routes: RouteObject[] = [
       { path: 'safety/:ruleId', element: <Safety /> },
       { path: 'sign-in', element: <SignIn /> },
       { path: 'onboarding/:step?', element: <Onboarding /> },
+      { path: 'restore', element: <Restore /> },
       { path: '*', element: <NotFound /> },
     ],
   },
