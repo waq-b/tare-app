@@ -19,6 +19,7 @@
     "@tare/tokens": "^0.1.0",
     "@tare/ui": "^0.1.0",
     "dexie": "^4.4.6",
+    "dexie-react-hooks": "^4.4.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-router": "^8.4.0",

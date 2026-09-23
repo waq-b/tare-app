@@ -4,6 +4,7 @@ import { createBrowserRouter, createMemoryRouter, type RouteObject } from 'react
 import { AppShell } from './shell/AppShell.tsx';
 import { Placeholder } from './screens/Placeholder.tsx';
 import { NotFound } from './screens/NotFound.tsx';
+import { Onboarding } from './screens/onboarding/Onboarding.tsx';
 import { Settings } from './screens/Settings.tsx';
 import { SignIn } from './screens/SignIn.tsx';
 
@@ -24,7 +25,7 @@ export const routes: RouteObject[] = [
       { path: 'workout/finish', element: <Placeholder title="Finish" back="/workout" /> },
       { path: 'safety/:ruleId', element: <Placeholder title="Safety" back="/" /> },
       { path: 'sign-in', element: <SignIn /> },
-      { path: 'onboarding/*', element: <Placeholder title="Set up" /> },
+      { path: 'onboarding/:step?', element: <Onboarding /> },
       { path: '*', element: <NotFound /> },
     ],
   },

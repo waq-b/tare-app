@@ -7,9 +7,26 @@ import { createAppData, DbProvider, type AppData } from '../src/data/DbContext.t
 import { TareDb } from '../src/db/index.ts';
 import { createTestRouter } from '../src/routes.tsx';
 
+export const testProfile = {
+  goalId: 'tr.goal.fat_loss',
+  goalsRanked: ['fat_loss', 'strength'],
+  level: 'beginner' as const,
+  daysPerWeek: 3,
+  sessionMinutes: 60,
+  units: 'kg' as const,
+  dumbbellConvention: 'per_hand' as const,
+  kit: ['barbell', 'dumbbells'],
+  cantDo: [],
+  region: 'england' as const,
+  maxRpe: null,
+  onboardedAt: null,
+};
+
 export interface RenderOptions {
   /** Signed in (and remembered) as this address; null = never signed in. */
   account?: string | null;
+  /** Onboarding already done (a profile exists). Default true. */
+  onboarded?: boolean;
   auth?: FakeAuth;
   data?: AppData;
 }
@@ -18,6 +35,9 @@ export async function renderApp(path: string, opts: RenderOptions = {}) {
   const account = opts.account === undefined ? 'test@example.com' : opts.account;
   const data = opts.data ?? createAppData(new TareDb(`app-${Math.random()}`));
   if (account) await data.db.meta.put({ key: 'account', value: account });
+  if (opts.onboarded !== false && !(await data.r.profile.get())) {
+    await data.r.profile.save({ ...testProfile, onboardedAt: 1 });
+  }
   const auth = opts.auth ?? fakeAuthClient(account);
   const router = createTestRouter(path);
   render(
