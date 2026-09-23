@@ -32,7 +32,12 @@ export const musclesLine = (id: string) => {
 };
 
 /** Today's prescription for an exercise: the logged target, plus any accepted change. */
-export function todayRx(exerciseId: string, sessionId: 'A' | 'B' | 'C' = 'B') {
+export function todayRx(
+  exerciseId: string,
+  sessionId: 'A' | 'B' | 'C' = 'B',
+  /** Movement patterns already warmed up earlier in the session (tr.global.warm_up). */
+  warmedPatterns: ReadonlySet<string> = new Set(),
+) {
   const pe = plannedSession(sessionId).exercises.find((e) => e.exerciseId === exerciseId);
   if (!pe) throw new Error(`not in session ${sessionId}: ${exerciseId}`);
   const t = currentTarget(exerciseId);
@@ -50,14 +55,19 @@ export function todayRx(exerciseId: string, sessionId: 'A' | 'B' | 'C' = 'B') {
     convention: ex.load_convention,
     changed: Boolean(accepted),
     rx: rxText(pe.sets, reps, load, ex.load_convention),
-    subline: needsWarmUp(exerciseId, new Set())
+    subline: needsWarmUp(exerciseId, warmedPatterns)
       ? 'Warm-up sets included'
       : cap(conventionSuffix(ex.load_convention)) || undefined,
   };
 }
 
 export const sessionB = plannedSession('B');
-export const todayList = sessionB.exercises.map((e) => todayRx(e.exerciseId));
+const warmed = new Set<string>();
+export const todayList = sessionB.exercises.map((e) => {
+  const rx = todayRx(e.exerciseId, 'B', warmed);
+  warmed.add(exercise(e.exerciseId).movement_pattern);
+  return rx;
+});
 export const bench = todayList[0]!;
 export const benchWarmups = warmUpSets(bench.exerciseId, bench.load, bench.reps);
 

@@ -12,10 +12,10 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 - GitHub Actions CI: install → lint → typecheck → test
 - Housekeeping: project README replaces the stale dataset copy; app changelog moved here; `docs/plans/` created
 
-### D1 — Storybook design library (built 2026-09-23; deploy and sign-off pending)
+### D1 — Storybook design library (built and deployed 2026-09-23; sign-off pending)
 
 - **T17 close-out (#41):** demo note and "built vs plan" in `docs/plans/D1.md`, DESIGN.md §3.7 (what D1 added beyond the canvas), polish filed as `later` issues #45–#49
-- **T16 deploy (#40):** `noindex` in the manager and preview, and a `robots.txt` blocking crawlers. The Render site isn't created yet (waiting on Waqar)
+- **T16 deploy (#40):** Storybook is live at https://tare-storybook.onrender.com, a free Render static site that auto-deploys from `main` (build `npm ci && npm run build && npm run build-storybook -w @tare/ui`, `NODE_VERSION=24`). It's public, with `noindex` in the manager and preview and a `robots.txt` blocking crawlers. Fixture fix: "Warm-up sets included" now only shows on the first exercise of each movement pattern, as in the logs
 - **T15 quality gates (#39):**
   - `scripts/check-stories.ts` (`npm run check:stories`, run in CI after the Storybook build) proves every board's D1 story from DESIGN.md §4 exists, and that all 96 components in §3 have a story. It found 12 gaps, now filled; DESIGN.md §4 now lists Connect-AI under Settings.
   - Touch targets: after every story test, every interactive element must be ≥48×48 (labels count for checkboxes and radios). A guard story proves the check catches a 32px button. It found the Undo button, a sortable header and a short text link, all fixed.
