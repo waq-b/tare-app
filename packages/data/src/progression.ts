@@ -54,3 +54,45 @@ export function parseTwoForTwo(raw: unknown): TwoForTwoRule {
     repsOver: num('pr.two_for_two trigger', v.trigger, /(\d+)\+ reps above/),
   };
 }
+
+/** Numbers the stall, ramp and volume rules carry only in text (v0.1.3). */
+export interface ProgressionText {
+  /** pr.stall: sessions with no increase before a lift counts as stalled. */
+  stallSessions: number;
+  /** pr.stall.step2: drop load by this range (fractions). */
+  stallDrop: [number, number];
+  /** pr.new_user_ramp: how many weeks the ramp lasts. */
+  rampWeeks: number;
+  /** pr.new_user_ramp: the effort aim (RPE). */
+  rampRpe: [number, number];
+  /** pr.new_user_ramp: weeks of logs before AI suggestions (P2). */
+  aiAfterWeeks: number;
+  /** pr.volume_progression: sets per muscle per week to add at a new block. */
+  volumeAdd: [number, number];
+}
+
+// FALLBACK(vpt-issue #22): parsed from the rules' text until the data adds fields.
+export function parseProgressionText(p: {
+  stall: { definition: string; steps: { id: string; detail: string }[] };
+  new_user_ramp: { rule: string };
+  volume_progression: { rule: string };
+}): ProgressionText {
+  const step2 = p.stall.steps.find((s) => s.id === 'pr.stall.step2')?.detail ?? '';
+  return {
+    stallSessions: num('pr.stall definition', p.stall.definition, /for (\d+) consecutive sessions/),
+    stallDrop: [
+      num('pr.stall.step2', step2, /Drop load (\d+)-\d+%/) / 100,
+      num('pr.stall.step2', step2, /Drop load \d+-(\d+)%/) / 100,
+    ],
+    rampWeeks: num('pr.new_user_ramp', p.new_user_ramp.rule, /Weeks 1-(\d+):/),
+    rampRpe: [
+      num('pr.new_user_ramp', p.new_user_ramp.rule, /RPE (\d+)-\d+/),
+      num('pr.new_user_ramp', p.new_user_ramp.rule, /RPE \d+-(\d+)/),
+    ],
+    aiAfterWeeks: num('pr.new_user_ramp', p.new_user_ramp.rule, /until (\d+) weeks of logs/),
+    volumeAdd: [
+      num('pr.volume_progression', p.volume_progression.rule, /Add (\d+)-\d+ sets/),
+      num('pr.volume_progression', p.volume_progression.rule, /Add \d+-(\d+) sets/),
+    ],
+  };
+}

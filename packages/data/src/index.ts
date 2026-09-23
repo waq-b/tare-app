@@ -10,8 +10,10 @@ export const rawVpt = raw;
 import { loadVpt, type RuleEntry, type Vpt } from './load.ts';
 import {
   parseDoubleProgression,
+  parseProgressionText,
   parseTwoForTwo,
   type DoubleProgression,
+  type ProgressionText,
   type TwoForTwoRule,
 } from './progression.ts';
 import { parseStartingLoad, type StartingLoadRule } from './startingLoad.ts';
@@ -20,7 +22,7 @@ import type * as S from './schemas.ts';
 export { loadVpt, labelFromId, MIN_VPT_VERSION, versionAtLeast } from './load.ts';
 export { slimForApp } from './slim.ts';
 export { parseStartingLoad, type StartingLoadRule } from './startingLoad.ts';
-export type { DoubleProgression, TwoForTwoRule } from './progression.ts';
+export type { DoubleProgression, ProgressionText, TwoForTwoRule } from './progression.ts';
 export type { RawVpt, RuleEntry, RuleFile, Vpt } from './load.ts';
 
 export type Exercise = z.infer<typeof S.Exercise>;
@@ -150,4 +152,47 @@ export function doubleProgressionRule(): DoubleProgression {
 export function twoForTwoRule(): TwoForTwoRule {
   twoCache ??= parseTwoForTwo(method('pr.two_for_two'));
   return twoCache;
+}
+
+let textCache: ProgressionText | undefined;
+
+/** The stall, ramp and volume rules' numbers (text-only in v0.1.3). */
+export function progressionText(): ProgressionText {
+  textCache ??= parseProgressionText(
+    vpt().progression as unknown as Parameters<typeof parseProgressionText>[0],
+  );
+  return textCache;
+}
+
+/** pr.deload, typed (its numbers are structured). */
+export function deloadRule() {
+  return vpt().progression.deload as unknown as {
+    default_every_n_weeks: number;
+    volume_cut_pct: [number, number];
+    intensity_cut_pct: [number, number];
+    rir_increase: number;
+    detail: string;
+    triggers: {
+      autoregulated_structured: {
+        stalled_lifts_same_week_min: number;
+        hard_session_share_2wk_min: number;
+        wrecked_sessions_14_days_min: number;
+      };
+    };
+  };
+}
+
+/** pr.volume_progression's structured requirements. */
+export function volumeProgressionRule() {
+  return (
+    vpt().progression as unknown as {
+      volume_progression: {
+        requires_structured: {
+          pain_flags_in_block: number;
+          hard_session_share_max: number;
+          wrecked_sessions_last_14_days_max: number;
+        };
+      };
+    }
+  ).volume_progression;
 }
