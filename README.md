@@ -2,7 +2,7 @@
 
 A mobile-first gym-logging PWA where **pain flags run through fixed safety rules that no AI can soften**, and progression comes from a rules engine you can audit.
 
-[![CI](https://github.com/waq-b/tare/actions/workflows/ci.yml/badge.svg)](https://github.com/waq-b/tare/actions/workflows/ci.yml)
+[![CI](https://github.com/waq-b/tare-app/actions/workflows/ci.yml/badge.svg)](https://github.com/waq-b/tare-app/actions/workflows/ci.yml)
 
 [Storybook (design system)](https://tare-storybook.onrender.com) · [Design system notes](docs/DESIGN.md) · [Decisions](docs/decisions.md) · [Evidence dataset](vpt/README.md)
 
