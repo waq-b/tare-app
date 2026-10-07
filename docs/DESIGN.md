@@ -1,6 +1,6 @@
 # Tare — DESIGN.md
 
-The design system and build checklist for Tare. Written in D0 from `design/canvas/` (the Claude Design export, read-only).
+The design system and build checklist for Tare. It was written from the design export in `design/canvas/` (read-only reference).
 
 - **Source of truth for values:** `packages/tokens/src/tokens.json` (colour, type, space, radius, touch, elevation, motion, safety levels). This file summarises it; if they disagree, the JSON wins
 - **Source of truth for words and rules:** `vpt/data/*.json` (v0.1.2). The canvas uses placeholder copy (see [§5](#5-placeholder-copy-to-ignore)). Never copy canvas copy that has a data source
@@ -128,7 +128,7 @@ From `packages/tokens/test/contrast.test.ts`, which also checks each semantic co
 | light `series-2` on `bg`      | 2.85  | 3 (marks) | Always direct-label light chart series (decided 2026-09-22)                |
 | light `series-3` on `bg`      | 2.51  | 3 (marks) | same                                                                       |
 
-Fixed: light `progress` was `#1D7F4A` on the canvas (4.47:1 on `bg`); it's now `#1C7A47` (4.77:1), decided 2026-09-22 (#18). The Tokens-board test records this as a deliberate deviation. Also fixed: light chip text on tints (was 4.08–4.39:1 over `bg`) now uses `--<c>-on-tint` (#24); the test covers every tint colour over `bg` and `surface-1`, in both themes, and checks the hue is kept.
+Fixed: light `progress` was `#1D7F4A` on the canvas (4.47:1 on `bg`); it's now `#1C7A47` (4.77:1), decided 2026-09-22. The Tokens-board test records this as a deliberate deviation. Also fixed: light chip text on tints (was 4.08–4.39:1 over `bg`) now uses `--<c>-on-tint` (#24); the test covers every tint colour over `bg` and `surface-1`, in both themes, and checks the hue is kept.
 
 ## 3. Component inventory
 
@@ -262,7 +262,7 @@ All hand-rolled SVG. Every chart has a table one tap away.
 
 - `ChartFrame` (every chart's table one tap away), `Legend` / `ChartLegend`, `Sparkline`, `ChartTooltip`
 - `SafetyScreen` uses a fixed label per action (`SAFETY_LEVELS`) with the rule's `user_message` verbatim; tested over all 21 rules
-- The pain-flag sheet (area, timing, red-flag follow-ups routed to real rules) and `BodyMap` are designed in code (decision #44); a design pass is filed as #49
+- The pain-flag sheet (area, timing, red-flag follow-ups routed to real rules) and `BodyMap` are designed in code ; a dedicated design pass is still to do
 - `Button` renders links (`tel:`, NHS pages) and has an `emergency-outline` variant for the red screen
 
 ### 3.8 Added in P0
@@ -412,7 +412,7 @@ There's no other safety copy. The canvas's per-scenario headlines, bodies, steps
 
 ## 6. Design gaps and data issues
 
-### Design gaps (canvas → design session)
+### Design gaps (canvas vs. what the data and accessibility rules require)
 
 - **Movement pattern icons:** `cardio`, `plyometric`, `olympic`, `mobility` have no drawing (fallbacks: bike, dumbbell)
 - **Muscle map regions:** `neck`, `abductors`, `adductors` aren't drawn. The front lower leg is mapped to `calves` (the enum has no tibialis)
@@ -427,18 +427,18 @@ There's no other safety copy. The canvas's per-scenario headlines, bodies, steps
 
 ### Data issues
 
-Logged for the data session in [`docs/data-issues.md`](data-issues.md). vpt v0.1.2 resolved 17 of 19; #13 was decided app-side, and #18 (food targets) is deferred to P4 (#20).
+Gaps found while building against the dataset were fed back into `vpt/` (see `vpt/CHANGELOG.md`). Food targets have no evidence-backed source yet and stay out of scope.
 
 ## 7. Decisions log
 
-| Date                  | Decision                                                                                                                                                             |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-09-22            | Dark is the default theme; light fully supported via `data-theme="light"`. Following the OS waits for P0 Settings                                                    |
-| 2026-09-22            | Icons live in `packages/icons`                                                                                                                                       |
-| 2026-09-22            | Safety levels: 111 and GP amber fill; Caution amber accent only; tints via `color-mix()`                                                                             |
-| 2026-09-22 (D0 build) | Added `type.caption` (13) and `type.button` (17/600); off-scale sizes map to the nearest style ([§2 Type](#type))                                                    |
-| 2026-09-22 (D0 build) | Tints normalised to two steps (12% fill, 40% edge)                                                                                                                   |
-| 2026-09-22            | SafetyScreen: fixed label per `action` + `user_message` verbatim + sources + lock note; no other safety copy ([§5.3](#53-safety-wording-none-of-it-is-real))         |
-| 2026-09-22            | Contrast (#18): light `progress` darkened to `#1C7A47`; `text-3` never on `surface-3`; light chart series always direct-labelled                                     |
-| 2026-09-22            | Chip text on tints (#24): `--<c>-on-tint` per semantic colour, same hue, darker only where needed (light progress, swap, warning, safety-stop); tint fills unchanged |
-| 2026-09-22 (D1 build) | `--miniquest-tag`: brand dim in dark, `#6C6389` in light (the brand colour fails 4.5:1 on the light page)                                                            |
+| Date                  | Decision                                                                                                                                                       |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-09-22            | Dark is the default theme; light fully supported via `data-theme="light"`. Following the OS waits for P0 Settings                                              |
+| 2026-09-22            | Icons live in `packages/icons`                                                                                                                                 |
+| 2026-09-22            | Safety levels: 111 and GP amber fill; Caution amber accent only; tints via `color-mix()`                                                                       |
+| 2026-09-22 (D0 build) | Added `type.caption` (13) and `type.button` (17/600); off-scale sizes map to the nearest style ([§2 Type](#type))                                              |
+| 2026-09-22 (D0 build) | Tints normalised to two steps (12% fill, 40% edge)                                                                                                             |
+| 2026-09-22            | SafetyScreen: fixed label per `action` + `user_message` verbatim + sources + lock note; no other safety copy ([§5.3](#53-safety-wording-none-of-it-is-real))   |
+| 2026-09-22            | Contrast: light `progress` darkened to `#1C7A47`; `text-3` never on `surface-3`; light chart series always direct-labelled                                     |
+| 2026-09-22            | Chip text on tints: `--<c>-on-tint` per semantic colour, same hue, darker only where needed (light progress, swap, warning, safety-stop); tint fills unchanged |
+| 2026-09-22 (D1 build) | `--miniquest-tag`: brand dim in dark, `#6C6389` in light (the brand colour fails 4.5:1 on the light page)                                                      |

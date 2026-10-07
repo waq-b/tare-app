@@ -14,7 +14,7 @@ const themeColour = (): Plugin => ({
 
 export default defineConfig({
   resolve: {
-    // @tare/data loads the slim app bundle (docs/plans/P0.md T2), not the full vpt/data.
+    // @tare/data loads the slim app bundle, not the full vpt/data.
     conditions: ['tare-app', ...defaultClientConditions],
   },
   plugins: [

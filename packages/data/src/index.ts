@@ -1,4 +1,4 @@
-// @tare/data: the only module that reads vpt/data (CLAUDE.md §9).
+// @tare/data: the only module that reads vpt/data.
 // Everything is validated on first use; accessors throw on unknown IDs rather than guess.
 import type { z } from 'zod';
 // Which files feed the loader is picked by a package import condition: the full vpt/data in

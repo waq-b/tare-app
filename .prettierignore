@@ -6,7 +6,6 @@ package-lock.json
 vpt/
 design/
 prompts/
-CLAUDE.md
 packages/icons/src/generated/
 apps/web/dist-e2e/
 test-results/

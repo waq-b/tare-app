@@ -1,4 +1,4 @@
-// FIXTURE ONLY. vpt has no food targets yet (data-issues #18, GitHub #20), so these numbers are
+// FIXTURE ONLY. vpt has no food targets yet (no source yet), so these numbers are
 // invented for the P4 Food stories. Never use them in the app.
 export const FIXTURE_FOOD_TARGETS = { energyKcal: 2200, proteinG: 160 } as const;
 

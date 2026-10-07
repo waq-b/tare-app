@@ -1,5 +1,5 @@
 // Swap options: the exercise's curated swaps (exercises.json), filtered by the user's kit and
-// "can't do yet" list at runtime (CLAUDE.md §9).
+// "can't do yet" list at runtime.
 import { exercise } from '@tare/data';
 
 export interface SwapFilter {

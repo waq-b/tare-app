@@ -1,4 +1,4 @@
-// Environment. One DATABASE_URL, one Node runtime, nothing host-specific (CLAUDE.md hard line 9).
+// Environment. One DATABASE_URL, one Node runtime, nothing host-specific.
 export interface Config {
   databaseUrl: string;
   supabaseUrl: string;

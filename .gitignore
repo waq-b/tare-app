@@ -12,16 +12,14 @@ design/*.tgz
 packages/icons/gallery/
 .claude/*.lock
 
-# Session briefs for other Claude sessions (local only)
-prompts/
-
 # Playwright end-to-end runs
 apps/web/dist-e2e/
 test-results/
 playwright-report/
 
-# Local agent/tooling files (never published)
 .claude/
+
+# Local-only working notes and tooling files
 CLAUDE.md
 prompts/
 docs/plans/

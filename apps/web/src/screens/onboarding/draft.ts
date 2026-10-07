@@ -28,7 +28,7 @@ export interface Draft {
   bodyweight: string;
 }
 
-/** Waqar's defaults (CLAUDE.md §10), all changeable. */
+/** Default plan, all changeable. */
 export const DEFAULT_DRAFT: Draft = {
   acceptedDisclaimer: false,
   region: 'england',

@@ -1,6 +1,6 @@
 // The safety rules' engine actions that shape training after a flag (safety_rules.json).
 // They only ever make training easier: less load, fewer sets, or no Hard sets. Nothing here can
-// loosen a safety action (hard line 3).
+// loosen a safety action.
 import { safetyRule } from '@tare/data';
 
 // FALLBACK(vpt-issue #23): the percentages live only in engine_action text in v0.1.3.

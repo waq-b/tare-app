@@ -1,4 +1,4 @@
-// The fictional user. Follows CLAUDE.md §10 defaults, with invented personal details.
+// The fictional user. Uses the default plan, with invented personal details.
 import type { Profile } from './types';
 
 export const profile: Profile = {

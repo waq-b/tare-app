@@ -1,21 +1,24 @@
-# Deploy
+# Deploying
 
-| Piece           | Where                                                     | Notes                                                                                                                                                              |
-| --------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `tare-web`      | Render static site, auto-deploys `main`                   | `npm ci && npm run build`, publishes `apps/web/dist`. Env: `NODE_VERSION=24`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_API_URL` (public values) |
-| `tare-api`      | Render web service (free, Frankfurt), auto-deploys `main` | `npm ci`, then `npm start -w @tare/server` (runs migrations, then listens). Env: `NODE_VERSION=24`, `SUPABASE_URL`, `ALLOWED_ORIGINS`, `DATABASE_URL` (secret)     |
-| Database + auth | Supabase project `tare` (free, London)                    | Schema from `apps/server/migrations`; RLS on everywhere                                                                                                            |
-| Storybook       | Render static site `tare-storybook`                       | Unchanged                                                                                                                                                          |
+Tare is three pieces. Any host that runs a static site and a Node 24 service will do; I run it on free tiers.
 
-The free API sleeps after 15 minutes idle, so the first sync after a break takes up to a minute. Sync runs in the background, so logging never waits for it.
+| Piece               | What it needs                                                                                                                                                                                                                       |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Web (`apps/web`)    | Static hosting. Build: `npm ci && npm run build`, publish `apps/web/dist`. Env at build time: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_API_URL` (all public values). Needs an SPA rewrite: `/*` to `/index.html` |
+| API (`apps/server`) | A Node 24 service. Build: `npm ci`. Start: `npm start -w @tare/server` (runs migrations, then listens). Env: `DATABASE_URL` (secret), `SUPABASE_URL`, `ALLOWED_ORIGINS`, optionally `PORT`                                          |
+| Database + auth     | A Supabase project (Postgres with row-level security on every table, plus email-code auth). Schema is in `apps/server/migrations`                                                                                                   |
+| Storybook           | Static hosting. Build: `npm ci && npm run build && npm run build-storybook -w @tare/ui`, publish `packages/ui/storybook-static`                                                                                                     |
 
-## Steps only Waqar can do (secrets and accounts)
+A free API tier that sleeps when idle makes the first sync after a break slow. Sync runs in the background, so logging never waits for it.
 
-1. **`DATABASE_URL` on `tare-api`:** Supabase → Project settings → Database → Connection string → **Transaction pooler** (port 6543), with the database password. Paste it into Render → `tare-api` → Environment as `DATABASE_URL`. It saves and redeploys
-2. **Supabase auth settings:** see [`supabase/README.md`](supabase/README.md) (sign-ups off, 8-digit code, 10-minute expiry, URLs, email template, Resend SMTP)
-3. **Your account:** Supabase → Authentication → Users → Add user → your email, auto-confirm on. (Your email is already on the allowlist.)
-4. **SPA rewrite on `tare-web`:** Render → `tare-web` → Redirects/Rewrites → Source `/*`, Destination `/index.html`, Action **Rewrite**
-5. **Domains:** not for now (decision 2026-09-23: Render's custom-domain allowance is used up). The app is `https://tare-web.example.com`, the API `https://tare-api.example.com`. When moving to `tare.example.com` later: Cloudflare CNAMEs (DNS only), Render custom domains, update `VITE_API_URL`, `ALLOWED_ORIGINS` and Supabase's URLs, and sync first (the phone's local data doesn't follow a new address)
+## One-time setup
+
+1. Create a Supabase project and set the auth options in [`supabase/README.md`](supabase/README.md).
+2. Set `DATABASE_URL` on the API to the project's transaction-pooler connection string (port 6543).
+3. Add the SPA rewrite on the web host.
+4. Create your account: Supabase → Authentication → Users → Add user, with your email and auto-confirm on. The email must also be on the API's allowlist (below).
+
+The web app's origin matters: the phone's local data is tied to it. If you move to a new domain, sync first, then sign in on the new address and restore.
 
 ## Allowing someone else in
 

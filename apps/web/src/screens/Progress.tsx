@@ -51,7 +51,7 @@ import { humanArea } from '../safety/PainForm.tsx';
 import { saveWeighIn } from '../progress/weighIn.ts';
 import s from './screens.module.css';
 
-/** Headline lifts (CLAUDE.md §10). */
+/** Headline lifts. */
 const LIFTS = [
   'Barbell_Squat',
   'Barbell_Bench_Press_-_Medium_Grip',

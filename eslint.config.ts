@@ -50,7 +50,7 @@ export default tseslint.config(
               group: ['@tare/data', '@tare/data/*'],
               message: 'Components are pure: pass data in as props (hard line 5).',
             },
-            { group: ['**/vpt/**'], message: 'Only @tare/data reads vpt/ (CLAUDE.md §9).' },
+            { group: ['**/vpt/**'], message: 'Only @tare/data reads vpt/.' },
             { group: ['**/fixtures', '**/fixtures/**'], message: 'Fixtures are for stories only.' },
           ],
         },
@@ -94,9 +94,7 @@ export default tseslint.config(
       'no-restricted-imports': [
         'error',
         {
-          patterns: [
-            { group: ['**/vpt/**'], message: 'Only @tare/data reads vpt/ (CLAUDE.md §9).' },
-          ],
+          patterns: [{ group: ['**/vpt/**'], message: 'Only @tare/data reads vpt/.' }],
         },
       ],
     },

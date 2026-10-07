@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Tare: a mobile-first PWA gym logger with an honest AI coach. Part of miniquest.",
+  "description": "Tare: a mobile-first PWA gym logger with a rules-based progression engine and a pain-flag safety layer.",
   "workspaces": [
     "packages/*",
     "apps/*"

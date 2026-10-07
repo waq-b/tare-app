@@ -1,4 +1,4 @@
-// Writes dist/vpt-app.json, the slim dataset the web app ships (docs/plans/P0.md T2).
+// Writes dist/vpt-app.json, the slim dataset the web app ships.
 //   npm run build -w @tare/data
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';

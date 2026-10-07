@@ -12,7 +12,7 @@ const base = {
 };
 
 describe('seed plan (#69)', () => {
-  it('Waqar’s defaults: the D1 plan, Tue/Thu/Sat, every exercise fits his kit', () => {
+  it('the default plan: the D1 plan, Tue/Thu/Sat, every exercise fits the default kit', () => {
     const { plan, changes } = seedPlan(base);
     expect(changes).toEqual([]);
     expect(plan.sessions.map((s) => [s.key, s.weekday])).toEqual([
