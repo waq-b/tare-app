@@ -19,3 +19,10 @@ prompts/
 apps/web/dist-e2e/
 test-results/
 playwright-report/
+
+# Local agent/tooling files (never published)
+.claude/
+CLAUDE.md
+prompts/
+docs/plans/
+docs/data-issues.md
