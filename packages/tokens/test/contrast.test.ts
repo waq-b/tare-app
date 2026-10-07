@@ -1,5 +1,5 @@
 // WCAG contrast for both themes. Failures that come from the canvas itself are not
-// silently re-tinted: they're listed in EXCEPTIONS (and docs/DESIGN.md) for Waqar.
+// silently re-tinted: they're listed in EXCEPTIONS (and docs/DESIGN.md).
 import { describe, expect, it } from 'vitest';
 import { contrast, hsl, loadSource, mix } from './helpers.ts';
 
