@@ -57,8 +57,9 @@ describe('Today', () => {
     expect(await screen.findByText('Session A · Squat + pull')).toBeTruthy();
     expect(screen.getByText('Tuesday 22 September')).toBeTruthy();
     const squat = screen.getByRole('link', { name: /Back squat/ });
-    expect(squat.textContent).toContain('3 × 6–10 @ 70');
-    expect(squat.textContent).toContain('Warm-up sets included');
+    // Weeks 1–2 are the new-user ramp (pr.new_user_ramp): fewer sets, finding weights.
+    expect(squat.textContent).toContain('2 × 6–10 @ 70');
+    expect(squat.textContent).toContain('Finding your weights: Easy or OK');
     const pulldown = screen.getByRole('link', { name: /Lat pulldown/ });
     expect(pulldown.textContent).toContain('Easy first set to find your weight');
     expect(pulldown.textContent).not.toContain('@');

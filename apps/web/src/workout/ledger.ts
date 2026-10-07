@@ -45,6 +45,8 @@ export function lastSession(history: readonly SetRecord[]): SetRecord[] {
 }
 
 export function targetReps(ex: WorkoutExercise, index: number, last: readonly SetRecord[]): number {
+  // The rules' target (P1) wins; without one, follow last time within the range.
+  if (ex.reps) return clamp(ex.reps, ex.repRange);
   const prev = last[index - 1] ?? last.at(-1);
   return prev ? clamp(prev.reps, ex.repRange) : ex.repRange[0];
 }
@@ -105,6 +107,7 @@ export function exerciseView(
           workingLoad: ex.load,
           workingReps: targetReps(ex, 1, last),
           patternsSoFar,
+          ...(kit ? { step: kit.step } : {}),
         }).sets.map((w, i) => ({ index: i + 1, ...w, done: warm[i] }));
 
   const estimatedFirstSession = ex.estimated === true && last.length === 0;

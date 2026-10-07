@@ -4,6 +4,7 @@ import { exercise, goal, rule, vpt } from '@tare/data';
 import {
   defaultLoadStep,
   e1rm as engineE1rm,
+  increasedLoad,
   needsWarmUp,
   warmUpSets as engineWarmUp,
 } from '@tare/engine';
@@ -48,15 +49,9 @@ export function loadStep(exerciseId: string): number {
   return defaultLoadStep(exercise(exerciseId));
 }
 
-/** Next load under pr.double_progression: +increment_pct, at least increment_kg_min, rounded
- * up to the next available step. */
+/** Next load under pr.double_progression (the engine's), on the fixture's kit step. */
 export function progressedLoad(exerciseId: string, load: number): number {
-  const cls = exercise(exerciseId).increment_class as 'upper' | 'lower';
-  const pct = doubleProgression.increment_pct[cls];
-  const min = doubleProgression.increment_kg_min[cls];
-  const step = loadStep(exerciseId);
-  const raw = load + Math.max((load * pct) / 100, min);
-  return Math.ceil(raw / step) * step;
+  return increasedLoad(exerciseId, load, loadStep(exerciseId));
 }
 
 export { needsWarmUp };

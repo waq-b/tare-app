@@ -1,14 +1,17 @@
 // Today (boards Main, Today-Rest). The week strip, today's session from the active plan with
 // the loads to aim for (#70), and Start workout. A workout in progress comes first.
+import { deloadRule, progressionText, rule } from '@tare/data';
 import { Icon } from '@tare/icons';
 import {
   Banner,
   Button,
   Card,
+  DiffChip,
   ExerciseCard,
   IconButton,
   InlineNote,
   Prescription,
+  RuleCitation,
   SectionLabel,
   SessionHeader,
   StatusHero,
@@ -24,7 +27,6 @@ import { useAppData } from '../data/DbContext.tsx';
 import {
   useActivePlan,
   useFinishedWorkouts,
-  useTargetLoads,
   useToday,
   useUnfinishedWorkout,
 } from '../data/hooks.ts';
@@ -33,6 +35,9 @@ import { addDays, longDate, mondayOf, parseDay, weekdayOf, WEEKDAYS } from '../l
 import { estimateMinutes, nameOf, sessionItems, type PlannedSession } from '../lib/session.ts';
 import { avoidedFor } from '../safety/flag.ts';
 import { SyncBanner } from '../sync/Banners.tsx';
+import { logApplied } from '../plan/actions.ts';
+import { usePlanState } from '../plan/usePlanTargets.ts';
+import { Offers } from './Offers.tsx';
 import s from './screens.module.css';
 
 const LETTERS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
@@ -135,17 +140,19 @@ function SessionToday({
   session: PlannedSession;
   today: string;
 }) {
-  const { r } = useAppData();
+  const data = useAppData();
+  const { r } = data;
   const navigate = useNavigate();
-  const loads = useTargetLoads(session.exercises);
+  const state = usePlanState(plan, today);
   const flags = useLiveQuery(() => r.painFlags.active(), [r]);
   const [starting, setStarting] = useState(false);
-  if (!loads || !flags) return null;
+  if (!state || !flags) return null;
   const avoid = avoidedFor(flags);
-  const all = sessionItems(session, loads);
+  const all = sessionItems(session, state.targets);
   const items = all.filter((e) => !avoid.has(e.exerciseId));
   const left = all.filter((e) => avoid.has(e.exerciseId));
   const areas = [...new Set(flags.map((f) => f.area).filter((a): a is string => Boolean(a)))];
+  const deload = items.some((e) => e.target.notes.includes('deload'));
 
   async function start() {
     setStarting(true);
@@ -154,12 +161,19 @@ function SessionToday({
       swappedFrom: null,
       // Left out while a pain flag is active (pain_during_exercise engine action).
       skipped: avoid.has(e.exerciseId),
-      sets: avoid.has(e.exerciseId) ? 0 : e.planned.sets,
+      sets: avoid.has(e.exerciseId) ? 0 : e.sets,
       repRange: e.planned.repRange,
       restSec: e.planned.restSec,
       load: e.load,
+      ...(e.target.source === 'log' ? { reps: e.reps } : {}),
       ...(e.estimated ? { estimated: true } : {}),
+      ...(e.target.notes.length ? { notes: e.target.notes } : {}),
     }));
+    await logApplied(
+      data,
+      items.map((e) => e.target),
+      today,
+    );
     const w = await r.workouts.start({
       planId: plan.id,
       sessionKey: session.key,
@@ -173,7 +187,23 @@ function SessionToday({
 
   return (
     <>
-      <SessionHeader title={session.name} duration={`~${estimateMinutes(session)} min`} />
+      <Offers state={state} today={today} />
+      {deload ? (
+        <Banner tone="deload" title="Deload week">
+          <p style={{ margin: '0 0 8px' }}>{deloadRule().detail}</p>
+          <RuleCitation rule={rule('pr.deload')} />
+        </Banner>
+      ) : state.block.ramp ? (
+        <InlineNote>
+          Weeks 1–{progressionText().rampWeeks}: finding your working weights. Keep every set Easy
+          or OK.
+        </InlineNote>
+      ) : null}
+      <SessionHeader
+        title={session.name}
+        duration={`~${estimateMinutes(session)} min`}
+        deload={deload}
+      />
       {left.length ? (
         <InlineNote>
           Left out while your {areas.join(' and ').replace(/_/g, ' ')} settles:{' '}
@@ -189,6 +219,9 @@ function SessionToday({
             pattern={e.pattern}
             {...(e.subline ? { subline: e.subline } : {})}
             prescription={<Prescription rx={e.rx} />}
+            {...(e.chip
+              ? { diff: <DiffChip size="compact" to={e.chip.to} tone={e.chip.tone} /> }
+              : {})}
           />
         ))}
       </div>
@@ -199,7 +232,7 @@ function SessionToday({
         disabled={starting || items.length === 0}
         onClick={() => void start()}
       >
-        Start workout
+        {deload ? 'Start deload session' : 'Start workout'}
       </Button>
     </>
   );

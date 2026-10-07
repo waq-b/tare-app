@@ -91,7 +91,9 @@ test('onboard, a whole workout offline, reload mid-way, sync, export and restore
   await page.reload();
   await expect(page.getByRole('heading', { name: 'Back squat' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Set 2 done, undo' })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Mark set 3 done as planned' })).toBeVisible();
+  // Week 1 is the new-user ramp (pr.new_user_ramp): 2 sets per exercise, so this one's done.
+  await expect(page.getByRole('button', { name: 'Next exercise' })).toBeVisible();
+  let logged = 2;
 
   for (let guard = 0; guard < 40; guard++) {
     if (await page.getByRole('button', { name: 'Finish workout' }).isVisible()) break;
@@ -103,11 +105,12 @@ test('onboard, a whole workout offline, reload mid-way, sync, export and restore
       continue;
     }
     await logOneSet(page);
+    logged++;
   }
   await pace(page);
   await page.getByRole('button', { name: 'Finish workout' }).click();
   await expect(page.getByRole('heading', { name: 'Session done.' })).toBeVisible();
-  await expect(page.getByText('14', { exact: true })).toBeVisible(); // 3+3+3+3+2 working sets
+  await expect(page.getByText(String(logged), { exact: true })).toBeVisible(); // working sets
   await page.getByRole('radio', { name: 'Good' }).click();
   await page.getByRole('button', { name: 'Done', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Done for today.' })).toBeVisible();
@@ -124,7 +127,7 @@ test('onboard, a whole workout offline, reload mid-way, sync, export and restore
     .poll(async () => (await (await request.get(`${API}/__state`)).json()).byTable, {
       timeout: 30_000,
     })
-    .toMatchObject({ workouts: 1, sets: 14, profile: 1, plans: 1, screening: 1 });
+    .toMatchObject({ workouts: 1, sets: logged, profile: 1, plans: 1, screening: 1 });
   await expect(page.getByText('Offline: logging still works')).toBeHidden();
 
   // Export a backup.

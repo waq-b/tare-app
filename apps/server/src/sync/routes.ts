@@ -12,6 +12,7 @@ export const TABLES = [
   'sets',
   'weighIns',
   'painFlags',
+  'changes',
 ] as const;
 const MAX_PUSH = 500;
 const MAX_PULL = 500;

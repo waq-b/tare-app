@@ -14,6 +14,32 @@ App changelog for Tare. The dataset has its own changelog in `vpt/CHANGELOG.md`.
 
 ### P1 — Rules engine (building; ships to the phone after the P0 two weeks, #90)
 
+- **T10 simulation and stories on the engine (#85):**
+  - **The simulation:** an 8-week run through the engine, with a model lifter who gets stronger for 3 weeks, has one Hard session, then plateaus. It's checked against a golden snapshot (progression steps, the Hard-set hold, a stall reaching step 2, the planned deload in week 6), plus invariants: loads only go up, and only after two top-of-range sessions at the same load.
+  - **Storybook on the engine:** the fixtures now use the engine's increase and deload instead of their own.
+  - **Found and fixed:** cutting each exercise's sets on its own can't land in the deload's 40–50% range (3 sets − 40% rounds back to 2), so `deloadSets` now cuts across the whole session, keeping the extra sets on the earlier compound lifts, and the app uses it too
+- **T9 Coach tab (#84):** before the ramp rule's 4 weeks of logs: "Not enough data yet" (board Coach-Early), with a week tracker, the ramp rule word for word, and the rules running now. After that: a rules-only summary (weight increases in 4 weeks, lifts stalled now, the next planned deload, changes you decided) until your Claude connects in P2. Every tab is now a real screen, so the placeholder is gone
+- **T8 changes in the app (#83; completes T3–T7):** Today, Plan and the workout take each exercise's target from the engine, in this order:
+  1. progression from your log (or the plan's start weight, or a body-stats estimate);
+  2. an increase you undid holds;
+  3. an accepted stall reset;
+  4. the new-user ramp's sets;
+  5. an accepted deload;
+  6. the first session back after a cleared pain flag.
+  - **Changes are visible:** a changed prescription shows a chip (+5, −5, Deload, Lighter), and exercise detail's "Why today" card explains it with the rules. An increase can be kept at last time's weight with one tap.
+  - **Offers wait for you (decision #87):** stall steps, deloads and extra sets appear on Today under "Suggested changes". Accept, or Keep as is with a reason, and each decision can be undone. Accepting a stall's recovery step starts a deload; accepting extra sets updates the plan.
+  - **The Ledger:** follows the target reps, and notes the ramp, a deload, or no Hard sets on a sore muscle (DOMS). The ramp's first two weeks show "Finding your weights".
+  - **A change log:** every applied, undone, offered, accepted and kept change is a synced `changes` record (server migration 002), for P2's coach and for learning your style later (#93).
+  - **Fixed along the way:** accepting extra sets updated the wrong exercises (a counter bug), and the volume card compared a subset of sets with the week's total
+- **Engine for T7 (#82, #73):** `returnAfterFlag` gives the first session back after a flag clears: `pain_during_exercise` at the rule's share of the previous load (rounded down to the kit), `suspected_sprain_strain` at its share of the sets. `noHardSets` covers `doms_normal`. A property test over all 21 safety rules proves a return never adds load or sets. The shares are text-only in the data (`FALLBACK(vpt-issue #23)`)
+- **Engine for T3–T6 (#78–#81):**
+  - `blockOf`: training week since the first workout, the ramp weeks (`pr.new_user_ramp`), a planned deload after every `default_every_n_weeks`, and the first week of each new block. `rampSets`: the low end of the goal's sets per exercise during the ramp.
+  - `deloadDue`: planned, or early on the rule's structured triggers (stalled lifts in a week, Wrecked sessions in 14 days, mostly Tough/Wrecked over 2 weeks; never during the ramp unless planned). `deloadPrescription`: sets cut by the rule, load held, effort eased by `rir_increase`.
+  - `isStalled` and `stallStep`: `pr.stall` steps 1 (recovery), 2 (reset the load by the low end of the drop, at least one kit step) and 3 (swap or change range after a reset).
+  - `volumeReady` and `volumeProposal`: `pr.volume_progression`'s structured requirements, then extra sets on the exercises training each muscle, never past the goal's weekly max or sets per exercise.
+  - The rules' text-only numbers are parsed loudly (`FALLBACK(vpt-issue #22)`, extended)
+- **T2 kit steps (#77):** Settings → Weight steps: the smallest jump and lightest option for barbells, dumbbells (per hand) and machines/cables, defaulting to decision #88 (2.5 kg barbell steps from a 20 kg bar, 2 kg dumbbells, 5 kg stacks). Any exercise can have its own jump from the edit sheet, and Settings shows how many do, with a reset. Every rounded load now uses them: warm-ups, swap and suggested starting weights, the steppers and increment chips (which now step by your kit's jump), and progression
+- **T1 progression engine (#76, on the `p1` branch):** `nextTarget` gives each exercise's next load and reps from its logged sessions. It uses `pr.double_progression` (fat loss, hypertrophy, general, endurance): top of the range on every set at or below the target effort, 2 sessions in a row at the same load → up by `increment_pct` (at least `increment_kg_min`) for the lift's class, rounded up to the kit step, reps back to the bottom; otherwise one more rep, or hold after a Hard set. `pr.two_for_two` covers strength. The target effort is the goal's `intensity_rpe` capped by screening's `max_rpe`; an untapped set counts as OK (#89). The rules are validated in `@tare/data`; their trigger numbers are text only and parsed loudly (`FALLBACK(vpt-issue #22)`)
 - **T12 suggested starting weights (#92):** from `tr.global.starting_load`: reference mass (bodyweight, capped at BMI 25 with a height) × 1RM ratio (sex, level, anchor) × age factor × staple factor × first-session % × safety margin, rounded down to the kit step. Every number is read from the rule.
   - The engine's `suggestStartingLoad` is tested against all 24 worked examples, including the lightest-load outcomes (use the empty bar when it's a small enough share of the estimate; otherwise a lighter kit or a calibration set). Staples the rule lists in `calibrate_instead` start with an easy set, with its reason.
   - Onboarding has a skippable "About you" step (sex, age, weight, optional height), and the weight becomes the first weigh-in. "Your plan" shows how many exercises got a suggestion, each as an editable "estimated" placeholder, with hints for stack-dependent machines and below-the-bar results. Settings → About you edits the stats.

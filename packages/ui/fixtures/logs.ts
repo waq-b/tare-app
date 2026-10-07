@@ -5,7 +5,8 @@
 import { exercise } from '@tare/data';
 import { DELOAD_WEEK, dateOf } from './calendar';
 import { plan, STALLED } from './plan';
-import { deload, needsWarmUp, progressedLoad, warmUpSets } from './rules';
+import { deloadSets as engineDeloadSets } from '@tare/engine';
+import { needsWarmUp, progressedLoad, warmUpSets } from './rules';
 import type {
   LoggedExercise,
   LoggedSession,
@@ -22,17 +23,9 @@ interface Progress {
   topStreak: number;
 }
 
-/** Deload sets per exercise: cut total volume by the middle of pr.deload.volume_cut_pct,
- * keeping at least one set each and giving the extras to the earlier (compound) lifts. */
+/** A deload week's sets per exercise (the engine's pr.deload prescription). */
 export function deloadSets(exercises: readonly PlannedExercise[]): number[] {
-  const [lo, hi] = deload.volume_cut_pct as [number, number];
-  const total = exercises.reduce((n, e) => n + e.sets, 0);
-  let budget = Math.round(total * (1 - (lo + hi) / 2 / 100)) - exercises.length;
-  return exercises.map((e) => {
-    const extra = Math.max(0, Math.min(budget, Math.min(e.sets, 2) - 1));
-    budget -= extra;
-    return 1 + extra;
-  });
+  return engineDeloadSets(exercises.map((e) => e.sets));
 }
 
 function simulate() {

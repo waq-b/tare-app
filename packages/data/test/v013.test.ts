@@ -1,5 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { rule, startingLoadRule, vpt } from '../src/index.ts';
+import {
+  deloadRule,
+  doubleProgressionRule,
+  progressionText,
+  rule,
+  startingLoadRule,
+  twoForTwoRule,
+  volumeProgressionRule,
+  vpt,
+} from '../src/index.ts';
 
 describe('vpt v0.1.3', () => {
   it('loads at the minimum version', () => {
@@ -35,5 +44,25 @@ describe('vpt v0.1.3', () => {
     const p = rule('pr.personal_adjustment');
     expect(p.file).toBe('progression');
     expect(p.sources.length).toBeGreaterThan(0);
+  });
+
+  it('progression methods validate, with their text numbers parsed (FALLBACK vpt-issue #22)', () => {
+    expect(doubleProgressionRule().sessions).toBe(2);
+    expect(doubleProgressionRule().default_for).toContain('fat_loss');
+    expect(twoForTwoRule()).toMatchObject({ sessions: 2, repsOver: 2 });
+  });
+
+  it('stall, ramp and volume text numbers parse (FALLBACK vpt-issue #22); deload is structured', () => {
+    expect(progressionText()).toEqual({
+      stallSessions: 3,
+      stallDrop: [0.05, 0.1],
+      rampWeeks: 2,
+      rampRpe: [6, 7],
+      aiAfterWeeks: 4,
+      volumeAdd: [1, 2],
+    });
+    expect(deloadRule().default_every_n_weeks).toBe(5);
+    expect(deloadRule().triggers.autoregulated_structured.stalled_lifts_same_week_min).toBe(2);
+    expect(volumeProgressionRule().requires_structured.hard_session_share_max).toBe(0.33);
   });
 });
